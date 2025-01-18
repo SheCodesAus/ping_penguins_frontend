@@ -177,3 +177,54 @@ nav {
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin: 0 1rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--black);
+}
+
+/* form styles */
+.signup-form {
+    padding: 48px 16px;
+    border-radius: 10px;
+    margin: 5px 10px;
+}
+
+.signup-form input,
+.signup-form select {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+}
+
+.signup-form textarea {
+    display: block;
+    width: 100%;
+    padding: 8px;
+}
+
+.signup-form label {
+    display: block;
+    width: 100%;
+}
+.contact-form h2 {
+    color: var(--base-dark);
+    margin-bottom: 16px;
+}
+
+.contact-form input[type="submit"] {
+   background-color: var(--brand);
+   border: 0;
+   margin-top: 8px;
+   cursor: pointer;
+}
