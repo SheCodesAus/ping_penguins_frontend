@@ -1,3 +1,4 @@
+/* Re-committing OBO Christie due to Dev/Main syncing issue */
 /* base html styles */
 @import url('https://fonts.cdnfonts.com/css/futura-std-4');
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
@@ -223,8 +224,8 @@ nav {
 }
 
 .contact-form input[type="submit"] {
-   background-color: var(--brand);
-   border: 0;
-   margin-top: 8px;
-   cursor: pointer;
+    background-color: var(--brand);
+    border: 0;
+    margin-top: 8px;
+    cursor: pointer;
 }
