@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./style.css";
 
 const SignUpPage = ({ initialTitle }) => {
   const [workspaceTitle, setWorkspaceTitle] = useState(initialTitle || "");
@@ -86,7 +85,7 @@ const SignUpPage = ({ initialTitle }) => {
               />
             </label>
             <label className="form-label">
-              Workshop Nickname
+              Display Nickname
               <input type="text" name="nickname" className="form-input" />
             </label>
           </div>
