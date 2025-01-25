@@ -7,16 +7,19 @@ import SignUpPage from "./pages/SignupPage.jsx";
 import WorkshopPage from "./pages/WorkshopPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import { AuthProvider } from "./contexts/AuthProvider.jsx";
+import ErrorPage from "./pages/ErrorPage.jsx";
 
 const router = createBrowserRouter([
   {
       path: "/",
       element: <NavBar />,
+      errorElement: <ErrorPage />,
       children: [
           { path: "/", element: <LandingPage /> },
           { path: "/login", element: <LoginPage /> },
           { path: "/signup", element: <SignUpPage /> },
-          { path: "/workshop", element: <WorkshopPage /> }
+          { path: "/workshop", element: <WorkshopPage /> },
+          { path: "/error", element: <ErrorPage />}
       ],
   },
 ]);
