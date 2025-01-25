@@ -1,4 +1,4 @@
-import React from 'react';
+import 'react';
 import { Link } from 'react-router-dom';
 
 // Landing Page Header Component
@@ -18,7 +18,7 @@ const WorkshopDetails = () => {
     <div className="workshop-details-card">
       <h2>Workshop Details</h2>
       <p>
-        Hi there! I'm Emma Herbert, your Chief of Happiness at Crowdbloom. I'm
+        Hi there! I&apos;m Emma Herbert, your Chief of Happiness at Crowdbloom. I&apos;m
         thrilled to welcome you to this session, designed to create a safe space
         for authentic conversations, valuable insights, and meaningful
         connections. Your input is incredibly important, and I encourage you to
