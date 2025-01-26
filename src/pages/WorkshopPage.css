@@ -1,0 +1,347 @@
+.workshop-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.workshop-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.workshop-main {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 80px); 
+}
+
+/* Sidebar Styling */
+.categories-sidebar {
+  width: 280px;
+  background-color: white;
+  border-right: 1px solid #f0f0f0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+}
+
+.categories-title {
+  padding: 0 20px 15px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Main Board Styling */
+.board-container {
+  flex: 1;
+  overflow: auto;
+  padding: 20px 40px;
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.category-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.fixed-button-container {
+  position: fixed;
+  top: 160px; 
+  right: 0;
+  padding-right: 40px;
+  z-index: 20;
+}
+
+.add-note-button {
+  width: 36px;
+  height: 36px;
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.add-note-button:hover {
+  background-color: #16a34a;
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.add-note-button svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5;
+}
+
+/* Notes Grid */
+.notes-container {
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Sticky Note Styling */
+.sticky-note {
+  background-color: #fce7f3;
+  border: 1px solid #fbcfe8;
+  border-radius: 8px;
+  padding: 16px;
+  transition: transform 0.2s;
+}
+
+.sticky-note:hover {
+  transform: translateY(-2px);
+}
+
+.note-text {
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.note-author {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #fbcfe8;
+}
+
+.note-author span {
+  font-style: italic;
+}
+
+/* Category Tab Styling */
+.category-tab {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 20px;
+  gap: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-align: left;
+}
+
+.category-tab.active {
+  background-color: #dcfce7;
+}
+
+.category-tab:hover:not(.active) {
+  background-color: #f9fafb;
+}
+
+.category-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.category-indicator.green {
+  background-color: #22c55e;
+}
+
+.category-indicator.red {
+  background-color: #ef4444;
+}
+
+.category-indicator.blue {
+  background-color: #3b82f6;
+}
+
+.category-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.sticky-note-modal {
+  background-color: #fce7f3;
+  border: 1px solid #fbcfe8;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.sticky-note-modal textarea {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  min-height: 120px;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.sticky-note-modal textarea:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.sticky-note-modal input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #fbcfe8;
+  width: 100%;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.sticky-note-modal input:focus {
+  outline: none;
+  border-bottom-color: #f472b6;
+}
+
+.sticky-note-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.sticky-note-modal-buttons button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.sticky-note-modal-buttons .cancel-button {
+  background-color: transparent;
+  color: #666;
+}
+
+.sticky-note-modal-buttons .cancel-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sticky-note-modal-buttons .add-button {
+  background-color: #f472b6;
+  color: white;
+}
+
+.sticky-note-modal-buttons .add-button:hover {
+  background-color: #ec4899;
+}
+
+/* Sticky Note Display Styling */
+.sticky-note-display {
+  background-color: #fce7f3;
+  border: 1px solid #fbcfe8;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  animation: slideIn 0.3s ease-out;
+  aspect-ratio: 1 / 1;  /* Makes it square */
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-note-display:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sticky-note-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.note-text {
+  flex-grow: 1;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  white-space: pre-wrap;
+}
+
+.note-author {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #fbcfe8;
+  font-size: 12px;
+  color: #666;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Workshop Header Styling */
+.workshop-header {
+  width: 100%;
+  padding: 20px 40px;
+  background-color: white;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.workshop-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Category List Styling */
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+} 
