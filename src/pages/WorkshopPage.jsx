@@ -3,6 +3,7 @@ import { useWorkshop } from '../contexts/WorkshopContext';
 import CategorySidebar from '../components/WorkshopPage/CategorySidebar';
 import WorkshopBoard from '../components/WorkshopPage/WorkshopBoard';
 import './WorkshopPage.css';
+import "../style.css";
 
 const WorkshopPage = () => {
   const { workshopData } = useWorkshop();

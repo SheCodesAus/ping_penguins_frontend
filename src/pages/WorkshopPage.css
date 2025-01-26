@@ -331,14 +331,6 @@
   z-index: 30;
 }
 
-.workshop-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 /* Category List Styling */
 .category-list {
   display: flex;
