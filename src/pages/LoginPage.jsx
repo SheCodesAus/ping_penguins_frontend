@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/use-auth';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
   const [credentials, setCredentials] = useState({
     username: '',
     password: ''

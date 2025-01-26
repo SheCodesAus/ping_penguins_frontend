@@ -1,4 +1,4 @@
-import React from 'react';
+import 'react';
 
 const CategoryTab = ({ name, color, isActive, onClick }) => {
   return (

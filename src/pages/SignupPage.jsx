@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 
 const SignUpPage = ({ initialTitle }) => {
   const [workspaceTitle, setWorkspaceTitle] = useState(initialTitle || "");
@@ -20,11 +20,11 @@ const SignUpPage = ({ initialTitle }) => {
         />
         <h1>{workspaceTitle || "Welcome to Workspace Title!"}</h1>
         <p>
-          We're excited to have you join our collaborative workspace. Please
+          We&apos;re excited to have you join our collaborative workspace. Please
           create your account and set up your profile to get started.
         </p>
         <p>
-          Your information is confidential and won't be shared outside the
+          Your information is confidential and won&apos;t be shared outside the
           workshop space. Feel free to be yourself and express your thoughts
           openly.
         </p>
