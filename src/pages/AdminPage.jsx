@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { useWorkshop } from '../contexts/WorkshopContext';
 import { useNavigate } from 'react-router-dom';
+import CategorySidebar from '../components/WorkshopPage/CategorySidebar';
+import WorkshopBoard from '../components/WorkshopPage/WorkshopBoard';
+import './WorkshopPage.css';
+import "../style.css";
+
 
 const AdminPage = () => {
-  const { updateWorkshop } = useWorkshop();
+  const { updateWorkshop, workshopData } = useWorkshop();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newWorkshopTitle, setNewWorkshopTitle] = useState('');
   const [categories, setCategories] = useState([
     { name: '', color: 'green' }
   ]);
+  const [notes, setNotes] = useState([]);
 
   const handleAddCategory = () => {
     setCategories([...categories, { name: '', color: 'green' }]);
@@ -52,7 +58,7 @@ const AdminPage = () => {
         </button>
       </div>
 
-      {/* Modal */}
+      {/* Modal for creating a new workshop */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
@@ -124,6 +130,25 @@ const AdminPage = () => {
           </div>
         </div>
       )}
+
+      {/* Flex container for sidebar and board */}
+      <div className="flex">
+        {/* Render the CategorySidebar */}
+        <CategorySidebar
+          categories={categories}
+          activeCategory={categories[0]?.name || ''}
+          onCategorySelect={() => {}} // Add your category select logic here
+        />
+
+        {/* Render the WorkshopBoard */}
+        <div className="mt-6 ml-4 flex-1"> {/* Added margin-left for spacing */}
+          <WorkshopBoard
+            activeCategory={categories[0]?.name || ''}
+            notes={notes}
+            onAddNote={(newNote) => setNotes([...notes, newNote])} // Function to add notes
+          />
+        </div>
+      </div>
     </div>
   );
 };

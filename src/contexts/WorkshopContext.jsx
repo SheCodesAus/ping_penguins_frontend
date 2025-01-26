@@ -4,7 +4,7 @@ const WorkshopContext = createContext();
 
 export const WorkshopProvider = ({ children }) => {
   const [workshopData, setWorkshopData] = useState({
-    title: "Welcome to the workshop",
+    title: "Your workshop starts in...",
     categories: []
   });
 

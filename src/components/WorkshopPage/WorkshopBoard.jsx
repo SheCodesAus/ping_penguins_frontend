@@ -67,9 +67,7 @@ const WorkshopBoard = ({ activeCategory, notes, onAddNote }) => {
                   <p className="text-lg mb-2">No notes in this category yet</p>
                   <p className="text-sm">Click the + button to add the first note!</p>
                 </>
-              ) : (
-                <p className="text-lg">Select a category to view or add notes</p>
-              )}
+              ) : null}
             </div>
           )}
         </div>

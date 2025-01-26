@@ -4,7 +4,6 @@ import CategoryTab from '../CategoryTab';
 const CategorySidebar = ({ categories, activeCategory, onCategorySelect }) => {
   return (
     <div className="categories-sidebar">
-      <h2 className="categories-title">Categories</h2>
       <div className="category-list">
         {categories.map((category) => (
           <CategoryTab
