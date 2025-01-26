@@ -9,17 +9,20 @@ import NavBar from "./components/NavBar.jsx";
 import { AuthProvider } from "./contexts/AuthProvider.jsx";
 import { WorkshopProvider } from "./contexts/WorkshopContext.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
+import ErrorPage from "./pages/ErrorPage.jsx";
 
 const router = createBrowserRouter([
   {
       path: "/",
       element: <NavBar />,
+      errorElement: <ErrorPage />,
       children: [
           { path: "/", element: <LandingPage /> },
           { path: "/login", element: <LoginPage /> },
           { path: "/signup", element: <SignUpPage /> },
           { path: "/workshop", element: <WorkshopPage /> },
           { path: "/admin", element: <AdminPage /> }
+          { path: "/error", element: <ErrorPage />}
       ],
   },
 ]);
