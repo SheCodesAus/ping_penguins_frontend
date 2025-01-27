@@ -8,8 +8,6 @@ import WorkshopPage from "./pages/WorkshopPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import { AuthProvider } from "./contexts/AuthProvider.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
-import AdminPage from "./pages/AdminPage.jsx";
-import './style.css';
 
 const router = createBrowserRouter([
   {
@@ -21,8 +19,7 @@ const router = createBrowserRouter([
           { path: "/login", element: <LoginPage /> },
           { path: "/signup", element: <SignUpPage /> },
           { path: "/workshop", element: <WorkshopPage /> },
-          { path: "/error", element: <ErrorPage />},
-          { path: "/admin", element: <AdminPage /> }
+          { path: "/error", element: <ErrorPage />}
       ],
   },
 ]);
