@@ -1,5 +1,5 @@
-async function updateBoard(title, description, projectId) {
-    const url = `${import.meta.env.VITE_API_URL}/board/${projectId}/`;
+async function updateBoard(title, description, boardId) {
+    const url = `${import.meta.env.VITE_API_URL}/board/${boardId}/`;
     const token = window.localStorage.getItem("token");
     const response = await fetch(url, {
       method: "PUT", 

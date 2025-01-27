@@ -1,5 +1,5 @@
-async function updateNote(name, comment, projectId) {
-    const url = `${import.meta.env.VITE_API_URL}/note/${projectId}/`;
+async function updateNote(name, comment, noteId) {
+    const url = `${import.meta.env.VITE_API_URL}/note/${noteId}/`;
     const token = window.localStorage.getItem("token");
     const response = await fetch(url, {
       method: "PUT", 
