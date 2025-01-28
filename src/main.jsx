@@ -8,6 +8,7 @@ import WorkshopPage from "./pages/WorkshopPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import { AuthProvider } from "./contexts/AuthProvider.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
+import './style.css';
 
 const router = createBrowserRouter([
   {
