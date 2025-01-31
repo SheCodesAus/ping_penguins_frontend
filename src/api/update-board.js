@@ -1,6 +1,7 @@
-async function updateBoard(title, description, boardId) {
-    const url = `${import.meta.env.VITE_API_URL}/board/${boardId}/`;
+async function updateBoard(boardData, boardUUID, token) {
+    const url = `${import.meta.env.VITE_API_URL}/board/${boardUUID}/`;
     const token = window.localStorage.getItem("token");
+
     const response = await fetch(url, {
       method: "PUT", 
       headers: {
@@ -8,8 +9,10 @@ async function updateBoard(title, description, boardId) {
         Authorization: `Token ${token}`
       },
       body: JSON.stringify({
-        "title": title,
-        "description": description,
+        boardData,
+        boardUUID,
+        token,
+        category: boardData.category
       }),
     });
   
