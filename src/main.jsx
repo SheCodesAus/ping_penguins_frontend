@@ -21,7 +21,7 @@ const router = createBrowserRouter([
           { path: "/login", element: <LoginPage /> },
           { path: "/signup", element: <SignUpPage /> },
           { path: "/workshop", element: <WorkshopPage /> },
-          { path: "/error", element: <ErrorPage />},
+          { path: "*", element: <ErrorPage />},  // * captures all other routes not already defined
           { path: "/admin", element: <AdminPage /> }
       ],
   },

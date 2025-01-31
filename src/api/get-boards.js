@@ -1,5 +1,5 @@
 async function getBoards() {
-    const url = `${import.meta.env.VITE_API_URL}/boards`;
+    const url = `${import.meta.env.VITE_API_URL}/board/`;
     const response = await fetch(url, { method: "GET" });
 
     if (!response.ok) {

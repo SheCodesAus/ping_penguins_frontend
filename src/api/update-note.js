@@ -1,5 +1,5 @@
-async function updateNote(name, comment, noteId) {
-    const url = `${import.meta.env.VITE_API_URL}/note/${noteId}/`;
+async function updateNote(comment, note, owner, anonymous) {
+    const url = `${import.meta.env.VITE_API_URL}/note/${note}/`;
     const token = window.localStorage.getItem("token");
     const response = await fetch(url, {
       method: "PUT", 
@@ -8,8 +8,9 @@ async function updateNote(name, comment, noteId) {
         Authorization: `Token ${token}`
       },
       body: JSON.stringify({
-        "name": name,
         "comment": comment,
+        anonymous,
+        owner
       }),
     });
   
