@@ -1,5 +1,5 @@
-async function postCategories(title) {
-    const url = `${import.meta.env.VITE_API_URL}/categories/`;
+async function postCategories(title, boardUUID, token) {
+    const url = `${import.meta.env.VITE_API_URL}/category/`;
     const token = window.localStorage.getItem("token");
     const response = await fetch(url, {
       method: "POST",
@@ -9,6 +9,8 @@ async function postCategories(title) {
       },
       body: JSON.stringify({
         "title": title,
+        boardUUID,
+        token
       }),
     });
   

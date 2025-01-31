@@ -1,5 +1,5 @@
-async function updateUser(email, password, userId) {
-    const url = `${import.meta.env.VITE_API_URL}/user/${userId}/`;
+async function updateUser(userData, userId, token) {
+    const url = `${import.meta.env.VITE_API_URL}/users/${userId}/`;
     const token = window.localStorage.getItem("token");
     const response = await fetch(url, {
       method: "PUT", 
@@ -8,8 +8,9 @@ async function updateUser(email, password, userId) {
         Authorization: `Token ${token}`
       },
       body: JSON.stringify({
-        "email": email,
-        "password": password,
+        userData,
+        userId,
+        token
       }),
     });
   

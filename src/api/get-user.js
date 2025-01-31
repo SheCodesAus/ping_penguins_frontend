@@ -1,5 +1,5 @@
 async function getUser(userId) {
-    const url = `${import.meta.env.VITE_API_URL}/user/${userId}`;
+    const url = `${import.meta.env.VITE_API_URL}/users/${userId}`;
     const response = await fetch(url, { method: "GET" });
   
     if (!response.ok) {
