@@ -230,12 +230,247 @@ nav {
     cursor: pointer;
 }
 
-/* countdown styles work in progress */
-/* .w-32 { width: 8rem; }
 
-.h-48 { height: 12rem; }
+/* flex container for landing page */
+.header-title {
+    margin-bottom: 20px;
+}
+
+.header-subtitle {
+    margin-bottom: 20px;
+}
+
+.welcome-text {
+    margin-bottom: 30px;
+}
+
+.content {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    text-align: center;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.workshop-details-card,
+.workshop-disclosure-card {
+    flex: 1;
+    margin: 15px;
+}
+
+.workshop-details-card h2,
+.workshop-disclosure-card h2 {
+    flex: 1;
+    margin: 15px;
+}
+
+
+.header-title {
+    margin-bottom: 20px;
+}
+
+.header-subtitle {
+    margin-bottom: 10px;
+}
+
+.welcome-text {
+    margin-bottom: 30px;
+}
+
+button, a.enter-button {
+    background-color: var(--brand);
+    color: var(--white);
+    border: 1px solid #000000;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, a.enter-button:hover {
+    animation: rainbow 4s infinite;
+}
+
+/* rainbow button animation */
+@keyframes rainbow {
+    0% { background-color: violet; }
+    16% { background-color: orange; }
+    33% { background-color: skyblue; }
+    50% { background-color: pink; }
+    66% { background-color: violet; }
+    83% { background-color: orange; }
+    100% { background-color: skyblue; }
+}
+
+/* sparkily button animation */
+@keyframes sparkly {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+}
 
 .time-unit {
     width: 8rem;
     height: 12rem;
-} */
+} 
+
+/* Workspace Signup Page Styling */
+.workspace-signup {
+    background-color: #f8f9fa;
+    color: #4a4a4a; /* Softer dark grey instead of black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.workspace-signup-container {
+    max-width: 600px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+/* Signup Header */
+.workspace-signup-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.workspace-signup-header h1 {
+    font-size: 26px;
+    font-family: 'Poppins', sans-serif; /* Modern font */
+    color: #333;
+    font-weight: 700;
+    margin-top: 15px; /* Space between title input and heading */
+}
+
+.workspace-signup-header p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Add space between the title input and heading */
+.workspace-title-input {
+    margin-bottom: 15px;
+}
+
+/* Form Headers */
+.workspace-signup-form h2 {
+    font-size: 22px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 15px; /* Space under the header */
+}
+
+.workspace-signup-form .form-section h3 {
+    font-size: 18px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Input Fields */
+.workspace-signup-form input[type="text"],
+.workspace-signup-form input[type="email"],
+.workspace-signup-form input[type="password"],
+.workspace-signup-form select,
+.workspace-signup-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Bio Field */
+.workspace-signup-form textarea {
+    resize: none;
+}
+
+/* Gender Selection */
+.workspace-signup-gender {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Personal Note Color Picker */
+.workspace-signup-color-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.workspace-signup-color-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* Submit Button */
+.workspace-signup-btn {
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.workspace-signup-btn:hover {
+    background-color: #e91e63;
+}
+
+/* Terms and Conditions */
+.workspace-signup-terms {
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.workspace-signup-terms a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.workspace-signup-terms a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .workspace-signup-container {
+        width: 90%;
+        padding: 20px;
+    }
+}
+

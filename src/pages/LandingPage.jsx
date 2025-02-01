@@ -1,16 +1,18 @@
 import 'react';
 import { Link } from 'react-router-dom';
+import CountdownTimer from '../components/WorkshopPage/CountdownTimer';
 
 // Landing Page Header Component
 const LandingPageHeader = () => {
   return (
     <header className="header">
-      <h1>StickyBloom Workshop Space</h1>
-      <p>Share your insights and collaborate in real-time</p>
+      <h1 className="header-title">StickyBloom Workshop Space</h1>
+      <p className="header-subtitle">Share your insights and collaborate in real-time</p>
       <p className="welcome-text">Welcome! Our workshop will start soon...</p>
     </header>
   );
 };
+
 
 // Workshop Details Component
 const WorkshopDetails = () => {
@@ -60,12 +62,19 @@ const LandingPage = () => {
   return (
     <div className="stickybloom-app">
       <main className="content">
+        <div className="header-container">
         <LandingPageHeader />
-        <WorkshopDetails />
-        <DisclosureCard />
-        <Link to="/workshop" className="enter-button">
-          Enter the Workspace
-        </Link>
+        </div>
+        <CountdownTimer boardId={"1"} />
+        <div className='flex-container'>
+          <WorkshopDetails />
+          <DisclosureCard />
+          </div>
+        <div className="button-container">
+          <Link to="/workshop" className="enter-button">
+            Enter the Workspace
+          </Link>
+        </div>
       </main>
     </div>
   );
