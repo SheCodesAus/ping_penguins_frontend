@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+// import postLogin from "../api/post-login.js";
+// import postUser from "../api/post-user.js";
+// import { useNavigate } from "react-router-dom";
 
 const SignUpPage = ({ initialTitle }) => {
   const [workspaceTitle, setWorkspaceTitle] = useState(initialTitle || "");
@@ -6,6 +9,60 @@ const SignUpPage = ({ initialTitle }) => {
   // const handleTitleChange = (event) => {
   //   setWorkspaceTitle(event.target.value);
   // };
+  const handleColorChange = (event) => {
+    const newColor = event.target.value;
+    console.log("newColor", newColor);
+    setSignUpDetails({...signUpDetails, color: newColor})
+    // setWorkspaceTitle(event.target.value);
+    console.log("SignUpDetails", signUpDetails)
+  };
+
+  const handleTextChange = (event, field) => {
+    const newText = event.target.value;
+    console.log("newText", newText);
+    if (field=="firstName")
+    {
+      setSignUpDetails({...signUpDetails,firstName:newText})
+    }
+    else if (field=="lastName")
+      {
+        setSignUpDetails({...signUpDetails,lastName:newText})
+      }
+    else if (field=="displayName")
+      {
+        setSignUpDetails({...signUpDetails,displayName:newText})
+      }
+    else if (field=="email")
+      {
+        setSignUpDetails({...signUpDetails,email:newText})
+      }
+    else if (field=="password")
+      {
+        setSignUpDetails({...signUpDetails,password:newText})
+      }
+    else if (field=="confirmPassword")
+      {
+        setSignUpDetails({...signUpDetails,confirmPassword:newText})
+      }
+    else if (field=="position")
+      {
+        setSignUpDetails({...signUpDetails,position:newText})
+      }
+    else if (field=="tenure")
+      {
+        setSignUpDetails({...signUpDetails,tenure:newText})
+      }
+    // setWorkspaceTitle(event.target.value);
+    console.log("SignUpDetails", signUpDetails)
+  };
+
+  const handleTandCChecked = (event) => {
+    const isChecked = event.target.checked;
+    console.log("TandCChecked", isChecked);
+    setSignUpDetails({...signUpDetails, tandcchecked: isChecked})
+    // setWorkspaceTtandccheckeditle(event.target.value);
+    console.log("SignUpDetails", signUpDetails)
+  };
 
   const [signUpDetails, setSignUpDetails] = useState({
     firstName: "",
@@ -13,7 +70,14 @@ const SignUpPage = ({ initialTitle }) => {
     displayName: "",
     email: "",
     password: "",
+    confirmPassword: "",
+    position: "",
+    tenure: "",
+    color: "",
+    bio: "",
+    tandcchecked: false,
   });
+
 
   return (
     <div className="workspace-signup">
@@ -51,15 +115,27 @@ const SignUpPage = ({ initialTitle }) => {
             <div className="form-section">
               <label className="form-label">
                 First Name <span className="required">*</span>
-                <input type="text" name="firstName" className="workspace-signup-input" value={signUpDetails.firstName} required />
+                <input type="text" name="firstName" className="workspace-signup-input" onChange={(e) => handleTextChange(e, "firstName")} required />
               </label>
               <label className="form-label">
                 Last Name <span className="required">*</span>
-                <input type="text" name="lastName" className="workspace-signup-input" value={signUpDetails.lastName} required />
+                <input type="text" name="lastName" className="workspace-signup-input" onChange={(e) => handleTextChange(e, "lastName")} required />
               </label>
               <label className="form-label">
-                Display Name <span className="required">*</span>
-                <input type="text" name="displayName" className="workspace-signup-input" value={signUpDetails.displayName} required />
+                Display Name <span className="required">* This is the name shown on your stickynotes</span>
+                <input type="text" name="displayName" className="workspace-signup-input" onChange={(e) => handleTextChange(e, "displayName")} required />
+              </label>
+              <label className="form-label">
+                Email <span className="required">*</span>
+                <input type="email" name="email" className="workspace-signup-email" onChange={(e) => handleTextChange(e, "email")} required />
+              </label>
+              <label className="form-label">
+                Password <span className="required">*</span>
+                <input type="password" name="password" className="workspace-signup-password" onChange={(e) => handleTextChange(e, "password")}  required />
+              </label>
+              <label className="form-label">
+                Confirm Password <span className="required">*</span>
+                <input type="password" name="confirmPassword" className="workspace-signup-confirmpassword" onChange={(e) => handleTextChange(e, "confirmPassword")}  required />
               </label>
             </div>
 
@@ -67,15 +143,15 @@ const SignUpPage = ({ initialTitle }) => {
             <div className="form-section">
               <label className="form-label">
                 Position
-                <input type="text" name="position" className="workspace-signup-input" />
+                <input type="text" name="position" className="workspace-signup-input" onChange={(e) => handleTextChange(e, "position")} />
               </label>
               <label className="form-label">
                 Tenure in Company
-                <input type="text" name="tenure" className="workspace-signup-input" />
+                <input type="text" name="tenure" className="workspace-signup-input" onChange={(e) => handleTextChange(e, "tenure")} />
               </label>
             </div>
 
-            {/* Gender Selection */}
+            {/* Gender Selection
             <div className="workspace-signup-gender">
               <span>Gender</span>
               <div className="gender-options">
@@ -89,12 +165,12 @@ const SignUpPage = ({ initialTitle }) => {
                   <input type="radio" name="gender" value="other" /> Other
                 </label>
               </div>
-            </div>
+            </div> */}
 
             {/* Personal Note Color Picker */}
             <div className="workspace-signup-color-picker">
               <label className="form-label">Choose Your Personal Note Colour <span className="required">*</span> </label>
-              <input type="color" name="noteColor" className="workspace-signup-color-box" required />
+              <input type="color" name="noteColor" onChange={handleColorChange} className="workspace-signup-color-box" required />
               <div className="note-preview">This is how your notes will look</div>
             </div>
 
@@ -114,7 +190,7 @@ const SignUpPage = ({ initialTitle }) => {
               You can update it anytime from your profile settings.
             </div>
             <label className="workspace-signup-terms">
-              <input type="checkbox" name="terms" required /> I agree to the{" "}
+              <input type="checkbox" name="terms" checked={signUpDetails.tandcchecked} onChange={handleTandCChecked} required /> I agree to the{" "}
               <a href="/terms">Terms and Conditions</a> and{" "}
               <a href="/privacy">Privacy Policy</a>
             </label>
