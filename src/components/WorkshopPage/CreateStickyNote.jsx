@@ -1,63 +1,65 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 import postNote from '../../api/post-note';
+import "./CreateStickyNote.css";
 
-function CreateStickyNote(props) {
-    const { noteId } = props;
+const CreateStickyNote = ({ onAddNote, activeCategory }) => {
+  const [noteText, setNoteText] = useState('');
+  const [author, setAuthor] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
-    const [noteData, setNoteData] = useState({
-        name: "",
-        comment: "",
-        note: noteId,
-    });
-        
-    const handleChange = (event) => {
-        const { id, value } = event.target;
-        setNoteData((prevNoteData) => ({
-            ...prevNoteData,
-            [id]: value,
-        }));
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (noteText && author) {
+      try {
+        const response = await postNote(noteText, false, 'boardId', activeCategory, author);
+        onAddNote({
+          text: response.comment,
+          author: response.name,
+          category: activeCategory,
+        });
+        setNoteText('');
+        setAuthor('');
+        setShowPopup(false);
+      } catch (error) {
+        console.error("Error creating sticky note:", error);
+      }
+    }
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (noteData.name && noteData.comment) {
-            postNote(
-                noteData.name,
-                noteData.comment 
-            ).then((response) => {
-                console.log(response)
-            });
-        }
-    };
+  return (
+    <div>
+      <button onClick={() => setShowPopup(true)} className="create-note-button">
+        +
+      </button>
 
-    return (
-        <form className="form-container">
-            <h2 className="form-name">Create a Sticky Note</h2>
-            <div className="form-group">
-                <label className="form-label" htmlFor="title">Your Name</label>
-                <input
-                    type="text"
-                    id="name"
-                    className="form-input"
-                    placeholder="Enter your name"
-                    onChange={handleChange}
-                />
-            </div>
-            <div className="form-group">
-                <label className="form-label" htmlFor="comment">Comment</label>
-                <textarea
-                    id="comment"
-                    className="form-input"
-                    placeholder="comment..."
-                    onChange={handleChange}
-                    rows="4"
-                />
-            </div>
-            <button type="submit" className="form-button" onClick={handleSubmit}>
-                Create Sticky Note
+      {showPopup && (
+        <div className="create-sticky-note-popup">
+          <span className="create-sticky-note-close-popup" onClick={() => setShowPopup(false)}>✖</span>
+          <form onSubmit={handleSubmit} className="create-sticky-note-form">
+            <h2>Create a Sticky Note</h2>
+            <textarea
+              value={noteText}
+              onChange={(e) => setNoteText(e.target.value)}
+              placeholder="Write your sticky note here..."
+              required
+              className="create-sticky-note-textarea"
+            />
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              placeholder="Your name"
+              required
+              className="create-sticky-note-author-input"
+            />
+            <button type="submit" className="create-sticky-note-form-button">
+              Add Sticky Note
             </button>
-        </form>
-    );
-}
-  
+          </form>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default CreateStickyNote;
