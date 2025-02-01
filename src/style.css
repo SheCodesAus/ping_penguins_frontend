@@ -230,15 +230,107 @@ nav {
     cursor: pointer;
 }
 
-/* countdown styles work in progress */
-/* .w-32 { width: 8rem; }
 
-.h-48 { height: 12rem; }
+/* flex container for landing page */
+.header-title {
+    margin-bottom: 20px;
+}
+
+.header-subtitle {
+    margin-bottom: 20px;
+}
+
+.welcome-text {
+    margin-bottom: 30px;
+}
+
+.content {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    text-align: center;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.workshop-details-card,
+.workshop-disclosure-card {
+    flex: 1;
+    margin: 15px;
+}
+
+.workshop-details-card h2,
+.workshop-disclosure-card h2 {
+    flex: 1;
+    margin: 15px;
+}
+
+
+.header-title {
+    margin-bottom: 20px;
+}
+
+.header-subtitle {
+    margin-bottom: 10px;
+}
+
+.welcome-text {
+    margin-bottom: 30px;
+}
+
+button, a.enter-button {
+    background-color: var(--brand);
+    color: var(--white);
+    border: 1px solid #000000;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, a.enter-button:hover {
+    animation: rainbow 4s infinite;
+}
+
+/* rainbow button animation */
+@keyframes rainbow {
+    0% { background-color: violet; }
+    16% { background-color: orange; }
+    33% { background-color: skyblue; }
+    50% { background-color: pink; }
+    66% { background-color: violet; }
+    83% { background-color: orange; }
+    100% { background-color: skyblue; }
+}
+
+/* sparkily button animation */
+@keyframes sparkly {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+}
 
 .time-unit {
     width: 8rem;
     height: 12rem;
-} */
+} 
 
 /* Workspace Signup Page Styling */
 .workspace-signup {
@@ -381,3 +473,4 @@ nav {
         padding: 20px;
     }
 }
+
