@@ -1,6 +1,6 @@
-// import React from 'react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import axios from 'axios'; // Add this import
 import confetti from 'canvas-confetti';
 import "../style.css"; 
 import "./HomePage.css";
@@ -10,6 +10,19 @@ function HomePage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const isValidUUID = (uuid) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return uuidRegex.test(uuid);
+};
+
+  // Define colors for confetti
+  const colors = [
+    '#F613A5', 
+    '#FFC0E9', // Light pink
+    '#FF69B4', // Hot pink
+    '#ffffff', // White for contrast
+  ];
 
   const fireConfetti = () => {
     // Fire confetti from the left edge
@@ -22,8 +35,7 @@ function HomePage() {
       gravity: 0.8,
       shapes: ['circle', 'square'],
       ticks: 300
-  });
-
+    });
 
     // Fire confetti from the right edge
     confetti({
@@ -35,52 +47,89 @@ function HomePage() {
       gravity: 0.8,
       shapes: ['circle', 'square'],
       ticks: 300
-  });
-};
+    });
+  };
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
-      fireConfetti(); // Fire confetti immediately when button is clicked
-      setIsLoading(true);
-      setError('');
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
 
-      try {
-          // Extract UUID from input
-          const code = workshopCode.trim();
-          
-          // Make API request to Django backend
-          const response = await axios.get(`/api/board/${code}/`);
+    // Array of valid test codes
+//     const validCodes = ['test123', 'demo456', 'workshop789'];
+    
+//     if (validCodes.includes(workshopCode.trim())) {
+//         fireConfetti();
+//         setTimeout(() => {
+//             navigate(`/workshop/${workshopCode}`);
+//         }, 1000);
+//     } else {
+//         setError('Invalid workshop code. Please try again.');
+//     }
+//     setIsLoading(false);
+// };
 
-          if (response.data) {
-            // Navigate after a slight delay to allow confetti to be visible
+const code = workshopCode.trim();
+
+        // First check if it's a valid UUID format
+        if (!isValidUUID(code)) {
+            setError('Invalid workshop code format');
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/board/${code}/`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Invalid workshop code. Please check your code and try again');
+            }
+
+            // Valid UUID and successful response
+            fireConfetti();
             setTimeout(() => {
                 navigate(`/workshop/${code}`);
             }, 1000);
+            
+        } catch (error) {
+            setError('Unable to access workshop. Please check your code and try again.');
+        } finally {
+            setIsLoading(false);
         }
+    };
 
-          
-          // if (response.data) {
-          //     // Redirect to workshop page with the UUID
-          //     navigate(`/workshop/${code}`);
-          // }
-      } catch (error) {
-          setError(
-              error.response?.data?.error || 
-              'Unable to access workshop. Please check your code and try again.'
-          );
-      } finally {
-          setIsLoading(false);
-      }
-  };
+const handleInputChange = (e) => {
+  setWorkshopCode(e.target.value);
+  setError(''); // Clear error when input changes
+};
+
 
   return (
       <div className="landing-container">
+        {/* Custom Navbar */}
+        <nav className="home-navbar">
+    <div className="nav-container">
+        <div className="nav-logo">
+            <img src="/img/Stickybloomlogo.png" alt="StickyBloom Logo" />
+        </div>
+        
+        <div id="rotate-words">
+            <div>Energising Cultures</div>
+            <div>Elevating Happiness</div>
+            <div>Bespoke Culture Strategies</div>
+            <div>Unforgettable Workplace Experiences</div>
+        </div>
+        
+        <div className="nav-right"></div>
+    </div>
+</nav>
           {/* About Me Section */}
           <section className="about-section">
               <div className="about-container">
                   <div className="about-content">
                       <div className="about-text">
-                          <h2 className="section-title">Welcome to StickyBloom! I'm Emma.</h2>
+                          <h2 className="section-title">Welcome to Stickybloom! I'm Emma.</h2>
                           <p>
                               I strongly believe every organisation has the capacity to foster a dynamic environment where teams can thrive, and everyone plays a vital role in your success. My goal is to help organisations unlock their full potential and create a culture where that success can flourish.
                           </p>
@@ -111,11 +160,8 @@ function HomePage() {
           <section className="workshop-section">
                 <div className="workshop-container">
                     <form className="workshop-form" onSubmit={handleSubmit}>
-                        <h2 className="form-title">Ready to Start?</h2>
+                        <h2 className="form-title">Enter your unique workshop code to begin your journey</h2>
                         <div className="form-group">
-                            <label htmlFor="workshop-code" className="form-label">
-                                Enter your unique workshop code to begin your journey
-                            </label>
                             <input
                                 type="text"
                                 id="workshop-code"
