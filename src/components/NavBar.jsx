@@ -1,6 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
 import useAuth from "../hooks/use-auth.js";
 
+
 function NavBar() {
     const {auth, setAuth} = useAuth();
     
@@ -12,7 +13,9 @@ function NavBar() {
     return (
         <div>
             <nav>
-                <Link to="/" className="logo"></Link>
+                <Link to="/" className="logo">
+                <img src="/img/Stickybloomlogo.png" alt="StickyBloom Logo" /> 
+                </Link>
                 <div className="nav-links">
                     {auth.token ? (
                         <Link to="/" onClick={handleLogout}>Log Out</Link>
