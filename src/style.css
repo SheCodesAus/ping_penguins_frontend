@@ -69,7 +69,11 @@ select {
 }
 
 /* Components */
-
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 /* btn-primary */
 .btn-primary {
     padding: 12px 16px;
@@ -192,6 +196,50 @@ nav {
     text-decoration: none;
     color: var(--black);
 }
+
+/* Footer */
+
+.footer {
+    background-color: var(--brand);
+    padding: 1.5rem 0;
+    margin-top: auto;
+    color: white;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-text {
+    font-size: 0.9rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icon {
+    color: white;
+    transition: opacity 0.3s ease;
+}
+
+.social-icon:hover {
+    opacity: 0.8;
+}
+
+.penguin-emoji {
+    font-size: 2rem; 
+}
+.main-content > div {
+    flex: 1;
+}
+
 
 /* form styles */
 .signup-form {
@@ -471,6 +519,14 @@ button:hover, a.enter-button:hover {
     .workspace-signup-container {
         width: 90%;
         padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
     }
 }
 
