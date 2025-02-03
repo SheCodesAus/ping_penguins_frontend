@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CountdownTimer from '../components/WorkshopPage/CountdownTimer';
 import WorkshopBoard from '../components/WorkshopPage/WorkshopBoard';
-// import getBoard from '../../api/get-board';
+import getBoard from '../api/get-board';
 import { useParams } from 'react-router-dom';
 
 const WorkshopPage = () => {
@@ -13,19 +13,18 @@ const WorkshopPage = () => {
     useEffect(() => {
         const fetchBoardData = async () => {
             try {
-                const boardData = await getBoard(boardId); 
-                setCategories(boardData.categories); 
-                setNotes(boardData.notes); 
+                const boardData = await getBoard(1); 
+                console.log('Fetched board data:', boardData); 
+                setCategories(boardData.categories || []); 
+                setNotes(boardData.notes || []); 
             } catch (err) {
                 setError(err.message); 
                 console.error("Error fetching board data:", err);
             }
         };
 
-        if (boardId) {
-            fetchBoardData(); 
-        }
-    }, [boardId]); 
+        fetchBoardData(); 
+    }, []); 
 
     if (error) {
         return <p>Error fetching board data: {error}</p>; 
@@ -34,9 +33,9 @@ const WorkshopPage = () => {
     return (
         <div>
             <h1>The Workshop Starts In...</h1>
-            <CountdownTimer boardId={boardId} /> 
+            <CountdownTimer boardId={1} /> 
             <WorkshopBoard 
-                boardId={boardId} 
+                boardId={1} 
                 notes={notes} 
                 onAddNote={setNotes} 
                 categories={categories} 

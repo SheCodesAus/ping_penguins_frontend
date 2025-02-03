@@ -1,13 +1,16 @@
 import React from 'react';
+import './CategorySidebar.css'; 
 
-const CategorySidebar = ({ categories }) => { 
+const CategorySidebar = ({ categories, onCategorySelect }) => { 
     return (
         <div className="category-sidebar">
             <h2>Categories</h2>
             <ul>
                 {Array.isArray(categories) && categories.length > 0 ? (
-                    categories.map((category, index) => (
-                        <li key={index}>{category}</li> 
+                    categories.map((category) => (
+                        <li key={category.id} onClick={() => onCategorySelect(category)}> 
+                            {category.title} 
+                        </li> 
                     ))
                 ) : (
                     <li>No categories available.</li> 

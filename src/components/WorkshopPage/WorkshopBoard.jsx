@@ -1,51 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CreateStickyNote from './CreateStickyNote';
 import CategorySidebar from './CategorySidebar'; 
 import './WorkshopBoard.css'; 
+import './CreateStickyNote.css';
+import getUsers from '../../api/get-users';
 
-const WorkshopBoard = ({ boardId, notes, onAddNote, categories }) => { 
-  const [currentCategory, setCurrentCategory] = useState(null);
-  const [showCreateNote, setShowCreateNote] = useState(false);
+const WorkshopBoard = ({ boardId, notes, onAddNote, categories = [] }) => { 
+    const [currentCategory, setCurrentCategory] = useState(null); 
+    const [users, setUsers] = useState();
+    
+    useEffect(() => {
+      const fetchUsers = async () => {
+          try {
+              const fetchedUsers = await getUsers(); 
+              console.log('Fetched users: ', fetchedUsers); 
+              setUsers(fetchedUsers || []); 
+          } catch (err) {
+              setError(err.message); 
+              console.error("Error fetching board data:", err);
+          }
+      };
 
-  const filteredNotes = currentCategory
-    ? notes.filter(note => note.category === currentCategory)
-    : notes;
+      fetchUsers(); 
+  }, []); 
 
-  const handleCategoryChange = (category) => {
-    setCurrentCategory(category);
-  };
+    const handleCategoryChange = (category) => {
+        setCurrentCategory(category); 
+    };
 
-  const handleAddNote = (newNote) => {
-    onAddNote(newNote);
-    setShowCreateNote(false); 
-  };
+    const handleAddNote = (newNote) => {
+        onAddNote(newNote); 
+    };
 
-  return (
-    <div className="workshop-board">
-      <CategorySidebar 
-        boardId={boardId} 
-        onCategorySelect={handleCategoryChange} 
-        categories={categories} 
-      />
+    return (
+        <div className="workshop-board">
+            <CategorySidebar 
+                boardId={boardId} 
+                onCategorySelect={handleCategoryChange} 
+                categories={categories} 
+            />
 
-      <CreateStickyNote onAddNote={handleAddNote} activeCategory={currentCategory} />
+            <CreateStickyNote 
+                onAddNote={handleAddNote} 
+                activeCategory={currentCategory} 
+            />
 
-      {/* Sticky Notes Container */}
-      <div className="sticky-notes-container">
-        <h2>{currentCategory ? `${currentCategory} Notes` : 'All Notes'}</h2>
-        {filteredNotes.length > 0 ? (
-          filteredNotes.map((note, index) => (
-            <div key={index} className="sticky-note">
-              <p>{note.text}</p>
-              <p><em>by {note.author}</em></p>
+            <div className="sticky-notes-container">
+                {currentCategory?.notes ? (
+                    currentCategory.notes.map((note, index) => {
+                        // Find the user object by ID
+                        const author = users.find(user => user.id === note.owner); 
+                        return (
+                            <div key={index} className="sticky-note">
+                                <p>{note.comment}</p>
+                                <p><em>by {author ? author.display_name : 'Unknown'}</em></p> 
+                            </div>
+                        );
+                    })
+                ) : (
+                    <p>No notes available.</p>
+                )}
             </div>
-          ))
-        ) : (
-          <p>No notes available.</p>
-        )}
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default WorkshopBoard;
