@@ -8,7 +8,7 @@ function LoginExisting() {
     const { auth, setAuth } = useAuth();
 
     const [credentials, setCredentials] = useState({
-        username: "",
+        email: "",
         password: "",
     });
         
@@ -22,10 +22,10 @@ function LoginExisting() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (credentials.username && credentials.password) {
+        if (credentials.email && credentials.password) {
             try {
                 const response = await postLogin(
-                    credentials.username,
+                    credentials.email,
                     credentials.password            
                 );
 
@@ -48,19 +48,20 @@ function LoginExisting() {
     };
 
     return (
-        <form className="form-container" onSubmit={handleSubmit}>
+        <form className="form-container" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
             <h2 className="form-title">Welcome Back</h2>
-            <div className="form-group">
-                <label className="form-label" htmlFor="username">Username</label>
+            <div className="form-group" style={{ width: '100%', maxWidth: '400px' }}>
+                <label className="form-label" htmlFor="email">Email</label>
                 <input
                     type="text"
-                    id="username"
+                    id="email"
                     className="form-input"
-                    placeholder="Enter your username"
+                    placeholder="Enter your email"
                     onChange={handleChange}
+                    style={{ width: '100%' }}
                 />
             </div>
-            <div className="form-group">
+            <div className="form-group" style={{ width: '100%', maxWidth: '400px' }}>
                 <label className="form-label" htmlFor="password">Password</label>
                 <input
                     type="password"
@@ -68,12 +69,13 @@ function LoginExisting() {
                     className="form-input"
                     placeholder="Enter your password"
                     onChange={handleChange}
+                    style={{ width: '100%' }}
                 />
             </div>
-            <button type="submit" className="form-button">
+            <button type="submit" className="form-button" style={{ width: '100%', maxWidth: '400px' }}>
                 Log In
             </button>
-            <Link to="/signup" className="form-link">
+            <Link to="/signup" className="form-link" style={{ marginTop: '10px' }}>
                 Don&apos;t have an account? Sign up here
             </Link>
         </form>
