@@ -1,6 +1,7 @@
 import 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import CountdownTimer from '../components/WorkshopPage/CountdownTimer';
+import useBoard from '../hooks/use-board';
 
 // Landing Page Header Component
 const LandingPageHeader = () => {
@@ -59,6 +60,19 @@ const DisclosureCard = () => {
 
 // Main Landing Page Component
 const LandingPage = () => {
+  const { id: pk } = useParams();
+  const { board, isLoading } = useBoard(pk);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!board) {
+    return <div>Error loading board data</div>;
+  }
+
+  const boardLink = `/workshop/${pk}`;
+
   return (
     <div className="stickybloom-app">
       <main className="content">
@@ -71,8 +85,10 @@ const LandingPage = () => {
           <DisclosureCard />
           </div>
         <div className="button-container">
-          <Link to="/login" className="enter-button">
-            Login to the Workspace
+          <Link to={boardLink} className="enter-workshop-button">
+            Enter the Workspace
+//           <Link to="/login" className="enter-button">
+//             Login to the Workspace
           </Link>
         </div>
       </main>

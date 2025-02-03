@@ -19,13 +19,14 @@ const router = createBrowserRouter([
       element: <NavBar />,
       errorElement: <ErrorPage />,
       children: [
-          { path: "/", element: <LandingPage /> },
+          { path: "/", element: <HomePage /> },
           { path: "/login", element: <LoginPage /> },
           { path: "/signup", element: <SignUpPage /> },
-          { path: "/workshop", element: <WorkshopPage /> },
+          { path: "/workshoplanding/:id/", element: <LandingPage /> },
+          { path: "/workshop/:id/", element: <WorkshopPage /> },
           { path: "*", element: <ErrorPage />},  // * captures all other routes not already defined
-          { path: "/admin", element: <AdminPage /> },
-          { path: "/homepage", element: <HomePage /> }
+          { path: "/admin", element: <AdminPage /> },  // Admin dashboard
+
       ],
   },
 ]);
