@@ -87,8 +87,6 @@ const LandingPage = () => {
         <div className="button-container">
           <Link to={boardLink} className="enter-workshop-button">
             Enter the Workspace
-//           <Link to="/login" className="enter-button">
-//             Login to the Workspace
           </Link>
         </div>
       </main>
