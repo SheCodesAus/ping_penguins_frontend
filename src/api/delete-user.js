@@ -1,5 +1,5 @@
-async function deleteUser(boardId) {
-    const url = `${import.meta.env.VITE_API_URL}/users/${boardId}/`;
+async function deleteUser(userId) {
+    const url = `${import.meta.env.VITE_API_URL}/users/${userId}/`;
     const token = window.localStorage.getItem("token");
     const response = await fetch(url, {
       method: "DELETE",
