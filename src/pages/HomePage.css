@@ -26,6 +26,11 @@
     display: block;
 }
 
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
 #rotate-words {
     position: relative;
     min-height: 100px; /* Fixed height to prevent jumping */
@@ -262,6 +267,7 @@
 .workshop-container {
     max-width: 1200px;
     margin: 0 auto;
+    margin-bottom: 2rem;
 }
 
 .workshop-form {
