@@ -77,32 +77,55 @@ const SignUpPage = ({ initialTitle }) => {
             <div className="form-section">
               <label className="form-label">
                 First Name <span className="required">*</span>
-                <input type="text" name="firstName" className="workspace-signup-input" onChange={handleChange} />
+                <input 
+                type="text" 
+                name="firstName" 
+                className="workspace-signup-input" 
+                onChange={handleChange} />
                 {formErrors.firstName && <p className="error">{formErrors.firstName}</p>}
               </label>
               <label className="form-label">
                 Last Name <span className="required">*</span>
-                <input type="text" name="lastName" className="workspace-signup-input" onChange={handleChange} />
+                <input 
+                type="text" 
+                name="lastName" 
+                className="workspace-signup-input" 
+                onChange={handleChange} />
                 {formErrors.lastName && <p className="error">{formErrors.lastName}</p>}
               </label>
               <label className="form-label">
                 Display Name <span className="required">*</span>
-                <input type="text" name="displayName" className="workspace-signup-input" onChange={handleChange} />
+                <input 
+                type="text" 
+                name="displayName" 
+                className="workspace-signup-input" 
+                onChange={handleChange} />
                 {formErrors.displayName && <p className="error">{formErrors.displayName}</p>}
               </label>
               <label className="form-label">
                 Email <span className="required">*</span>
-                <input type="email" name="email" className="workspace-signup-email" onChange={handleChange} />
+                <input 
+                type="email" 
+                name="email" 
+                className="workspace-signup-email" 
+                onChange={handleChange} />
                 {formErrors.email && <p className="error">{formErrors.email}</p>}
               </label>
               <label className="form-label">
                 Password <span className="required">*</span>
-                <input type="password" name="password" className="workspace-signup-password" onChange={handleChange} />
+                <input 
+                type="password" 
+                name="password" 
+                className="workspace-signup-password" 
+                onChange={handleChange} />
                 {formErrors.password && <p className="error">{formErrors.password}</p>}
               </label>
               <label className="form-label">
                 Confirm Password <span className="required">*</span>
-                <input type="password" name="confirmPassword" className="workspace-signup-confirmpassword" onChange={handleChange} />
+                <input type="password" 
+                name="confirmPassword" 
+                className="workspace-signup-confirmpassword" 
+                onChange={handleChange} />
                 {formErrors.confirmPassword && <p className="error">{formErrors.confirmPassword}</p>}
                 {formErrors.passwordMismatch && <p className="error">{formErrors.passwordMismatch}</p>}
               </label>
@@ -111,11 +134,19 @@ const SignUpPage = ({ initialTitle }) => {
             <div className="form-section">
               <label className="form-label">
                 Position
-                <input type="text" name="position" className="workspace-signup-input" onChange={handleChange} />
+                <input 
+                type="text" 
+                name="position" 
+                className="workspace-signup-input" 
+                onChange={handleChange} />
               </label>
               <label className="form-label">
                 Tenure in Company
-                <input type="text" name="tenure" className="workspace-signup-input" onChange={handleChange} />
+                <input 
+                type="text" 
+                name="tenure" 
+                className="workspace-signup-input" 
+                onChange={handleChange} />
               </label>
             </div>
 

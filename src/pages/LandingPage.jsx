@@ -71,8 +71,8 @@ const LandingPage = () => {
           <DisclosureCard />
           </div>
         <div className="button-container">
-          <Link to="/workshop" className="enter-button">
-            Enter the Workspace
+          <Link to="/login" className="enter-button">
+            Login to the Workspace
           </Link>
         </div>
       </main>
