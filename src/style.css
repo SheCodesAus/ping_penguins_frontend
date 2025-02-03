@@ -178,14 +178,15 @@ nav {
     color: var(--base-light);
 }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+.logo img {
+    height: 60px;
+    width: auto; 
 }
 
 .nav-links {
     display: flex;
     list-style: none;
+    gap: 1rem;
 }
 
 .nav-links li {
@@ -194,7 +195,8 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: var(--black);
+    color: var(--white);
+    font-weight: bold;
 }
 
 /* Footer */
