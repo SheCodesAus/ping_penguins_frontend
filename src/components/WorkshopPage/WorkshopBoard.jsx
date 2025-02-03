@@ -3,7 +3,7 @@ import CreateStickyNote from './CreateStickyNote';
 import CategorySidebar from './CategorySidebar'; 
 import './WorkshopBoard.css'; 
 
-const WorkshopBoard = ({ boardId, notes, onAddNote }) => {
+const WorkshopBoard = ({ boardId, notes, onAddNote, categories }) => { 
   const [currentCategory, setCurrentCategory] = useState(null);
   const [showCreateNote, setShowCreateNote] = useState(false);
 
@@ -22,7 +22,11 @@ const WorkshopBoard = ({ boardId, notes, onAddNote }) => {
 
   return (
     <div className="workshop-board">
-      <CategorySidebar boardId={boardId} onCategorySelect={handleCategoryChange} />
+      <CategorySidebar 
+        boardId={boardId} 
+        onCategorySelect={handleCategoryChange} 
+        categories={categories} 
+      />
 
       <CreateStickyNote onAddNote={handleAddNote} activeCategory={currentCategory} />
 

@@ -5,7 +5,7 @@ import useAuth from "../../hooks/use-auth.js";
 
 function LoginExisting() {
     const navigate = useNavigate();  
-    const {auth, setAuth} = useAuth();
+    const { auth, setAuth } = useAuth();
 
     const [credentials, setCredentials] = useState({
         username: "",
@@ -20,24 +20,35 @@ function LoginExisting() {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (credentials.username && credentials.password) {
-            postLogin(
-                credentials.username,
-                credentials.password            
-            ).then((response) => {
-                window.localStorage.setItem("token", response.token);
-                setAuth({
-                    token: response.token,
-                });
-                navigate("/");
-            });
+            try {
+                const response = await postLogin(
+                    credentials.username,
+                    credentials.password            
+                );
+
+                console.log('Login response:', response); 
+
+                if (response) {
+                    window.localStorage.setItem("token", response.token);
+                    setAuth(response); 
+
+                    if (response.isSuperuser) {
+                        navigate('/admin'); 
+                    } else {
+                        navigate('/workshop'); 
+                    }
+                }
+            } catch (error) {
+                console.error('Login failed:', error); 
+            }
         }
     };
 
     return (
-        <form className="form-container">
+        <form className="form-container" onSubmit={handleSubmit}>
             <h2 className="form-title">Welcome Back</h2>
             <div className="form-group">
                 <label className="form-label" htmlFor="username">Username</label>
@@ -59,7 +70,7 @@ function LoginExisting() {
                     onChange={handleChange}
                 />
             </div>
-            <button type="submit" className="form-button" onClick={handleSubmit}>
+            <button type="submit" className="form-button">
                 Log In
             </button>
             <Link to="/signup" className="form-link">

@@ -11,6 +11,7 @@ import { AuthProvider } from "./contexts/AuthProvider.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import './style.css';
+import HomePage from "./pages/HomePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,8 @@ const router = createBrowserRouter([
           { path: "/signup", element: <SignUpPage /> },
           { path: "/workshop", element: <WorkshopPage /> },
           { path: "*", element: <ErrorPage />},  // * captures all other routes not already defined
-          { path: "/admin", element: <AdminPage /> }
+          { path: "/admin", element: <AdminPage /> },
+          { path: "/homepage", element: <HomePage /> }
       ],
   },
 ]);
