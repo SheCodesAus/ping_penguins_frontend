@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet } from "react-router-dom";
 import useAuth from "../hooks/use-auth.js";
+import Footer from "./Footer.jsx";
 
 function NavBar() {
     const {auth, setAuth} = useAuth();
@@ -11,7 +12,7 @@ function NavBar() {
     };
 
     return (
-        <div>
+        <div className="app-layout">
             <nav>
                 <Link to="/" className="logo"></Link>
                 <div className="nav-links">
@@ -25,7 +26,10 @@ function NavBar() {
                     )}
                 </div>
             </nav>
-            <Outlet />
+            <main className="main-content">
+                <Outlet />
+            </main>
+            <Footer />
         </div>
     );
 }
