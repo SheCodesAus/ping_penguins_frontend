@@ -6,10 +6,12 @@ import LoginPage from "./pages/LoginPage.jsx";
 import SignUpPage from "./pages/SignupPage.jsx";
 import WorkshopPage from "./pages/WorkshopPage.jsx";
 import NavBar from "./components/NavBar.jsx";
+import footer from "./components/Footer.jsx";
 import { AuthProvider } from "./contexts/AuthProvider.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import './style.css';
+import HomePage from "./pages/HomePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,12 +19,14 @@ const router = createBrowserRouter([
       element: <NavBar />,
       errorElement: <ErrorPage />,
       children: [
-          { path: "/", element: <LandingPage /> },
+          { path: "/", element: <HomePage /> },
           { path: "/login", element: <LoginPage /> },
           { path: "/signup", element: <SignUpPage /> },
-          { path: "/workshop", element: <WorkshopPage /> },
+          { path: "/workshoplanding/:id/", element: <LandingPage /> },
+          { path: "/workshop/:id/", element: <WorkshopPage /> },
           { path: "*", element: <ErrorPage />},  // * captures all other routes not already defined
-          { path: "/admin", element: <AdminPage /> }
+          { path: "/admin", element: <AdminPage /> },  // Admin dashboard
+
       ],
   },
 ]);

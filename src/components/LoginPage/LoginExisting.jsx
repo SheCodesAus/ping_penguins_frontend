@@ -5,10 +5,10 @@ import useAuth from "../../hooks/use-auth.js";
 
 function LoginExisting() {
     const navigate = useNavigate();  
-    const {auth, setAuth} = useAuth();
+    const { auth, setAuth } = useAuth();
 
     const [credentials, setCredentials] = useState({
-        username: "",
+        email: "",
         password: "",
     });
         
@@ -20,36 +20,48 @@ function LoginExisting() {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if (credentials.username && credentials.password) {
-            postLogin(
-                credentials.username,
-                credentials.password            
-            ).then((response) => {
-                window.localStorage.setItem("token", response.token);
-                setAuth({
-                    token: response.token,
-                });
-                navigate("/");
-            });
+        if (credentials.email && credentials.password) {
+            try {
+                const response = await postLogin(
+                    credentials.email,
+                    credentials.password            
+                );
+
+                console.log('Login response:', response); 
+
+                if (response) {
+                    window.localStorage.setItem("token", response.token);
+                    setAuth(response); 
+
+                    if (response.isSuperuser) {
+                        navigate('/admin'); 
+                    } else {
+                        navigate('/workshop'); 
+                    }
+                }
+            } catch (error) {
+                console.error('Login failed:', error); 
+            }
         }
     };
 
     return (
-        <form className="form-container">
+        <form className="form-container" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
             <h2 className="form-title">Welcome Back</h2>
-            <div className="form-group">
-                <label className="form-label" htmlFor="username">Username</label>
+            <div className="form-group" style={{ width: '100%', maxWidth: '400px' }}>
+                <label className="form-label" htmlFor="email">Email</label>
                 <input
                     type="text"
-                    id="username"
+                    id="email"
                     className="form-input"
-                    placeholder="Enter your username"
+                    placeholder="Enter your email"
                     onChange={handleChange}
+                    style={{ width: '100%' }}
                 />
             </div>
-            <div className="form-group">
+            <div className="form-group" style={{ width: '100%', maxWidth: '400px' }}>
                 <label className="form-label" htmlFor="password">Password</label>
                 <input
                     type="password"
@@ -57,12 +69,13 @@ function LoginExisting() {
                     className="form-input"
                     placeholder="Enter your password"
                     onChange={handleChange}
+                    style={{ width: '100%' }}
                 />
             </div>
-            <button type="submit" className="form-button" onClick={handleSubmit}>
+            <button type="submit" className="form-button" style={{ width: '100%', maxWidth: '400px' }}>
                 Log In
             </button>
-            <Link to="/signup" className="form-link">
+            <Link to="/signup" className="form-link" style={{ marginTop: '10px' }}>
                 Don&apos;t have an account? Sign up here
             </Link>
         </form>

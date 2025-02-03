@@ -1,0 +1,448 @@
+.home-navbar {
+    background-color: var(--brand);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(246, 19, 165, 0.2);
+}
+
+.nav-container {
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.nav-logo {
+    justify-self: flex-start; /* Align logo to the left */
+}
+
+.nav-logo img {
+    height: 80px;
+    width: auto;
+    display: block;
+}
+
+#rotate-words {
+    position: relative;
+    min-height: 100px; /* Fixed height to prevent jumping */
+    width: 100%;
+    display: flex;
+    justify-self: flex-end;
+    align-items: center;
+}
+
+#rotate-words div {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+#rotate-words div:nth-child(1) {
+    animation: rotateWord 16s ease-in-out infinite 0s;
+}
+
+#rotate-words div:nth-child(2) {
+    animation: rotateWord 16s ease-in-out infinite 4s;
+}
+
+#rotate-words div:nth-child(3) {
+    animation: rotateWord 16s ease-in-out infinite 8s;
+}
+
+#rotate-words div:nth-child(4) {
+    animation: rotateWord 16s ease-in-out infinite 12s;
+}
+
+@keyframes rotateWord {
+    0%, 100% { 
+        opacity: 0; 
+        filter: blur(10px); 
+        transform: translateY(100%); 
+    }
+    3%, 22% { 
+        opacity: 1; 
+        filter: blur(0px); 
+        transform: translateY(0); 
+    }
+    25%, 97% { 
+        opacity: 0; 
+        filter: blur(10px); 
+        transform: translateY(-100%); 
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .nav-container {
+        grid-template-columns: 1fr 2fr 1fr;
+        padding: 0 1rem;
+    }
+
+    .nav-logo img {
+        height: 40px;
+    }
+
+    #rotate-words div {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #rotate-words div {
+        font-size: 1.2rem;
+    }
+}
+/* Add padding to the top of about-section to account for fixed navbar */
+.about-section {
+    padding-top: calc(6rem + 82px); /* Original padding + navbar height */
+}
+
+
+
+
+.landing-container {
+    min-height: 100vh;
+    background-color: var(--base-light);
+}
+
+.about-section {
+    padding: 4rem 2rem;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+.about-content {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+    position: relative;
+}
+
+.about-text {
+    flex: 1;
+    shape-outside: circle(50%);
+}
+
+.section-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 2rem;
+    line-height: 1.2;
+    position: relative;
+}
+
+.about-text p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--base-dark);
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+/* Add decorative line to paragraphs */
+.about-text p::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 3px;
+    background: linear-gradient(
+        to bottom,
+        var(--brand),
+        rgba(246, 19, 165, 0.1)
+    );
+    border-radius: 1.5px;
+}
+
+.about-text a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.about-text a:hover {
+    color: var(--black);
+}
+
+.about-image-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    flex-shrink: 0;
+}
+
+/* 3D Glow Effect */
+.about-image-container::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    border-radius: 50%;
+    background: linear-gradient(
+        45deg,
+        rgba(246, 19, 165, 0.4),
+        rgba(246, 19, 165, 0.1),
+        rgba(255, 255, 255, 0.2),
+        rgba(246, 19, 165, 0.3)
+    );
+    z-index: -1;
+    animation: glowRotate 8s linear infinite;
+    filter: blur(15px);
+}
+
+.about-image-container::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(
+        45deg,
+        var(--brand),
+        rgba(246, 19, 165, 0.5),
+        rgba(255, 255, 255, 0.5),
+        var(--brand)
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+.show-time-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 
+        0 10px 30px rgba(246, 19, 165, 0.15),
+        0 0 0 1px rgba(246, 19, 165, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.show-time-image:hover {
+    transform: scale(1.02);
+}
+
+@keyframes glowRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.workshop-section {
+    background-color: var(--base-light);
+}
+
+.workshop-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.workshop-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.form-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.form-group {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+}
+
+.form-label {
+    text-align: center;
+    display: block;
+    font-size: 1.125rem;
+    color: var(--base-dark);
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    position: relative;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1.5rem;
+    font-size: 1.25rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid rgba(246, 19, 165, 0.2);
+    color: var(--base-dark);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-bottom-color: var(--brand);
+}
+
+.form-input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.submit-button {
+    background-color: var(--brand);
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 600;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(246, 19, 165, 0.2);
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(246, 19, 165, 0.3);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+.submit-button:disabled {
+    background-color: rgba(246, 19, 165, 0.5);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Add a subtle gradient hover effect */
+.submit-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0)
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.submit-button:hover::before {
+    transform: translateX(100%);
+}
+
+
+.error-message {
+    color: #ef4444;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .about-image-container {
+        width: 350px;
+        height: 350px;
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 2.25rem;
+    }
+
+    /* Remove decorative lines on mobile for cleaner look */
+    .section-title::before,
+    .about-text p::before {
+        display: none;
+    }
+
+    .about-text p {
+        padding-left: 0;
+    }
+    .form-title {
+        font-size: 2.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-section {
+        padding: 4rem 1rem;
+    }
+
+    .about-image-container {
+        width: 280px;
+        height: 280px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .about-text p {
+        font-size: 1rem;
+    }
+    .workshop-section {
+        padding: 4rem 1rem;
+    }
+
+    .form-title {
+        font-size: 2rem;
+    }
+
+    .form-label {
+        font-size: 1rem;
+    }
+
+    .form-input {
+        font-size: 1.125rem;
+        padding: 1rem;
+    }
+}
