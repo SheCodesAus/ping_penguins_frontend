@@ -1,5 +1,5 @@
-async function deleteBoard(boardUUID) {
-    const url = `${import.meta.env.VITE_API_URL}/board/${boardUUID}/`;
+async function deleteBoard(boardId) {
+    const url = `${import.meta.env.VITE_API_URL}/board/${boardId}/`;
     const token = window.localStorage.getItem("token");
     const response = await fetch(url, {
       method: "DELETE",
