@@ -176,26 +176,41 @@ nav {
     padding: 1rem 2rem;
     background-color: var(--brand);
     color: var(--base-light);
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 60px;
+    width: auto;
 }
 
 .nav-links {
     display: flex;
-    list-style: none;
-}
-
-.nav-links li {
-    margin: 0 1rem;
+    gap: 1.5rem;
+    align-items: center;
 }
 
 .nav-links a {
     text-decoration: none;
-    color: var(--black);
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
 }
+
+.nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 
 /* Footer */
 
@@ -408,7 +423,7 @@ button:hover, a.enter-button:hover {
 
 .workspace-signup-header h1 {
     font-size: 26px;
-    font-family: 'Poppins', sans-serif; /* Modern font */
+    /* font-family: 'Poppins', sans-serif; Modern font */
     color: #333;
     font-weight: 700;
     margin-top: 15px; /* Space between title input and heading */

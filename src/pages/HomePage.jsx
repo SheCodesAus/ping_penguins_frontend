@@ -1,109 +1,203 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 // import axios from 'axios'; // Add this import
 import confetti from 'canvas-confetti';
 import "../style.css"; 
 import "./HomePage.css";
 
-function HomePage() {
-  const [workshopCode, setWorkshopCode] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+// function HomePage() {
+//   const [workshopCode, setWorkshopCode] = useState('');
+//   const [error, setError] = useState('');
+//   const [isLoading, setIsLoading] = useState(false);
+//   const navigate = useNavigate();
 
-  const isValidUUID = (uuid) => {
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    return uuidRegex.test(uuid);
-};
 
-  // Define colors for confetti
-  const colors = [
-    '#F613A5', 
-    '#FFC0E9', // Light pink
-    '#FF69B4', // Hot pink
-    '#ffffff', // White for contrast
-  ];
+//   // Define colors for confetti
+//   const colors = [
+//     '#F613A5', 
+//     '#FFC0E9', // Light pink
+//     '#FF69B4', // Hot pink
+//     '#ffffff', // White for contrast
+//   ];
 
-  const fireConfetti = () => {
-    // Fire confetti from the left edge
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { x: 0.1, y: 0.5 },
-      colors: colors,
-      startVelocity: 30,
-      gravity: 0.8,
-      shapes: ['circle', 'square'],
-      ticks: 300
-    });
+//   const fireConfetti = () => {
+//     // Fire confetti from the left edge
+//     confetti({
+//       particleCount: 100,
+//       spread: 70,
+//       origin: { x: 0.1, y: 0.5 },
+//       colors: colors,
+//       startVelocity: 30,
+//       gravity: 0.8,
+//       shapes: ['circle', 'square'],
+//       ticks: 300
+//     });
 
-    // Fire confetti from the right edge
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { x: 0.9, y: 0.5 },
-      colors: colors,
-      startVelocity: 30,
-      gravity: 0.8,
-      shapes: ['circle', 'square'],
-      ticks: 300
-    });
-  };
+//     // Fire confetti from the right edge
+//     confetti({
+//       particleCount: 100,
+//       spread: 70,
+//       origin: { x: 0.9, y: 0.5 },
+//       colors: colors,
+//       startVelocity: 30,
+//       gravity: 0.8,
+//       shapes: ['circle', 'square'],
+//       ticks: 300
+//     });
+//   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
+//   const handleChange = (event) => {
+//     setWorkshopCode(event.target.value);
+//   };
 
-    // Array of valid test codes
-//     const validCodes = ['test123', 'demo456', 'workshop789'];
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     console.log("Submit button clicked!");
+//     setIsLoading(true);
+//     setError('');
+
+//     // Array of valid test codes
+// //     const validCodes = ['test123', 'demo456', 'workshop789'];
     
-//     if (validCodes.includes(workshopCode.trim())) {
-//         fireConfetti();
-//         setTimeout(() => {
-//             navigate(`/workshop/${workshopCode}`);
-//         }, 1000);
-//     } else {
-//         setError('Invalid workshop code. Please try again.');
-//     }
-//     setIsLoading(false);
+// //     if (validCodes.includes(workshopCode.trim())) {
+// //         fireConfetti();
+// //         setTimeout(() => {
+// //             navigate(`/workshop/${workshopCode}`);
+// //         }, 1000);
+// //     } else {
+// //         setError('Invalid workshop code. Please try again.');
+// //     }
+// //     setIsLoading(false);
+// // };
+
+// const boardId = workshopCode.trim();
+// console.log("Board ID:", boardId);
+
+//         // if it's a valid ID
+//         // if (isNaN(boardId)) {
+//         //     setError('Invalid board ID format');
+//         //     setIsLoading(false);
+//         //     return;
+//         // }
+
+//         try {
+//             console.log('Attempting to fetch board with ID:', boardId);
+//             const response = await fetch(`/api/board/${boardId}/`);
+//             // const data = await response.json();
+
+//             if (!response.ok) {
+                
+//                 const data = await response.json();
+//                 console.error("Error Response:", data);
+//                 throw new Error(data.error || 'Invalid workshop code. Please check your code and try again');
+//             }
+
+//             const data = await response.json();
+//             console.log('Board Data:', data);
+
+//             // Valid BoardID and successful response
+//             fireConfetti();
+//             setTimeout(() => {
+//                 navigate(`/workshoplanding/${boardId}`);
+//             }, 1000);
+            
+//         } catch (error) {
+//             setError('Unable to access workshop. Please check your code and try again.');
+//         } finally {
+//             setIsLoading(false);
+//         }
+//     };
+
+// const handleInputChange = (e) => {
+//   setWorkshopCode(e.target.value);
+//   setError(''); // Clear error when input changes
 // };
 
-const code = workshopCode.trim();
+function HomePage() {
+    const [workshopCode, setWorkshopCode] = useState('');
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
-        // First check if it's a valid UUID format
-        if (!isValidUUID(code)) {
-            setError('Invalid workshop code format');
+    const colors = [
+        '#F613A5', 
+        '#FFC0E9',
+        '#FF69B4',
+        '#ffffff',
+    ];
+
+    const fireConfetti = () => {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { x: 0.1, y: 0.5 },
+            colors: colors,
+            startVelocity: 30,
+            gravity: 0.8,
+            shapes: ['circle', 'square'],
+            ticks: 300
+        });
+
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { x: 0.9, y: 0.5 },
+            colors: colors,
+            startVelocity: 30,
+            gravity: 0.8,
+            shapes: ['circle', 'square'],
+            ticks: 300
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setError('');
+
+        const boardId = workshopCode.trim();
+
+        // Validate if input is a number
+        if (!boardId || isNaN(boardId)) {
+            setError('Please enter a valid workshop code (numbers only)');
             setIsLoading(false);
             return;
         }
 
         try {
-            const response = await fetch(`/api/board/${code}/`);
+            const response = await fetch(`https://sticky-bloom-3855ad75260f.herokuapp.com/board/${boardId}/`);
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || 'Invalid workshop code. Please check your code and try again');
+                throw new Error(data.error || 'Workshop not found');
             }
 
-            // Valid UUID and successful response
+            // Successful access
             fireConfetti();
-            setTimeout(() => {
-                navigate(`/workshop/${code}`);
-            }, 1000);
             
+            // Navigate to workshop page after confetti
+            setTimeout(() => {
+                navigate(`/workshop/${boardId}`);
+            }, 1000);
+
         } catch (error) {
-            setError('Unable to access workshop. Please check your code and try again.');
+            console.error('Error accessing workshop:', error);
+            setError('Workshop not found. Please check your code.');
         } finally {
             setIsLoading(false);
         }
     };
 
-const handleInputChange = (e) => {
-  setWorkshopCode(e.target.value);
-  setError(''); // Clear error when input changes
-};
-
+    // Clear error when input changes
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        // Only allow numbers
+        if (value === '' || /^\d+$/.test(value)) {
+            setWorkshopCode(value);
+            setError('');
+        }
+    };
 
   return (
       <div className="landing-container">
@@ -121,7 +215,9 @@ const handleInputChange = (e) => {
             <div>Unforgettable Workplace Experiences</div>
         </div>
         
-        <div className="nav-right"></div>
+        <div className="nav-right">
+        <Link to="/login" className="login-link">Login</Link>
+        </div>
     </div>
 </nav>
           {/* About Me Section */}
