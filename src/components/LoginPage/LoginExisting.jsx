@@ -38,7 +38,7 @@ function LoginExisting() {
                     if (response.isSuperuser) {
                         navigate('/admin'); 
                     } else {
-                        navigate('/workshop'); 
+                        navigate('/workshop/1'); 
                     }
                 }
             } catch (error) {
