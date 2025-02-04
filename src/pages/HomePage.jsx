@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import "../style.css"; 
 import "./HomePage.css";
+import useAuth from "../hooks/use-auth.js";
 
 // function HomePage() {
 //   const [workshopCode, setWorkshopCode] = useState('');
@@ -114,11 +115,14 @@ import "./HomePage.css";
 //   setError(''); // Clear error when input changes
 // };
 
+
+
 function HomePage() {
     const [workshopCode, setWorkshopCode] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const {auth, setAuth} = useAuth();
 
     const colors = [
         '#F613A5', 
@@ -199,6 +203,8 @@ function HomePage() {
         }
     };
 
+    const notLoggedIn = !auth.token;
+
   return (
       <div className="landing-container">
         {/* Custom Navbar */}
@@ -255,12 +261,13 @@ function HomePage() {
           {/* Workshop Access Section */}
           <section className="workshop-section">
                 <div className="workshop-container">
-                <div className="auth-links">
-            <div className="auth-buttons">
-                <Link to="/login" className="auth-link login-link">Login</Link>
-                <Link to="/signup" className="auth-link signup-link">Sign Up</Link>
-            </div>
-        </div>
+                    { notLoggedIn ? 
+                    <div className="auth-links">
+                        <div className="auth-buttons">
+                            <Link to="/login" className="auth-link login-link">Login</Link>
+                            <Link to="/signup" className="auth-link signup-link">Sign Up</Link>
+                        </div>
+                    </div> :
                     <form className="workshop-form" onSubmit={handleSubmit}>
                         <h2 className="form-title">Enter your unique workshop code to begin your journey</h2>
                         <div className="form-group">
@@ -282,7 +289,8 @@ function HomePage() {
                         >
                             {isLoading ? 'Loading...' : 'Access'}
                         </button>
-                    </form>
+                    </form> 
+                    }
                 </div>
             </section>
       </div>

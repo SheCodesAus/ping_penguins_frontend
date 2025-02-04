@@ -38,13 +38,15 @@ function LoginExisting() {
 
             if (response.token) {
                 window.localStorage.setItem("token", response.token);
+                window.localStorage.setItem("userId", response.user_id);
                 setAuth({
                     token: response.token,
                     is_superuser: response.is_superuser,
                 });
                 
+            const user = await getUser(response.user_id);
                 // Redirect based on user type
-                if (response.is_superuser) {
+                if (user.is_superuser) {
                     navigate("/admin");
                 } else {
                     navigate("/");

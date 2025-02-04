@@ -9,7 +9,7 @@ async function postSignup(username, email, password, confirm_password, first_nam
           Authorization: `Token ${token}`
       },
       body: JSON.stringify({
-          username,
+          username:first_name,
           email,
           password,
           confirm_password,
