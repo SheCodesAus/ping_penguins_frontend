@@ -6,9 +6,10 @@ import useAuth from "../../hooks/use-auth.js";
 function LoginExisting() {
     const navigate = useNavigate();  
     const { auth, setAuth } = useAuth();
+    const [error, setError] = useState("");
 
     const [credentials, setCredentials] = useState({
-        email: "",
+        username: "",  // Changed from email to username to match backend
         password: "",
     });
         
@@ -22,60 +23,71 @@ function LoginExisting() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (credentials.email && credentials.password) {
-            try {
-                const response = await postLogin(
-                    credentials.email,
-                    credentials.password            
-                );
+        setError("");  // Clear any previous errors
 
-                console.log('Login response:', response); 
-
-                if (response) {
-                    window.localStorage.setItem("token", response.token);
-                    setAuth(response); 
-
-                    if (response.isSuperuser) {
-                        navigate('/admin'); 
-                    } else {
-                        navigate('/'); 
-                    }
-                }
-            } catch (error) {
-                console.error('Login failed:', error); 
+        try {
+            if (!credentials.username || !credentials.password) {
+                setError("Please fill in all fields");
+                return;
             }
+
+            const response = await postLogin(
+                credentials.username,
+                credentials.password            
+            );
+
+            if (response.token) {
+                window.localStorage.setItem("token", response.token);
+                window.localStorage.setItem("userId", response.user_id);
+                setAuth({
+                    token: response.token,
+                    is_superuser: response.is_superuser,
+                });
+                
+            const user = await getUser(response.user_id);
+                // Redirect based on user type
+                if (user.is_superuser) {
+                    navigate("/admin");
+                } else {
+                    navigate("/");
+                }
+            } else {
+                setError("Login failed. Please check your credentials.");
+            }
+        } catch (err) {
+            console.error("Login error:", err);
+            setError("Login failed. Please try again.");
         }
     };
 
     return (
-        <form className="form-container" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+        <form className="form-container" onSubmit={handleSubmit}>
             <h2 className="form-title">Welcome Back</h2>
-            <div className="form-group" style={{ width: '100%', maxWidth: '400px' }}>
-                <label className="form-label" htmlFor="email">Email</label>
+            {error && <div className="error-message">{error}</div>}
+            <div className="form-group">
                 <input
                     type="text"
-                    id="email"
+                    id="username"  // Changed from email to username
                     className="form-input"
-                    placeholder="Enter your email"
+                    placeholder="Enter your username"  // Updated placeholder
+                    value={credentials.username}
                     onChange={handleChange}
-                    style={{ width: '100%' }}
                 />
             </div>
-            <div className="form-group" style={{ width: '100%', maxWidth: '400px' }}>
-                <label className="form-label" htmlFor="password">Password</label>
+            <div className="form-group">
                 <input
                     type="password"
                     id="password"
                     className="form-input"
                     placeholder="Enter your password"
+                    value={credentials.password}
                     onChange={handleChange}
-                    style={{ width: '100%' }}
                 />
             </div>
-            <button type="submit" className="form-button" style={{ width: '100%', maxWidth: '400px' }}>
+            <button type="submit" className="form-button">
                 Log In
             </button>
-            <Link to="/signup" className="form-link" style={{ marginTop: '10px' }}>
+            <Link to="/signup" className="form-link">
                 Don&apos;t have an account? Sign up here
             </Link>
         </form>

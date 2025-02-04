@@ -1,0 +1,53 @@
+.workshop-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.workshop-content {
+    flex: 1;
+    display: flex;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    min-height: calc(100vh - 200px); /* Adjust based on header height */
+}
+
+.sticky-notes-container {
+    flex: 1;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    align-content: start;
+    overflow-y: auto;
+    max-height: calc(100vh - 250px);
+}
+
+/* Individual Sticky Note */
+.sticky-note {
+    background: #fff7c0;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sticky-note:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.sticky-note p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.sticky-note p:last-child {
+    margin-top: auto;
+    font-size: 0.8rem;
+    color: #666;
+}

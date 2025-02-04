@@ -293,6 +293,67 @@ nav {
     cursor: pointer;
 }
 
+/* login form */
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    width: 90%;
+    margin: 80px auto;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+/* Form Title */
+.form-title {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Form Groups */
+.form-group {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Inputs */
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(246, 19, 165, 0.1);
+}
+
+/* Submit Button */
+.form-button {
+    width: 100%;
+    padding: 0.875rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+}
+
+/* Sign Up Link */
+.form-link {
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.form-link:hover {
+    opacity: 0.8;
+}
+
 
 /* flex container for landing page */
 .header-title {
@@ -334,6 +395,115 @@ nav {
     justify-content: space-between;
 }
 
+.workshop-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.workshop-header {
+    text-align: center;
+    padding: 2rem 0;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.workshop-title {
+    font-size: 2.5rem;
+    color: var(--brand);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.workshop-content {
+    flex: 1;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+}
+
+/* Error state styling */
+.error-container {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    text-align: center;
+    background-color: rgba(239, 68, 68, 0.1);
+    border-radius: 8px;
+    color: #ef4444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .workshop-page {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .workshop-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .workshop-title {
+        font-size: 2rem;
+    }
+
+    .workshop-content {
+        padding: 1.5rem;
+    }
+}
+
+/* Timer styles (if needed) */
+.countdown-timer {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--base-dark);
+}
+
+/* Board styles */
+.workshop-board {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Category columns */
+.category-column {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    min-height: 400px;
+}
+
+.category-title {
+    font-size: 1.25rem;
+    color: var(--brand);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--brand);
+}
+
+/* Note styles */
+.note-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+}
+
 .workshop-details-card,
 .workshop-disclosure-card {
     flex: 1;
@@ -359,7 +529,7 @@ nav {
     margin-bottom: 30px;
 }
 
-button, a.enter-button {
+button, .auth-link, a.enter-button {
     background-color: var(--brand);
     color: var(--white);
     border: 1px solid #000000;
@@ -369,7 +539,7 @@ button, a.enter-button {
     transition: background-color 0.3s ease;
 }
 
-button:hover, a.enter-button:hover {
+button:hover, a.enter-button:hover, .auth-link:hover {
     animation: rainbow 4s infinite;
 }
 
@@ -543,5 +713,17 @@ button:hover, a.enter-button:hover {
         gap: 1rem;
         text-align: center;
     }
-}
 
+    .form-container {
+        margin: 40px auto;
+        padding: 1.5rem;
+    }
+
+    .form-input {
+        padding: 0.625rem;
+    }
+
+    .form-button {
+        padding: 0.75rem;
+    }
+}
