@@ -4,6 +4,7 @@ import CountdownTimer from '../components/WorkshopPage/CountdownTimer';
 import WorkshopBoard from '../components/WorkshopPage/WorkshopBoard';
 import getBoard from '../api/get-board';
 import { useParams, Link } from 'react-router-dom';
+import './WorkshopPage.css';
 
 const WorkshopPage = () => {
     const { boardId } = useParams();

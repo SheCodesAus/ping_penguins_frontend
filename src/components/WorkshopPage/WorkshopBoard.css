@@ -1,7 +1,8 @@
 /* WorkshopBoard styles */
-.workshop-board {
-    background-color: #ffcccb; 
-    margin: 20px;
+
+/* .workshop-board {
+    background-color: #ffcccb;  
+    margin: 20px; 
     padding: 50px;
     border: 2px solid #ccc; 
     border-radius: 8px; 
@@ -17,6 +18,15 @@
     flex-wrap: wrap; 
     gap: 10px; 
     margin-top: 20px; 
+}  */
+ 
+.workshop-board {
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+    position: relative;
+    background: pink;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
 
