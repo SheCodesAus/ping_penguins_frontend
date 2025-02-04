@@ -215,9 +215,9 @@ function HomePage() {
             <div>Unforgettable Workplace Experiences</div>
         </div>
         
-        <div className="nav-right">
+        {/* <div className="nav-right">
         <Link to="/login" className="login-link">Login</Link>
-        </div>
+        </div> */}
     </div>
 </nav>
           {/* About Me Section */}
@@ -239,7 +239,7 @@ function HomePage() {
                               </a>{" "}
                               to explore how we can work together to help your organisation thrive!
                           </p>
-                          <p>If you are one of my lucky clients, insert your unique link below to access the workshop and let the magic happen!</p>
+                          <p>To access your workshop, please sign up or log in using your unique link.</p>
                       </div>
                       <div className="about-image-container">
                           <img 
@@ -255,6 +255,12 @@ function HomePage() {
           {/* Workshop Access Section */}
           <section className="workshop-section">
                 <div className="workshop-container">
+                <div className="auth-links">
+            <div className="auth-buttons">
+                <Link to="/login" className="auth-link login-link">Login</Link>
+                <Link to="/signup" className="auth-link signup-link">Sign Up</Link>
+            </div>
+        </div>
                     <form className="workshop-form" onSubmit={handleSubmit}>
                         <h2 className="form-title">Enter your unique workshop code to begin your journey</h2>
                         <div className="form-group">
