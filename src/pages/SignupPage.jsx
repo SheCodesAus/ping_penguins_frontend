@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import postSignup from "../api/post-signup.js";
+import useAuth from "../hooks/use-auth.js";
 
 const SignUpPage = ({ initialTitle }) => {
   const navigate = useNavigate(); // React Router navigation hook
+  const { auth, setAuth } = useAuth();
   const [workspaceTitle] = useState(initialTitle || "");
   const [signUpDetails, setSignUpDetails] = useState({
     firstName: "",
@@ -51,14 +54,33 @@ const SignUpPage = ({ initialTitle }) => {
     if (validateForm()) {
       setIsFormSubmitted(true);
     }
+    postSignup(
+      "",
+      signUpDetails.email,
+      signUpDetails.password,
+      signUpDetails.confirmPassword,
+      signUpDetails.firstName,
+      signUpDetails.lastName,
+      signUpDetails.displayName,
+      signUpDetails.position,
+      signUpDetails.gender,
+      signUpDetails.tenure,
+      signUpDetails.age,
+      signUpDetails.color,
+  ).then((response) => {
+      console.log(response.token);
+      window.localStorage.setItem("token", response.token);
+      window.localStorage.setItem("userId", response.user_id);
+      setAuth(response); 
+      navigate("/workshop/1/");
+  });
   };
 
   useEffect(() => {
     if (isFormSubmitted) {
       alert("Profile setup is complete!");
-      navigate("/workshop"); // Redirect user to /workshop
-    }
-  }, [isFormSubmitted, navigate]);
+     }
+  }, [isFormSubmitted]);
 
   return (
     <div className="workspace-signup">

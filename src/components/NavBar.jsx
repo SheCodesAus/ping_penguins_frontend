@@ -28,13 +28,10 @@ function NavBar() {
                     {auth.token ? (
                         <Link to="/" onClick={handleLogout}>Log Out</Link>
                     ) : (
-                        // Only show login link if we're not on login/signup pages
-                        shouldShowAuthLinks() && (
                             <>
                                 <Link to="/login">Login</Link>
-                                {/* <Link to="/signup">Sign Up</Link> */}
+                                <Link to="/signup">Sign Up</Link>
                             </>
-                        )
                     )}
                 </div>
             </nav>
