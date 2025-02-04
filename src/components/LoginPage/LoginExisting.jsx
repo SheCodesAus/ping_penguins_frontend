@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import postLogin from "../../api/post-login.js";
 import useAuth from "../../hooks/use-auth.js";
+import getUser from "../../api/get-user.js";
 
 function LoginExisting() {
     const navigate = useNavigate();  
