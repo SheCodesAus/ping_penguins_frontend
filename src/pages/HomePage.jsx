@@ -208,25 +208,7 @@ function HomePage() {
   return (
       <div className="landing-container">
         {/* Custom Navbar */}
-        <nav className="home-navbar">
-    <div className="nav-container">
-        <div className="nav-logo">
-            <img src="/img/Stickybloomlogo.png" alt="StickyBloom Logo" />
-        </div>
-        
-        <div id="rotate-words">
-            <div>Energising Cultures</div>
-            <div>Elevating Happiness</div>
-            <div>Bespoke Culture Strategies</div>
-            <div>Unforgettable Workplace Experiences</div>
-        </div>
-        
-        {/* <div className="nav-right">
-        <Link to="/login" className="login-link">Login</Link>
-        </div> */}
-    </div>
-</nav>
-          {/* About Me Section */}
+        {/* About Me Section */}
           <section className="about-section">
               <div className="about-container">
                   <div className="about-content">
