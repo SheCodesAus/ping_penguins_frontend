@@ -205,7 +205,7 @@ function HomePage() {
         <nav className="home-navbar">
     <div className="nav-container">
         <div className="nav-logo">
-            <img src="/img/Stickybloomlogo.png" alt="StickyBloom Logo" />
+            <img src="../src/assets/Stickybloomlogo.png" alt="StickyBloom Logo" />
         </div>
         
         <div id="rotate-words">
@@ -243,7 +243,7 @@ function HomePage() {
                       </div>
                       <div className="about-image-container">
                           <img 
-                              src="./img/HomePage_Emma.png" 
+                              src="../src/assets/HomePage_Emma.png" 
                               alt="It's Show Time - Dynamic pose" 
                               className="show-time-image"
                           />
@@ -280,7 +280,7 @@ function HomePage() {
                             className="submit-button"
                             disabled={isLoading}
                         >
-                            {isLoading ? 'Loading...' : 'Access'}
+                            {isLoading ? 'Loading...' : 'Enter Workshop'}
                         </button>
                     </form>
                 </div>

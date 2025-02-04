@@ -38,8 +38,10 @@ function LoginExisting() {
 
             if (response.token) {
                 window.localStorage.setItem("token", response.token);
+                window.localStorage.setItem("userId", response.user_id);  // Save user ID
                 setAuth({
                     token: response.token,
+                    userId: response.user_id,
                     is_superuser: response.is_superuser,
                 });
                 
