@@ -1,0 +1,108 @@
+.workshop-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.workshop-header {
+    text-align: center;
+    padding: 2rem 0;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.workshop-title {
+    font-size: 2.5rem;
+    color: var(--brand);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.workshop-content {
+    flex: 1;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+}
+
+/* Error state styling */
+.error-container {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    text-align: center;
+    background-color: rgba(239, 68, 68, 0.1);
+    border-radius: 8px;
+    color: #ef4444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .workshop-page {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .workshop-header {
+        padding: 1.5rem 1rem;
+    }
+
+    .workshop-title {
+        font-size: 2rem;
+    }
+
+    .workshop-content {
+        padding: 1.5rem;
+    }
+}
+
+/* Timer styles (if needed) */
+.countdown-timer {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--base-dark);
+}
+
+/* Board styles */
+.workshop-board {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Category columns */
+.category-column {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    min-height: 400px;
+}
+
+.category-title {
+    font-size: 1.25rem;
+    color: var(--brand);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--brand);
+}
+
+/* Note styles */
+.note-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+}
