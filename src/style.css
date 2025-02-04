@@ -545,3 +545,59 @@ button:hover, a.enter-button:hover {
     }
 }
 
+/* Admin Page Styles */
+.admin-header {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.admin-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.admin-grid {
+    display: flex;
+    gap: 100px; /* Create a gap between the columns */
+    max-width: 1200px;
+    width: 100%;
+    justify-content: center; /* Center the columns */
+}
+
+.admin-column {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid var(--brand);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-column h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.workshop-list, .user-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.workshop-list li, .user-list li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.workshop-list li h3 {
+    margin: 0 0 10px;
+}
+
+.workshop-list li p, .user-list li p {
+    margin: 5px 0;
+}
+
