@@ -5,16 +5,17 @@ import useAuth from '../hooks/use-auth';
 
 import deleteBoard from '../api/delete-board';
 import deleteUser from '../api/delete-user';
-import getUsers from '../api/get-users';
+import useCurrentUser from '../hooks/use-current-user';
 
 
 const AdminPage = () => {
     const navigate = useNavigate();
     const { auth } = useAuth();
     const [users, setUsers] = useState([]);
-    const { user, isLoading, error } = useCurrentUser(auth?.token);
+    const { user, isLoading, error } = useCurrentUser(auth?.userId);
     const [showSuccessMessage, setShowSuccessMessage] = useState('');
     const isAdmin = user?.is_superuser;
+
 
     if (!user?.is_superuser) {
         return (

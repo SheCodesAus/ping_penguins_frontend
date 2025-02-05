@@ -20,23 +20,31 @@ function NavBar() {
 
     return (
         <div className="app-layout">
-            <nav>
+            <nav className="home-navbar">
+                <div className="nav-container">
+                <div className="nav-logo">  
                 <Link to="/" className="logo">
-                    <img src="/img/logo-crowdbloom.png" alt="StickyBloom Logo" />
+                    <img src="/img/Stickybloomlogo.png" alt="StickyBloom Logo"/>
                 </Link>
+                </div>
+        
+        <div id="rotate-words">
+            <div>Energising Cultures</div>
+            <div>Elevating Happiness</div>
+            <div>Bespoke Culture Strategies</div>
+            <div>Unforgettable Workplace Experiences</div>
+        </div>
+        </div>      
                 <div className="nav-links">
                     {auth.token ? (
                         <Link to="/" onClick={handleLogout}>Log Out</Link>
                     ) : (
-                        // Only show login link if we're not on login/signup pages
-                        shouldShowAuthLinks() && (
                             <>
                                 <Link to="/login">Login</Link>
-                                {/* <Link to="/signup">Sign Up</Link> */}
+                                <Link to="/signup">Sign Up</Link>
                             </>
-                        )
                     )}
-                </div>
+                </div> 
             </nav>
 
             <main className="main-content">
