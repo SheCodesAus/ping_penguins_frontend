@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import postLogin from "../../api/post-login.js";
 import useAuth from "../../hooks/use-auth.js";
+import getUser from "../../api/get-user.js";
 
 function LoginExisting() {
     const navigate = useNavigate();  
@@ -38,15 +39,15 @@ function LoginExisting() {
 
             if (response.token) {
                 window.localStorage.setItem("token", response.token);
-                window.localStorage.setItem("userId", response.user_id);  // Save user ID
+                window.localStorage.setItem("userId", response.user_id);
                 setAuth({
                     token: response.token,
-                    userId: response.user_id,
                     is_superuser: response.is_superuser,
                 });
                 
+            const user = await getUser(response.user_id);
                 // Redirect based on user type
-                if (response.is_superuser) {
+                if (user.is_superuser) {
                     navigate("/admin");
                 } else {
                     navigate("/");

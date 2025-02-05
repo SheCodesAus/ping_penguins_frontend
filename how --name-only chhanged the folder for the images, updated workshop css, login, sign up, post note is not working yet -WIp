@@ -1,0 +1,242 @@
+[33mcommit 71ff21b96740f0cb804ee425fc54bf85b78685f8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mworkshop_board_css[m[33m, [m[1;31morigin/workshop_board_css[m[33m)[m
+Author: marina-terina <marinat@outlook.com.au>
+Date:   Tue Feb 4 20:31:32 2025 +1000
+
+    changed the folder for the images, updated workshop css, login, sign up, post note is not working yet -WIp
+
+[33mcommit 0b91c4b243b3566263f6ea3b3990dfc1ea9ed68e[m
+Author: marina-terina <marinat@outlook.com.au>
+Date:   Tue Feb 4 13:05:51 2025 +1000
+
+    styles for the workboard components
+
+[33mcommit 869bf88cf606ccef5774fc4ef267691bb6e3bb2d[m
+Merge: 72121e1 cd12375
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Tue Feb 4 11:42:54 2025 +1000
+
+    Merge pull request #48 from SheCodesAus/style
+    
+    General updates
+
+[33mcommit cd12375c6af4ee119a7db4b74e2a1a9944c3e3dd[m[33m ([m[1;31morigin/style[m[33m, [m[1;32mstyle[m[33m)[m
+Author: marina-terina <marinat@outlook.com.au>
+Date:   Tue Feb 4 11:45:51 2025 +1000
+
+    HomePage: added login and signup link, navbar: updated login, logout states, and no display on login page, updated css on Homepage, loginform and workshop form + added the link to the workshoplanding/id from the workshop/id page - but its not quite working and needs style - WIP
+
+[33mcommit 72121e1a285b742877784707a6fe07c746f4883d[m
+Merge: 5eba4e2 e28be62
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Tue Feb 4 09:21:54 2025 +1000
+
+    Merge pull request #46 from SheCodesAus/homepage_change_access_field
+    
+    changed the field to accept BoardID, Adjusted Navbar and css
+
+[33mcommit 5eba4e2a27b5a9a31a715191eb5c0a138b75abed[m
+Merge: c55c4dc f8d4987
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Tue Feb 4 09:20:41 2025 +1000
+
+    Merge pull request #45 from SheCodesAus/feature/front-end-nonsense
+    
+    front end nonsense
+
+[33mcommit f8d4987db44c503848a6acf1421a0c05b2c2f6eb[m
+Merge: 33ea5ae c55c4dc
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Tue Feb 4 07:36:09 2025 +1000
+
+    Merge branch 'dev' into feature/front-end-nonsense
+
+[33mcommit e28be62af22b3ca60f1a40525108246b4100d2e8[m[33m ([m[1;31morigin/homepage_change_access_field[m[33m, [m[1;32mhomepage_change_access_field[m[33m)[m
+Author: marina-terina <marinat@outlook.com.au>
+Date:   Tue Feb 4 01:46:05 2025 +1000
+
+    changed the field to accept BoardID, Adjusted Navbar and css
+
+[33mcommit 33ea5ae7f20738c26a52de798f0562f4467d0845[m
+Author: brittany evans <brittanyevans188@gmail.com>
+Date:   Mon Feb 3 23:23:18 2025 +1000
+
+    get board workshop page. display and filter categories. get users by display name. fix login path.
+
+[33mcommit c55c4dc8e4083ddcf65b26fd5825b46be05812bc[m
+Merge: 7d217f6 6b1c23c
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 21:04:10 2025 +1000
+
+    Merge pull request #43 from SheCodesAus/feature/adminpage
+    
+    Created Admin Dashboard, created delete board and user functionality,…
+
+[33mcommit 6b1c23c05363680962f83d626cbc2b7e362750a6[m
+Author: Anaya <anaya.basak@gmail.com>
+Date:   Mon Feb 3 21:01:10 2025 +1000
+
+    Created Admin Dashboard, created delete board and user functionality, fixed use auth hook, fixed login redirect to homepage for now
+
+[33mcommit ce9d1f0f2ac322d4f7e4822febe6fa5d6a7c5db5[m
+Merge: a0ef76b 7d217f6
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 19:45:52 2025 +1000
+
+    Merge pull request #42 from SheCodesAus/dev
+    
+    Dev to Main re-deploy
+
+[33mcommit 7d217f6334b688f0ea124271026414ec157b7b9b[m
+Merge: a0ef76b e4291b9
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 19:24:40 2025 +1000
+
+    Merge pull request #41 from SheCodesAus/feature/fix
+    
+    Fixing merging conflict
+
+[33mcommit e4291b91bc5c0479a11b687a83592ea4e4084927[m
+Author: Anaya <anaya.basak@gmail.com>
+Date:   Mon Feb 3 19:23:46 2025 +1000
+
+    Fixing merging conflict
+
+[33mcommit a0ef76b2b21e226a721fb40f0f33135032d8aaab[m
+Merge: 6850b8d 0c9de40
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 16:27:19 2025 +1000
+
+    Merge pull request #40 from SheCodesAus/dev
+    
+    Dev to Main redeploy
+
+[33mcommit 0c9de40d7652945cf352b475b17e92e92e136800[m
+Merge: 29ba168 cd4f335
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 16:26:38 2025 +1000
+
+    Merge pull request #39 from SheCodesAus/feature/user-journey
+    
+    Feature/user journey
+
+[33mcommit cd4f3356769010f7af8705be530c87153bff6cda[m
+Merge: 50783ce 29ba168
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 16:26:27 2025 +1000
+
+    Merge branch 'dev' into feature/user-journey
+
+[33mcommit 50783ce8a4e747cae2e90a68d23dab24c6b28005[m
+Merge: 926479b ee58d61
+Author: Anaya <anaya.basak@gmail.com>
+Date:   Mon Feb 3 16:24:56 2025 +1000
+
+    Fixed Board ID ref
+
+[33mcommit 926479bf2b95ef194dfbcee15e49a69322f78e57[m
+Merge: a86f807 6850b8d
+Author: Anaya <anaya.basak@gmail.com>
+Date:   Mon Feb 3 16:21:17 2025 +1000
+
+    Updated board id
+
+[33mcommit a86f8075f34cc288f65f3a4e53345826757ab241[m
+Author: Anaya <anaya.basak@gmail.com>
+Date:   Mon Feb 3 16:10:48 2025 +1000
+
+    Fixed workshop and board ID display so obtains correctly
+
+[33mcommit 5768760be982a6217fe9b4bb0627f5a1f5960e33[m
+Author: Anaya <anaya.basak@gmail.com>
+Date:   Mon Feb 3 15:55:16 2025 +1000
+
+    Updated board ID, tested and board ID and landing page ID is successful
+
+[33mcommit 29ba168541953618a6a103fb5f9f1648f21f8fdc[m[33m ([m[1;32mLogin_Form_CSS+Redirect_Superuser_toadminPage_when_login[m[33m)[m
+Merge: 5bfae74 2465114
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 13:20:22 2025 +1000
+
+    Merge pull request #38 from SheCodesAus/feature/LP/LPButton
+    
+    Feature/lp/lp button
+
+[33mcommit 5bfae74903ae80480082322202d49651b2e9e9e6[m
+Merge: d2d9b81 33648a3
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 13:20:04 2025 +1000
+
+    Merge pull request #37 from SheCodesAus/feature/SU1-4/Signup
+    
+    Sign Up and Login Changes
+
+[33mcommit 2465114aadf5d597cba6af7b1e7cc072fe0f64c5[m
+Author: Brooklin C <brooklincharlton1@gmail.com>
+Date:   Mon Feb 3 13:17:05 2025 +1000
+
+    Landing Page Button
+
+[33mcommit 33648a321943a98f23c12d2dca0f914d000b8a63[m[33m ([m[1;31morigin/feature/SU1-4/Signup[m[33m)[m
+Author: Brooklin C <brooklincharlton1@gmail.com>
+Date:   Mon Feb 3 12:32:47 2025 +1000
+
+    Sign Up and Login Changes
+
+[33mcommit 56ccfe76de69d23584945ab89013dbefcca80b0c[m
+Author: Anaya <anaya.basak@gmail.com>
+Date:   Mon Feb 3 11:51:29 2025 +1000
+
+    Updated URLs in Main and installed confetti package for react
+
+[33mcommit ee58d617be3b722f94b405cb2c30eca34ce9fba1[m[33m ([m[1;31morigin/feature/user-journey[m[33m)[m
+Author: Anaya <anaya.basak@gmail.com>
+Date:   Mon Feb 3 11:42:15 2025 +1000
+
+    Added URL in main.jsx to have Workshop ID in link
+
+[33mcommit d2d9b81b9730a0df782470b007619316f74b8ed6[m
+Merge: 28a271c 4b7ae04
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 10:04:31 2025 +1000
+
+    Merge pull request #36 from SheCodesAus/NavBar-Logo
+    
+    NavBar style and logo
+
+[33mcommit 28a271cec10dc5f8fc55ebcbdc5e4c92bc3232d5[m
+Merge: 60eaa28 017f0f2
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 10:04:11 2025 +1000
+
+    Merge pull request #35 from SheCodesAus/footer
+    
+    added footer
+
+[33mcommit 017f0f291e9720fbbfd0cfd9fb0e567332287b40[m
+Merge: 66685ab 60eaa28
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 10:03:57 2025 +1000
+
+    Merge branch 'dev' into footer
+
+[33mcommit 60eaa28bf8181d495cef9e1436868bace2deb588[m
+Merge: c511917 7fa28cf
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 10:01:24 2025 +1000
+
+    Merge pull request #34 from SheCodesAus/Home_Page_About_Emma
+    
+    Home page about emma
+
+[33mcommit c5119171fa1de7aa7128a15d7ec009dc64b9655b[m
+Merge: e249c96 2554a8d
+Author: leafsapien <anaya.basak@gmail.com>
+Date:   Mon Feb 3 10:01:07 2025 +1000
+
+    Merge pull request #33 from SheCodesAus/feature/create-workshop-form
+    
+    Feature/create workshop form
+
+[33mcommit 4b7ae04d727baf0f60fec16371bcb5e45de4620c[m[33m ([m[1;31morigin/NavBar-Logo[m[33m, [m[1;32mNavBar-Logo[m[33m)[m
+Author: marina-terina <marinat@outlook.com.au>
+Date:   Sun Fe
