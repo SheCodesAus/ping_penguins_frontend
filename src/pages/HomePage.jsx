@@ -208,7 +208,7 @@ function HomePage() {
   return (
       <div className="landing-container">
         {/* Custom Navbar */}
-        {/* About Me Section */}
+
           <section className="about-section">
               <div className="about-container">
                   <div className="about-content">
@@ -231,7 +231,7 @@ function HomePage() {
                       </div>
                       <div className="about-image-container">
                           <img 
-                              src="./img/HomePage_Emma.png" 
+                              src="../src/assets/HomePage_Emma.png" 
                               alt="It's Show Time - Dynamic pose" 
                               className="show-time-image"
                           />
@@ -269,7 +269,7 @@ function HomePage() {
                             className="submit-button"
                             disabled={isLoading}
                         >
-                            {isLoading ? 'Loading...' : 'Access'}
+                            {isLoading ? 'Loading...' : 'Enter Workshop'}
                         </button>
                     </form> 
                     }

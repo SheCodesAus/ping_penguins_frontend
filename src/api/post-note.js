@@ -1,11 +1,12 @@
 async function postNote(comment, anonymous, board, category, owner) {
   const url = `${import.meta.env.VITE_API_URL}/note/`;
   const token = window.localStorage.getItem("token");
+  const currentUser = window.localStorage.getItem("userId");
   
   // Validate required fields before making request
   if (!comment) throw new Error("Comment is required");
   if (!board) throw new Error("Board is required");
-  if (!owner) throw new Error("Owner is required");
+  if (!currentUser) throw new Error("Owner is required");
 
   const response = await fetch(url, {
       method: "POST",
@@ -18,7 +19,7 @@ async function postNote(comment, anonymous, board, category, owner) {
           anonymous,
           board,
           category,
-          owner
+          owner: currentUser
       }),
   });
 

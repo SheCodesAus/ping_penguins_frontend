@@ -31,7 +31,7 @@ const WorkshopPage = () => {
     if (error) {
         return <div className="error-container">{error}</div>;
     }
-
+    
     return (
         <div className="workshop-page">
         <div className="workshop-header">
@@ -39,7 +39,7 @@ const WorkshopPage = () => {
             <CountdownTimer boardId={boardId} />
             <div className="workshop-info">
                 <p> Ready to enhance your team culture?</p>
-                <Link to={`/workshoplanding/${boardId}`} className="workshop-link">
+                <Link to={`/workshoplanding/`} className="workshop-link">
                      Learn more about StickyBloom workshops
                 </Link>
             </div>

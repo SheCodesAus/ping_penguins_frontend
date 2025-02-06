@@ -31,7 +31,7 @@ const WorkshopBoard = ({ boardId, notes, onAddNote, categories = [] }) => {
     const handleAddNote = (newNote) => {
         onAddNote(newNote); 
     };
-
+debugger
     return (
         <div className="workshop-board">
             <CategorySidebar 

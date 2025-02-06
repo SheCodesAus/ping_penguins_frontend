@@ -9,9 +9,10 @@ import NavBar from "./components/NavBar.jsx";
 import footer from "./components/Footer.jsx";
 import { AuthProvider } from "./contexts/AuthProvider.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
-import AdminPage from "./pages/AdminPage.jsx";
+import AdminPage from "./pages/BackupAdminPage.jsx";
 import './style.css';
 import HomePage from "./pages/HomePage.jsx";
+import LandingPageStatic from "./pages/LandingPageStatic.jsx";
 
 const router = createBrowserRouter([
   {
@@ -25,8 +26,8 @@ const router = createBrowserRouter([
           { path: "/workshoplanding/:id/", element: <LandingPage /> },
           { path: "/workshop/:id/", element: <WorkshopPage /> },
           { path: "*", element: <ErrorPage />},  // * captures all other routes not already defined
-          { path: "/admin", element: <AdminPage /> },  // Admin dashboard
-
+          { path: "/admin/", element: <AdminPage /> },  // Admin dashboard
+          { path: "/workshoplanding/", element: <LandingPageStatic /> },
       ],
   },
 ]);
