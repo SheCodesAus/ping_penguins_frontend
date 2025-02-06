@@ -24,16 +24,18 @@ function NavBar() {
                 <div className="nav-container">
                 <div className="nav-logo">  
                 <Link to="/" className="logo">
-                    <img src="../public/images/Stickybloomlogo.png" alt="StickyBloom Logo"/>
+                    <img src="/images/Stickybloomlogo.png" alt="StickyBloom Logo"/>
                 </Link>
                 </div>
         
-        <div id="rotate-words">
-            <div>Energising Cultures</div>
-            <div>Elevating Happiness</div>
-            <div>Bespoke Culture Strategies</div>
-            <div>Unforgettable Workplace Experiences</div>
-        </div>
+                {location.pathname === "/" && (
+                        <div id="rotate-words">
+                            <div>Energising Cultures</div>
+                            <div>Elevating Happiness</div>
+                            <div>Bespoke Culture Strategies</div>
+                            <div>Unforgettable Workplace Experiences</div>
+                        </div>
+                    )}
         </div>      
                 <div className="nav-links">
                     {auth.token ? (
