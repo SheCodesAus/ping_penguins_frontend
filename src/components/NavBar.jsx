@@ -24,7 +24,7 @@ function NavBar() {
                 <div className="nav-container">
                 <div className="nav-logo">  
                 <Link to="/" className="logo">
-                    <img src="/img/Stickybloomlogo.png" alt="StickyBloom Logo"/>
+                    <img src="../public/images/Stickybloomlogo.png" alt="StickyBloom Logo"/>
                 </Link>
                 </div>
         
