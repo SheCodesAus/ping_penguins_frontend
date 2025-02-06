@@ -231,7 +231,7 @@ function HomePage() {
                       </div>
                       <div className="about-image-container">
                           <img 
-                              src="../public/images/HomePage_Emma.png" 
+                              src="/images/HomePage_Emma.png" 
                               alt="It's Show Time - Dynamic pose" 
                               className="show-time-image"
                           />

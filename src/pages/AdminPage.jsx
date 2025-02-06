@@ -1,98 +1,340 @@
-import React, { useState } from 'react';
-import CreateWorkshopForm from '../components/AdminPage/CreateWorkshopForm';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/use-auth';
-
+import useCurrentUser from '../hooks/use-current-user';
 import deleteBoard from '../api/delete-board';
 import deleteUser from '../api/delete-user';
-import useCurrentUser from '../hooks/use-current-user';
 
+const CreateWorkshopForm = ({ onSubmit }) => {
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        disclaimer: '',
+        date_start: '',
+        date_end: '',
+        categories: ['']
+    });
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setError("");
+    
+        try {
+            // Initial login request
+            console.log('Starting login process...');
+            const response = await postLogin(
+                credentials.username,
+                credentials.password            
+            );
+            console.log('Login response:', response);  // Check what we get back from login
+    
+            if (response.token) {
+                // Store token and user ID
+                window.localStorage.setItem("token", response.token);
+                window.localStorage.setItem("userId", response.user_id);
+                console.log('Stored in localStorage:', {
+                    token: response.token,
+                    userId: response.user_id
+                });
+    
+                // Set auth context
+                setAuth({
+                    token: response.token,
+                    userId: response.user_id,  // Make sure we're setting userId in auth
+                    is_superuser: response.is_superuser,
+                });
+                
+                // Fetch user details
+                console.log('Fetching user details for ID:', response.user_id);
+                const user = await getUser(response.user_id);
+                console.log('Fetched user details:', user);
+    
+                if (user?.is_superuser) {
+                    console.log('User is superuser, redirecting to admin');
+                    navigate("/admin");
+                } else {
+                    console.log('User is not superuser or undefined:', user);
+                    navigate("/");
+                }
+            }
+        } catch (err) {
+            console.error("Login error:", err);
+            setError("Login failed. Please try again.");
+        }
+    };
+
+    const addCategory = () => {
+        setFormData(prev => ({
+            ...prev,
+            categories: [...prev.categories, '']
+        }));
+    };
+
+    const removeCategory = (index) => {
+        setFormData(prev => ({
+            ...prev,
+            categories: prev.categories.filter((_, i) => i !== index)
+        }));
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="workshop-form">
+            <div className="form-group">
+                <input
+                    type="text"
+                    placeholder="Workshop Title"
+                    value={formData.title}
+                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                    required
+                    className="form-input"
+                />
+            </div>
+
+            <div className="form-group">
+                <textarea
+                    placeholder="Workshop Description"
+                    value={formData.description}
+                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                    required
+                    className="form-input"
+                />
+            </div>
+
+            <div className="form-group">
+                <textarea
+                    placeholder="Disclaimer (Optional)"
+                    value={formData.disclaimer}
+                    onChange={(e) => setFormData(prev => ({ ...prev, disclaimer: e.target.value }))}
+                    className="form-input"
+                />
+            </div>
+
+            <div className="form-row">
+                <div className="form-group">
+                    <label>Start Date</label>
+                    <input
+                        type="datetime-local"
+                        value={formData.date_start}
+                        onChange={(e) => setFormData(prev => ({ ...prev, date_start: e.target.value }))}
+                        required
+                        className="form-input"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>End Date</label>
+                    <input
+                        type="datetime-local"
+                        value={formData.date_end}
+                        onChange={(e) => setFormData(prev => ({ ...prev, date_end: e.target.value }))}
+                        required
+                        className="form-input"
+                    />
+                </div>
+            </div>
+
+            <div className="categories-section">
+                <div className="categories-header">
+                    <h3>Categories</h3>
+                    <button type="button" onClick={addCategory} className="add-button">
+                        Add Category
+                    </button>
+                </div>
+                {formData.categories.map((category, index) => (
+                    <div key={index} className="category-input">
+                        <input
+                            type="text"
+                            placeholder="Category Name"
+                            value={category}
+                            onChange={(e) => {
+                                const newCategories = [...formData.categories];
+                                newCategories[index] = e.target.value;
+                                setFormData(prev => ({ ...prev, categories: newCategories }));
+                            }}
+                            required
+                            className="form-input"
+                        />
+                        {formData.categories.length > 1 && (
+                            <button 
+                                type="button"
+                                onClick={() => removeCategory(index)}
+                                className="remove-button"
+                            >
+                                Remove
+                            </button>
+                        )}
+                    </div>
+                ))}
+            </div>
+
+            <button type="submit" className="submit-button">
+                Create Workshop
+            </button>
+        </form>
+    );
+};
 
 const AdminPage = () => {
     const navigate = useNavigate();
     const { auth } = useAuth();
-    const [users, setUsers] = useState([]);
-    const { user, isLoading, error } = useCurrentUser(auth?.userId);
+    console.log('Auth in AdminPage:', auth); 
     const [showSuccessMessage, setShowSuccessMessage] = useState('');
-    const isAdmin = user?.is_superuser;
+    const { user, isLoading, error } = useCurrentUser(auth?.userId);
+    console.log('User in AdminPage:', user);  
+    const [isCreatingWorkshop, setIsCreatingWorkshop] = useState(false);
 
-
-    if (!user?.is_superuser) {
+    
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        console.log('Current token:', token);
+        console.log('API URL:', import.meta.env.VITE_API_URL);
+    }, []);
+    
+    if (!user || !user.is_superuser) {
         return (
-            <div>
+            <div className="admin-restricted">
                 <p>You must be an Admin to view this page.</p>
-                <button onClick={() => navigate("/")}>Return Home</button>
+                <button onClick={() => navigate("/")} className="return-button">
+                    Return Home
+                </button>
             </div>
         );
     }
 
     if (isLoading) {
-        return <p>loading...</p>;
+        return <p className="loading">Loading...</p>;
     }
 
     if (error) {
-        return <p>{error.message || "Oops! An error occurred, please try again later."}</p>;
+        return <p className="error">{error.message || "An error occurred, please try again later."}</p>;
     }
 
-    const handleBoardDelete = async (boardId) => {
-        if (isAdmin) {
-            if (window.confirm('Are you sure you want to delete this Workshop Board?')) {
-                try {
-                    await deleteBoard(boardId, auth.token);
-                    setShowSuccessMessage('Workshop Deleted Successfully!');
-                    setTimeout(() => {
-                        setShowSuccessMessage('');
-                        navigate(0);  // Refresh the page
-                    }, 2000);
-                } catch (error) {
-                    if (error.message.includes('403')) {
-                        alert('Only administrators can delete projects');
-                    } else {
-                        console.error('Error deleting project:', error);
-                        alert('Failed to delete project');
-                    }
-                }
+    const handleCreateWorkshop = async (formData) => {
+        try {
+            // Format the data for your API
+            const workshopData = {
+                title: formData.title,
+                description: formData.description,
+                disclaimer: formData.disclaimer || '',
+                date_start: formData.date_start,
+                date_end: formData.date_end,
+                categories: formData.categories.map(title => ({ title }))  // Format categories as objects
+            };
+    
+            console.log('Sending data:', workshopData);
+    
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
             }
-        } else {
-            navigate('/');
+    
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/board/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`  // Make sure to use the correct token format
+                },
+                body: JSON.stringify(workshopData)
+            });
+    
+            // Log response for debugging
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+    
+            // Only try to parse JSON if we get a successful response
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error('Authentication failed. Please log in again.');
+                }
+                const errorText = await response.text();
+                console.error('Error response:', errorText);
+                throw new Error('Failed to create workshop');
+            }
+    
+            const data = await response.json();
+            console.log('Success response:', data);
+    
+            setShowSuccessMessage('Workshop Created Successfully!');
+            setIsCreatingWorkshop(false);
+    
+            // Fetch updated boards instead of page refresh
+            const boardsResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/board/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (boardsResponse.ok) {
+                const updatedBoards = await boardsResponse.json();
+                // Update your boards state here
+                console.log('Updated boards:', updatedBoards);
+            }
+    
+        } catch (err) {
+            console.error('Error creating workshop:', err);
+            alert(err.message);
+        }
+    };
+
+    const handleBoardDelete = async (boardId) => {
+        if (window.confirm('Are you sure you want to delete this Workshop Board?')) {
+            try {
+                await deleteBoard(boardId, auth.token);
+                setShowSuccessMessage('Workshop Deleted Successfully!');
+                setTimeout(() => {
+                    setShowSuccessMessage('');
+                    navigate(0);
+                }, 2000);
+            } catch (error) {
+                console.error('Error deleting project:', error);
+                alert('Failed to delete project');
+            }
         }
     };
 
     const handleUserDelete = async (userId) => {
-        if (isAdmin) {
-            if (window.confirm('Are you sure you want to delete this User?')) {
-                try {
-                    await deleteUser(userId, auth.token);
-                    setShowSuccessMessage('User Deleted Successfully!');
-                    setTimeout(() => {
-                        setShowSuccessMessage('');
-                        navigate(0);  // Refresh the page
-                    }, 2000);
-                } catch (error) {
-                    if (error.message.includes('403')) {
-                        alert('Only administrators can delete Users');
-                    } else {
-                        console.error('Error deleting user:', error);
-                        alert('Failed to delete user');
-                    }
-                }
+        if (window.confirm('Are you sure you want to delete this User?')) {
+            try {
+                await deleteUser(userId, auth.token);
+                setShowSuccessMessage('User Deleted Successfully!');
+                setTimeout(() => {
+                    setShowSuccessMessage('');
+                    navigate(0);
+                }, 2000);
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                alert('Failed to delete user');
             }
-        } else {
-            navigate('/delete');
         }
     };
 
     return (
         <div className="admin-page">
-            <h1 className="admin-page">Admin Page</h1>
-            <CreateWorkshopForm onCategoriesUpdate={handleCategoriesUpdate} />
-    
-            {/* Boards and Users Grid */}
+            <h1>Admin Dashboard</h1>
+            
+            {showSuccessMessage && (
+                <div className="success-message">{showSuccessMessage}</div>
+            )}
+
+            <div className="admin-actions">
+                <button 
+                    onClick={() => setIsCreatingWorkshop(!isCreatingWorkshop)}
+                    className="create-workshop-button"
+                >
+                    {isCreatingWorkshop ? 'Cancel' : 'Create New Workshop'}
+                </button>
+            </div>
+
+            {isCreatingWorkshop && (
+                <div className="create-workshop-section">
+                    <h2>Create New Workshop</h2>
+                    <CreateWorkshopForm onSubmit={handleCreateWorkshop} />
+                </div>
+            )}
+
             <div className="details-grid">
-                {/* Boards Section */}
                 <div className="boards-section">
-                    <h2>Your Boards</h2>
-                    {user.boards.length > 0 ? (
+                    <h2>Workshop Boards</h2>
+                    {user.boards?.length > 0 ? (
                         <div className="boards-list">
                             {user.boards.map((board) => (
                                 <div key={board.id} className="item-card">
@@ -101,26 +343,30 @@ const AdminPage = () => {
                                         <p>Created: {new Date(board.date_created).toLocaleString()}</p>
                                     </div>
                                     <div className="item-actions">
-                                        <button onClick={() => navigate(`/board/${board.id}`)}>View</button>
+                                        <button 
+                                            onClick={() => navigate(`/workshop/${board.id}`)}
+                                            className="view-button"
+                                        >
+                                            View
+                                        </button>
                                         <button 
                                             onClick={() => handleBoardDelete(board.id)}
                                             className="delete-button"
                                         >
-                                            {isAdmin ? 'Admin Delete' : 'Delete Board'}
+                                            Delete
                                         </button>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <p className="empty-message">You have not created any Workshop boards yet.</p>
+                        <p className="empty-message">No workshop boards found.</p>
                     )}
                 </div>
-    
-                {/* Users Section */}
+
                 <div className="users-section">
                     <h2>Users</h2>
-                    {user.users.length > 0 ? (
+                    {user.users?.length > 0 ? (
                         <div className="users-list">
                             {user.users.map((user) => (
                                 <div key={user.id} className="item-card">
@@ -134,7 +380,7 @@ const AdminPage = () => {
                                             onClick={() => handleUserDelete(user.id)}
                                             className="delete-button"
                                         >
-                                            {isAdmin ? 'Admin Delete' : 'Delete User'}
+                                            Delete User
                                         </button>
                                     </div>
                                 </div>
