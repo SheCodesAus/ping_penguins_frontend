@@ -12,7 +12,7 @@ import ErrorPage from "./pages/ErrorPage.jsx";
 import AdminPage from "./pages/BackupAdminPage.jsx";
 import './style.css';
 import HomePage from "./pages/HomePage.jsx";
-import LandingPageStatic from "./pages/LandingPageStatic.jsx";
+import LandingPageStatic from "./pages/landingPageStatic.jsx";
 
 const router = createBrowserRouter([
   {
