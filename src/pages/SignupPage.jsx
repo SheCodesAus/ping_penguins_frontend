@@ -5,7 +5,7 @@ import useAuth from "../hooks/use-auth.js";
 
 const SignUpPage = ({ initialTitle }) => {
   const navigate = useNavigate(); // React Router navigation hook
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
   const [workspaceTitle] = useState(initialTitle || "");
   const [signUpDetails, setSignUpDetails] = useState({
     firstName: "",
@@ -49,37 +49,45 @@ const SignUpPage = ({ initialTitle }) => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
       setIsFormSubmitted(true);
+      try {
+        const response = await postSignup(
+          "",
+          signUpDetails.email,
+          signUpDetails.password,
+          signUpDetails.confirmPassword,
+          signUpDetails.firstName,
+          signUpDetails.lastName,
+          signUpDetails.displayName,
+          signUpDetails.position,
+          signUpDetails.gender,
+          signUpDetails.tenure,
+          signUpDetails.age,
+          signUpDetails.color,
+        );
+        console.log('Signup response:', response);
+        if (response.token) {
+          window.localStorage.setItem("token", response.token);
+          window.localStorage.setItem("userId", response.user_id);
+          setAuth(response); 
+          navigate("/");
+        } else {
+          setFormErrors({ general: "Signup failed. Please check your credentials." });
+        }
+      } catch (error) {
+        console.error("Signup error:", error);
+        setFormErrors({ general: "Signup failed. Please try again." });
+      }
     }
-    postSignup(
-      "",
-      signUpDetails.email,
-      signUpDetails.password,
-      signUpDetails.confirmPassword,
-      signUpDetails.firstName,
-      signUpDetails.lastName,
-      signUpDetails.displayName,
-      signUpDetails.position,
-      signUpDetails.gender,
-      signUpDetails.tenure,
-      signUpDetails.age,
-      signUpDetails.color,
-  ).then((response) => {
-      console.log(response.token);
-      window.localStorage.setItem("token", response.token);
-      window.localStorage.setItem("userId", response.user_id);
-      setAuth(response); 
-      navigate("/workshop/1/");
-  });
   };
 
   useEffect(() => {
     if (isFormSubmitted) {
       alert("Profile setup is complete!");
-     }
+    }
   }, [isFormSubmitted]);
 
   return (
