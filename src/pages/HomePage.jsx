@@ -7,115 +7,6 @@ import "../style.css";
 import "./HomePage.css";
 import useAuth from "../hooks/use-auth.js";
 
-// function HomePage() {
-//   const [workshopCode, setWorkshopCode] = useState('');
-//   const [error, setError] = useState('');
-//   const [isLoading, setIsLoading] = useState(false);
-//   const navigate = useNavigate();
-
-
-//   // Define colors for confetti
-//   const colors = [
-//     '#F613A5', 
-//     '#FFC0E9', // Light pink
-//     '#FF69B4', // Hot pink
-//     '#ffffff', // White for contrast
-//   ];
-
-//   const fireConfetti = () => {
-//     // Fire confetti from the left edge
-//     confetti({
-//       particleCount: 100,
-//       spread: 70,
-//       origin: { x: 0.1, y: 0.5 },
-//       colors: colors,
-//       startVelocity: 30,
-//       gravity: 0.8,
-//       shapes: ['circle', 'square'],
-//       ticks: 300
-//     });
-
-//     // Fire confetti from the right edge
-//     confetti({
-//       particleCount: 100,
-//       spread: 70,
-//       origin: { x: 0.9, y: 0.5 },
-//       colors: colors,
-//       startVelocity: 30,
-//       gravity: 0.8,
-//       shapes: ['circle', 'square'],
-//       ticks: 300
-//     });
-//   };
-
-//   const handleChange = (event) => {
-//     setWorkshopCode(event.target.value);
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     console.log("Submit button clicked!");
-//     setIsLoading(true);
-//     setError('');
-
-//     // Array of valid test codes
-// //     const validCodes = ['test123', 'demo456', 'workshop789'];
-    
-// //     if (validCodes.includes(workshopCode.trim())) {
-// //         fireConfetti();
-// //         setTimeout(() => {
-// //             navigate(`/workshop/${workshopCode}`);
-// //         }, 1000);
-// //     } else {
-// //         setError('Invalid workshop code. Please try again.');
-// //     }
-// //     setIsLoading(false);
-// // };
-
-// const boardId = workshopCode.trim();
-// console.log("Board ID:", boardId);
-
-//         // if it's a valid ID
-//         // if (isNaN(boardId)) {
-//         //     setError('Invalid board ID format');
-//         //     setIsLoading(false);
-//         //     return;
-//         // }
-
-//         try {
-//             console.log('Attempting to fetch board with ID:', boardId);
-//             const response = await fetch(`/api/board/${boardId}/`);
-//             // const data = await response.json();
-
-//             if (!response.ok) {
-                
-//                 const data = await response.json();
-//                 console.error("Error Response:", data);
-//                 throw new Error(data.error || 'Invalid workshop code. Please check your code and try again');
-//             }
-
-//             const data = await response.json();
-//             console.log('Board Data:', data);
-
-//             // Valid BoardID and successful response
-//             fireConfetti();
-//             setTimeout(() => {
-//                 navigate(`/workshoplanding/${boardId}`);
-//             }, 1000);
-            
-//         } catch (error) {
-//             setError('Unable to access workshop. Please check your code and try again.');
-//         } finally {
-//             setIsLoading(false);
-//         }
-//     };
-
-// const handleInputChange = (e) => {
-//   setWorkshopCode(e.target.value);
-//   setError(''); // Clear error when input changes
-// };
-
-
 
 function HomePage() {
     const [workshopCode, setWorkshopCode] = useState('');
@@ -240,7 +131,7 @@ function HomePage() {
               </div>
           </section>
 
-          {/* Workshop Access Section */}
+          {/* Workshop Access Section
           <section className="workshop-section">
                 <div className="workshop-container">
                     { notLoggedIn ? 
@@ -274,7 +165,7 @@ function HomePage() {
                     </form> 
                     }
                 </div>
-            </section>
+            </section> */}
       </div>
   );
 }
