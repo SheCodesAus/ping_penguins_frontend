@@ -1,0 +1,71 @@
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+}
+
+.time-value {
+    font-size: 3.5rem;
+    font-weight: bold;
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    min-width: 100px;
+    text-align: center;
+    color: #333;
+    box-shadow: 0 0 15px rgba(246, 19, 165, 0.3),
+                0 0 30px rgba(246, 19, 165, 0.2),
+                0 0 45px rgba(246, 19, 165, 0.1);
+    transition: all 0.3s ease;
+}
+
+.time-value:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(246, 19, 165, 0.4),
+                0 0 40px rgba(246, 19, 165, 0.3),
+                0 0 60px rgba(246, 19, 165, 0.2);
+}
+
+.time-label {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* When workshop has started */
+.countdown-timer:not(.upcoming) {
+    font-size: 2rem;
+    color: #f613a5;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .countdown-timer {
+        gap: 1rem;
+    }
+
+    .countdown-unit {
+        min-width: 80px;
+    }
+
+    .time-value {
+        font-size: 2.5rem;
+        min-width: 70px;
+        padding: 0.8rem;
+    }
+
+    .time-label {
+        font-size: 0.8rem;
+    }
+} 

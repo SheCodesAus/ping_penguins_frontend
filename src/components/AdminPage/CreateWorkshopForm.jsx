@@ -1,163 +1,123 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import postBoard from '../../api/post-board';
+import './CreateWorkshopForm.css';
 
-const CreateWorkshopForm = ({ onCategoriesUpdate }) => { 
-    const navigate = useNavigate();  
-
-    const [boardData, setBoardData] = useState({
-        title: "",
-        description: "",
-        disclaimer: "",
-        date_start: "",
-        date_end: "",
-        image: "", 
-        category1: "", 
-        category2: "",
-        category3: "", 
+const CreateWorkshopForm = ({ onSubmit }) => {
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        disclaimer: '',
+        date_start: new Date().toISOString().slice(0, 16),
+        categories: ['']
     });
-
-    const handleChange = (event) => {
-        const { id, value } = event.target;
-        setBoardData((prevBoardData) => ({
-            ...prevBoardData,
-            [id]: value,
-        }));
-    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (boardData.title && boardData.description && boardData.disclaimer && boardData.date_start && boardData.date_end && boardData.category1 && boardData.category2 && boardData.category3) {
-            try {
-                const categoriesArray = [boardData.category1, boardData.category2, boardData.category3]; 
-                const response = await postBoard(
-                    boardData.title,
-                    boardData.description,
-                    boardData.disclaimer,
-                    boardData.date_start,
-                    boardData.date_end,
-                    boardData.image,
-                    categoriesArray 
-                );
-
-                onCategoriesUpdate(categoriesArray, response.id); 
-            } catch (error) {
-                console.error('Error creating board:', error);
-            }
-        } else {
-            console.error("All required fields must be filled.");
-        }
+        onSubmit(formData);
     };
-  
+
+    const addCategory = () => {
+        setFormData(prev => ({
+            ...prev,
+            categories: [...prev.categories, '']
+        }));
+    };
+
+    const removeCategory = (index) => {
+        setFormData(prev => ({
+            ...prev,
+            categories: prev.categories.filter((_, i) => i !== index)
+        }));
+    };
+
     return (
-        <form className="form-container" onSubmit={handleSubmit}>
-            <h2 className="form-title">Create a Workshop</h2>
+        <form onSubmit={handleSubmit} className="workshop-form">
             <div className="form-group">
-                <label className="form-label" htmlFor="title">Workshop Title</label>
                 <input
                     type="text"
-                    id="title"
+                    placeholder="Workshop Title"
+                    value={formData.title}
+                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                    required
                     className="form-input"
-                    placeholder="Enter your workshop title"
-                    value={boardData.title}
-                    onChange={handleChange}
-                    required 
                 />
             </div>
+
             <div className="form-group">
-                <label className="form-label" htmlFor="description">Description</label>
                 <textarea
-                    id="description"
+                    placeholder="Workshop Description"
+                    value={formData.description}
+                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                    required
                     className="form-input"
-                    placeholder="Describe your workshop"
-                    value={boardData.description}
-                    onChange={handleChange}
-                    rows="4"
-                    required 
                 />
             </div>
+
             <div className="form-group">
-                <label className="form-label" htmlFor="disclaimer">Disclaimer</label>
-                <input
-                    type="text"
-                    id="disclaimer"
+                <textarea
+                    placeholder="Disclaimer (Optional)"
+                    value={formData.disclaimer}
+                    onChange={(e) => setFormData(prev => ({ ...prev, disclaimer: e.target.value }))}
                     className="form-input"
-                    placeholder="Write a disclaimer"
-                    value={boardData.disclaimer}
-                    onChange={handleChange}
-                    required 
                 />
             </div>
+
             <div className="form-group">
-                <label className="form-label" htmlFor="date_start">Start Date</label>
+                <label>Start Date and Time</label>
                 <input
-                    type="date"
-                    id="date_start"
+                    type="datetime-local"
+                    value={formData.date_start}
+                    onChange={(e) => setFormData(prev => ({ ...prev, date_start: e.target.value }))}
+                    required
+                    min={new Date().toISOString().slice(0, 16)}
                     className="form-input"
-                    value={boardData.date_start}
-                    onChange={handleChange}
-                    required 
                 />
+                <small className="form-help">Please select the complete date and time when the workshop will start</small>
             </div>
-            <div className="form-group">
-                <label className="form-label" htmlFor="date_end">End Date</label>
-                <input
-                    type="date"
-                    id="date_end"
-                    className="form-input"
-                    value={boardData.date_end}
-                    onChange={handleChange}
-                    required 
-                />
+
+            <div className="create-category-section">
+                <h2>Add Categories to Workshop</h2>
+                <div className="categories-container">
+                    {formData.categories.map((category, index) => (
+                        <div key={index} className="category-input-row">
+                            <div className="category-input-wrapper">
+                                <input
+                                    type="text"
+                                    placeholder="Category Name"
+                                    value={category}
+                                    onChange={(e) => {
+                                        const newCategories = [...formData.categories];
+                                        newCategories[index] = e.target.value;
+                                        setFormData(prev => ({ ...prev, categories: newCategories }));
+                                    }}
+                                    required
+                                    className="form-input workshop-category-input"
+                                />
+                                {formData.categories.length > 1 && (
+                                    <button 
+                                        type="button"
+                                        onClick={() => removeCategory(index)}
+                                        className="remove-category-button"
+                                    >
+                                        Remove
+                                    </button>
+                                )}
+                            </div>
+                            {index === formData.categories.length - 1 && (
+                                <button 
+                                    type="button" 
+                                    onClick={addCategory} 
+                                    className="add-category-button"
+                                >
+                                    +
+                                </button>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
-            <div className="form-group">
-                <label className="form-label" htmlFor="image">Workshop Image (optional)</label>
-                <input
-                    type="url"
-                    id="image"
-                    className="form-input"
-                    placeholder="Enter the URL for your workshop image"
-                    value={boardData.image}
-                    onChange={handleChange} 
-                />
-            </div>
-            <div className="form-group">
-                <label className="form-label" htmlFor="category1">Category 1</label>
-                <input
-                    type="text"
-                    id="category1"
-                    className="form-input"
-                    placeholder="Enter first category"
-                    value={boardData.category1}
-                    onChange={handleChange}
-                    required 
-                />
-            </div>
-            <div className="form-group">
-                <label className="form-label" htmlFor="category2">Category 2</label>
-                <input
-                    type="text"
-                    id="category2"
-                    className="form-input"
-                    placeholder="Enter second category"
-                    value={boardData.category2}
-                    onChange={handleChange}
-                    required 
-                />
-            </div>
-            <div className="form-group">
-                <label className="form-label" htmlFor="category3">Category 3</label>
-                <input
-                    type="text"
-                    id="category3"
-                    className="form-input"
-                    placeholder="Enter third category"
-                    value={boardData.category3}
-                    onChange={handleChange}
-                    required 
-                />
-            </div>
-            <button type="submit" className="form-button">
+            <button type="submit" className="submit-button">
                 Create Workshop
             </button>
         </form>

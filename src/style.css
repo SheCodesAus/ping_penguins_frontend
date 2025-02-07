@@ -407,6 +407,7 @@ nav {
     gap: 2rem;
 }
 
+/* Workshop Page Header (landing page) */
 .workshop-header {
     text-align: center;
     padding: 2rem 0;
@@ -476,76 +477,139 @@ nav {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 /* Admin Page Styles */
-.admin-header {
-    text-align: center;
-    margin: 20px 0;
+/* Admin Page Global Styles */
+.admin-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.admin-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+.workshops-section {
+    grid-column: 1;
 }
 
-.admin-grid {
-    display: flex;
-    gap: 100px; /* Create a gap between the columns */
-    max-width: 1200px;
-    width: 100%;
-    justify-content: center; /* Center the columns */
+.create-section {
+    grid-column: 2;
+    position: sticky;
+    top: 2rem;
 }
 
-.admin-column {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border: 1px solid var(--brand);
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.admin-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
 }
 
-.admin-column h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.workshop-list, .user-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.workshop-list li, .user-list li {
-    background-color: #fff;
-    padding: 15px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.workshop-list li h3 {
-    margin: 0 0 10px;
-}
-
-.workshop-list li p, .user-list li p {
-    margin: 5px 0;
-}
-/* Category columns */
-.category-column {
-    background-color: #f8f9fa;
+.workshop-list {
+    background: #fff;
     border-radius: 8px;
     padding: 1.5rem;
-    min-height: 400px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.category-title {
-    font-size: 1.25rem;
-    color: var(--brand);
+.boards-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.board-card {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.board-card:hover {
+    transform: translateY(-2px);
+}
+
+.board-content h3 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+}
+
+.board-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.board-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.create-workshop-button {
+    width: 100%;
+    padding: 1rem;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* .create-workshop-button:hover {
+    background: #45a049;
+} */
+
+.create-workshop-form {
+    margin-top: 1rem;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.view-button, .delete-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.view-button {
+    background: #3498db;
+    color: white;
+}
+
+.view-button:hover {
+    background: #2980b9;
+}
+
+.delete-button {
+    background: #e74c3c;
+    color: white;
+}
+
+.delete-button:hover {
+    background: #c0392b;
+}
+
+.success-message {
+    background: #dff0d8;
+    color: #3c763d;
+    padding: 1rem;
+    border-radius: 4px;
     margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--brand);
 }
 
+.empty-message {
+    color: #666;
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
 /* Note styles */
 .note-card {
     background-color: white;
@@ -589,10 +653,12 @@ button, .auth-link, a.enter-button {
     background-color: var(--brand);
     color: var(--white);
     border: 1px solid #000000;
-    padding: 20px;
+    padding: 15px;
     position: relative;
     overflow: hidden;
     transition: background-color 0.3s ease;
+    border-radius: 15px;
+    ;
 }
 
 button:hover, a.enter-button:hover, .auth-link:hover {
@@ -761,6 +827,9 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         width: 90%;
         padding: 20px;
     }
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
@@ -815,4 +884,164 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 .nav-right {
     display: flex;
     align-items: center;
+}
+
+/* Workshop Page Styles */
+.workshop-status {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.workshop-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.countdown {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2196F3;
+    background: #e3f2fd;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.upcoming {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Board Info Layout Styles */
+.board-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.board-description,
+.board-disclaimer {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.board-description h3,
+.board-disclaimer h3 {
+    margin-bottom: 1rem;
+}
+
+.enter-board-button {
+    align-self: center;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--brand);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.enter-board-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(246, 19, 165, 0.3);
+}
+
+@media (max-width: 768px) {
+    .board-info {
+        padding: 0 1rem;
+    }
+}
+
+/* Workshop Board Layout */
+.workshop-content {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    background-image: radial-gradient(#000 1px, transparent 1px);
+    background-size: 20px 20px;
+    padding: 2rem;
+}
+
+.workshop-header {
+    text-align: center;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Categories Sidebar */
+.categories-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    background: white;
+    padding: 2rem 1rem;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Category Cards */
+.category-card {
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.category-card:nth-child(3n+1) {
+    background: rgba(246, 19, 165, 0.1);
+    box-shadow: 0 4px 12px rgba(246, 19, 165, 0.2);
+}
+
+.category-card:nth-child(3n+2) {
+    background: rgba(33, 150, 243, 0.1);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+}
+
+.category-card:nth-child(3n+3) {
+    background: rgba(255, 193, 7, 0.1);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+}
+
+.category-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Main Content Area (for sticky notes) */
+.notes-area {
+    margin-left: 250px; /* Same as sidebar width */
+    padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    .categories-sidebar {
+        width: 200px;
+    }
+    
+    .notes-area {
+        margin-left: 200px;
+    }
 }

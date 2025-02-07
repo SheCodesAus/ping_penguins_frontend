@@ -1,195 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/use-auth';
-import useCurrentUser from '../hooks/use-current-user';
+import CreateWorkshopForm from '../components/AdminPage/CreateWorkshopForm';
+import WorkshopList from '../components/AdminPage/WorkshopList';
 import deleteBoard from '../api/delete-board';
-import deleteUser from '../api/delete-user';
-
-const CreateWorkshopForm = ({ onSubmit }) => {
-    const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        disclaimer: '',
-        date_start: '',
-        date_end: '',
-        categories: ['']
-    });
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setError("");
-    
-        try {
-            // Initial login request
-            console.log('Starting login process...');
-            const response = await postLogin(
-                credentials.username,
-                credentials.password            
-            );
-            console.log('Login response:', response);  // Check what we get back from login
-    
-            if (response.token) {
-                // Store token and user ID
-                window.localStorage.setItem("token", response.token);
-                window.localStorage.setItem("userId", response.user_id);
-                console.log('Stored in localStorage:', {
-                    token: response.token,
-                    userId: response.user_id
-                });
-    
-                // Set auth context
-                setAuth({
-                    token: response.token,
-                    userId: response.user_id,  // Make sure we're setting userId in auth
-                    is_superuser: response.is_superuser,
-                });
-                
-                // Fetch user details
-                console.log('Fetching user details for ID:', response.user_id);
-                const user = await getUser(response.user_id);
-                console.log('Fetched user details:', user);
-    
-                if (user?.is_superuser) {
-                    console.log('User is superuser, redirecting to admin');
-                    navigate("/admin");
-                } else {
-                    console.log('User is not superuser or undefined:', user);
-                    navigate("/");
-                }
-            }
-        } catch (err) {
-            console.error("Login error:", err);
-            setError("Login failed. Please try again.");
-        }
-    };
-
-    const addCategory = () => {
-        setFormData(prev => ({
-            ...prev,
-            categories: [...prev.categories, '']
-        }));
-    };
-
-    const removeCategory = (index) => {
-        setFormData(prev => ({
-            ...prev,
-            categories: prev.categories.filter((_, i) => i !== index)
-        }));
-    };
-
-    return (
-        <form onSubmit={handleSubmit} className="workshop-form">
-            <div className="form-group">
-                <input
-                    type="text"
-                    placeholder="Workshop Title"
-                    value={formData.title}
-                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                    required
-                    className="form-input"
-                />
-            </div>
-
-            <div className="form-group">
-                <textarea
-                    placeholder="Workshop Description"
-                    value={formData.description}
-                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                    required
-                    className="form-input"
-                />
-            </div>
-
-            <div className="form-group">
-                <textarea
-                    placeholder="Disclaimer (Optional)"
-                    value={formData.disclaimer}
-                    onChange={(e) => setFormData(prev => ({ ...prev, disclaimer: e.target.value }))}
-                    className="form-input"
-                />
-            </div>
-
-            <div className="form-row">
-                <div className="form-group">
-                    <label>Start Date</label>
-                    <input
-                        type="datetime-local"
-                        value={formData.date_start}
-                        onChange={(e) => setFormData(prev => ({ ...prev, date_start: e.target.value }))}
-                        required
-                        className="form-input"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>End Date</label>
-                    <input
-                        type="datetime-local"
-                        value={formData.date_end}
-                        onChange={(e) => setFormData(prev => ({ ...prev, date_end: e.target.value }))}
-                        required
-                        className="form-input"
-                    />
-                </div>
-            </div>
-
-            <div className="categories-section">
-                <div className="categories-header">
-                    <h3>Categories</h3>
-                    <button type="button" onClick={addCategory} className="add-button">
-                        Add Category
-                    </button>
-                </div>
-                {formData.categories.map((category, index) => (
-                    <div key={index} className="category-input">
-                        <input
-                            type="text"
-                            placeholder="Category Name"
-                            value={category}
-                            onChange={(e) => {
-                                const newCategories = [...formData.categories];
-                                newCategories[index] = e.target.value;
-                                setFormData(prev => ({ ...prev, categories: newCategories }));
-                            }}
-                            required
-                            className="form-input"
-                        />
-                        {formData.categories.length > 1 && (
-                            <button 
-                                type="button"
-                                onClick={() => removeCategory(index)}
-                                className="remove-button"
-                            >
-                                Remove
-                            </button>
-                        )}
-                    </div>
-                ))}
-            </div>
-
-            <button type="submit" className="submit-button">
-                Create Workshop
-            </button>
-        </form>
-    );
-};
 
 const AdminPage = () => {
     const navigate = useNavigate();
     const { auth } = useAuth();
-    console.log('Auth in AdminPage:', auth); 
+    const [boards, setBoards] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [showSuccessMessage, setShowSuccessMessage] = useState('');
-    const { user, isLoading, error } = useCurrentUser(auth?.userId);
-    console.log('User in AdminPage:', user);  
     const [isCreatingWorkshop, setIsCreatingWorkshop] = useState(false);
+    const [newWorkshopId, setNewWorkshopId] = useState(null);
 
-    
+    // Fetch boards when component mounts
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        console.log('Current token:', token);
-        console.log('API URL:', import.meta.env.VITE_API_URL);
+        const fetchBoards = async () => {
+            setIsLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/board/`, {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                });
+                
+                if (!response.ok) throw new Error('Failed to fetch boards');
+                
+                const data = await response.json();
+                setBoards(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchBoards();
     }, []);
-    
-    if (!user || !user.is_superuser) {
+
+    if (!auth || !auth.token) {
         return (
             <div className="admin-restricted">
                 <p>You must be an Admin to view this page.</p>
@@ -200,83 +52,69 @@ const AdminPage = () => {
         );
     }
 
-    if (isLoading) {
-        return <p className="loading">Loading...</p>;
-    }
-
-    if (error) {
-        return <p className="error">{error.message || "An error occurred, please try again later."}</p>;
-    }
-
     const handleCreateWorkshop = async (formData) => {
         try {
-            // Format the data for your API
             const workshopData = {
                 title: formData.title,
                 description: formData.description,
                 disclaimer: formData.disclaimer || '',
-                date_start: formData.date_start,
-                date_end: formData.date_end,
-                categories: formData.categories.map(title => ({ title }))  // Format categories as objects
+                date_start: new Date(formData.date_start).toISOString(),
+                image: '',
+                categories: formData.categories.map(title => ({ title }))
             };
-    
-            console.log('Sending data:', workshopData);
-    
+
             const token = localStorage.getItem('token');
-            if (!token) {
-                throw new Error('No authentication token found');
-            }
-    
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/board/`, {
+            if (!token) throw new Error('No authentication token found');
+
+            console.log('Current token:', token);
+            console.log('API URL:', import.meta.env.VITE_API_URL);
+
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/board/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`  // Make sure to use the correct token format
+                    'Authorization': `Token ${token}`  // Changed from Bearer to Token
                 },
                 body: JSON.stringify(workshopData)
             });
-    
-            // Log response for debugging
+
             console.log('Response status:', response.status);
-            console.log('Response headers:', response.headers);
-    
-            // Only try to parse JSON if we get a successful response
+            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
             if (!response.ok) {
+                const errorData = await response.text();
+                console.error('Error response:', errorData);
+                
                 if (response.status === 401) {
                     throw new Error('Authentication failed. Please log in again.');
                 }
-                const errorText = await response.text();
-                console.error('Error response:', errorText);
-                throw new Error('Failed to create workshop');
+                throw new Error(`Failed to create workshop: ${errorData}`);
             }
-    
+
             const data = await response.json();
             console.log('Success response:', data);
-    
-            setShowSuccessMessage('Workshop Created Successfully!');
-            setIsCreatingWorkshop(false);
-    
-            // Fetch updated boards instead of page refresh
-            const boardsResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/board/`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
             
-            if (boardsResponse.ok) {
-                const updatedBoards = await boardsResponse.json();
-                // Update your boards state here
-                console.log('Updated boards:', updatedBoards);
-            }
-    
+            setShowSuccessMessage('Workshop Created Successfully!');
+            setNewWorkshopId(data.id);
+            setIsCreatingWorkshop(false);
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         } catch (err) {
             console.error('Error creating workshop:', err);
             alert(err.message);
         }
     };
 
+    const copyWorkshopUrl = () => {
+        const workshopUrl = `${window.location.origin}/workshop/${newWorkshopId}`;
+        navigator.clipboard.writeText(workshopUrl);
+        alert('Workshop URL copied to clipboard!');
+    };
+
     const handleBoardDelete = async (boardId) => {
-        if (window.confirm('Are you sure you want to delete this Workshop Board?')) {
+        if (window.confirm('Are you sure you want to delete this workshop?')) {
             try {
                 await deleteBoard(boardId, auth.token);
                 setShowSuccessMessage('Workshop Deleted Successfully!');
@@ -285,111 +123,86 @@ const AdminPage = () => {
                     navigate(0);
                 }, 2000);
             } catch (error) {
-                console.error('Error deleting project:', error);
-                alert('Failed to delete project');
+                console.error('Error deleting workshop:', error);
+                alert('Failed to delete workshop');
             }
         }
     };
 
-    const handleUserDelete = async (userId) => {
-        if (window.confirm('Are you sure you want to delete this User?')) {
-            try {
-                await deleteUser(userId, auth.token);
-                setShowSuccessMessage('User Deleted Successfully!');
-                setTimeout(() => {
-                    setShowSuccessMessage('');
-                    navigate(0);
-                }, 2000);
-            } catch (error) {
-                console.error('Error deleting user:', error);
-                alert('Failed to delete user');
+    const calculateTimeLeft = (startTime) => {
+        const now = new Date().getTime();
+        const startDate = new Date(startTime).getTime();
+        const timeLeft = startDate - now;
+        const hoursPassed = (now - startDate) / (1000 * 60 * 60);
+
+        if (timeLeft > 0) {
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+
+            return `${days} days ${hours} hours ${minutes} min`;
+        } else {
+            // If more than 24 hours have passed since start
+            if (hoursPassed > 24) {
+                return 'Workshop has ended';
             }
+            return 'Workshop in progress';
         }
     };
 
     return (
-        <div className="admin-page">
-            <h1>Admin Dashboard</h1>
-            
-            {showSuccessMessage && (
-                <div className="success-message">{showSuccessMessage}</div>
-            )}
+        <div className="admin-container">
+            <div className="workshops-section">
+                <h1 className="admin-title">Admin Dashboard</h1>
+                
+                {showSuccessMessage && (
+                    <div className="success-message">
+                        {showSuccessMessage}
+                        {newWorkshopId && (
+                            <div className="workshop-id-section">
+                                <p><strong>Workshop ID:</strong> {newWorkshopId}</p>
+                                <p><strong>Workshop URL:</strong></p>
+                                <div className="workshop-url-container">
+                                    <span>{`${window.location.origin}/workshop/${newWorkshopId}`}</span>
+                                    <button 
+                                        onClick={copyWorkshopUrl}
+                                        className="copy-button"
+                                    >
+                                        Copy URL
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
 
-            <div className="admin-actions">
+                {isLoading ? (
+                    <p className="loading">Loading workshops...</p>
+                ) : error ? (
+                    <p className="error">{error}</p>
+                ) : (
+                    <WorkshopList 
+                        boards={boards} 
+                        onDelete={handleBoardDelete}
+                        calculateTimeLeft={calculateTimeLeft}
+                    />
+                )}
+            </div>
+
+            <div className="create-section">
                 <button 
                     onClick={() => setIsCreatingWorkshop(!isCreatingWorkshop)}
                     className="create-workshop-button"
                 >
                     {isCreatingWorkshop ? 'Cancel' : 'Create New Workshop'}
                 </button>
-            </div>
 
-            {isCreatingWorkshop && (
-                <div className="create-workshop-section">
-                    <h2>Create New Workshop</h2>
-                    <CreateWorkshopForm onSubmit={handleCreateWorkshop} />
-                </div>
-            )}
-
-            <div className="details-grid">
-                <div className="boards-section">
-                    <h2>Workshop Boards</h2>
-                    {user.boards?.length > 0 ? (
-                        <div className="boards-list">
-                            {user.boards.map((board) => (
-                                <div key={board.id} className="item-card">
-                                    <div className="item-content">
-                                        <h3>{board.title}</h3>
-                                        <p>Created: {new Date(board.date_created).toLocaleString()}</p>
-                                    </div>
-                                    <div className="item-actions">
-                                        <button 
-                                            onClick={() => navigate(`/workshop/${board.id}`)}
-                                            className="view-button"
-                                        >
-                                            View
-                                        </button>
-                                        <button 
-                                            onClick={() => handleBoardDelete(board.id)}
-                                            className="delete-button"
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="empty-message">No workshop boards found.</p>
-                    )}
-                </div>
-
-                <div className="users-section">
-                    <h2>Users</h2>
-                    {user.users?.length > 0 ? (
-                        <div className="users-list">
-                            {user.users.map((user) => (
-                                <div key={user.id} className="item-card">
-                                    <div className="item-content">
-                                        <p>Username: {user.username}</p>
-                                        <p>Display Name: {user.display_name}</p>
-                                        <p>Email: {user.email}</p>
-                                    </div>
-                                    <div className="item-actions">
-                                        <button 
-                                            onClick={() => handleUserDelete(user.id)}
-                                            className="delete-button"
-                                        >
-                                            Delete User
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="empty-message">No users found.</p>
-                    )}
-                </div>
+                {isCreatingWorkshop && (
+                    <div className="create-workshop-form">
+                        <h2>Create New Workshop</h2>
+                        <CreateWorkshopForm onSubmit={handleCreateWorkshop} />
+                    </div>
+                )}
             </div>
         </div>
     );

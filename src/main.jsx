@@ -12,7 +12,6 @@ import ErrorPage from "./pages/ErrorPage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import './style.css';
 import HomePage from "./pages/HomePage.jsx";
-import LandingPageStatic from "./pages/landingPageStatic.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,10 +23,11 @@ const router = createBrowserRouter([
           { path: "/login", element: <LoginPage /> },
           { path: "/signup", element: <SignUpPage /> },
           { path: "/workshoplanding/:id/", element: <LandingPage /> },
+          { path: "/board/:boardId", element: <WorkshopPage /> },
           { path: "/workshop/:id/", element: <WorkshopPage /> },
           { path: "*", element: <ErrorPage />},  // * captures all other routes not already defined
           { path: "/admin", element: <AdminPage /> },  // Admin dashboard
-          { path: "/workshoplanding/", element: <LandingPageStatic /> },
+          
       ],
   },
 ]);
