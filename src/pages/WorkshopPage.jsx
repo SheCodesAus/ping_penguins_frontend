@@ -11,6 +11,7 @@ const WorkshopPage = () => {
     const [categories, setCategories] = useState([]);
     const [notes, setNotes] = useState([]);
     const [error, setError] = useState(null);
+    const [boardTitle, setBoardTitle] = useState("");
 
     useEffect(() => {
         const fetchBoardData = async () => {
@@ -20,6 +21,7 @@ const WorkshopPage = () => {
                 console.log('Fetched board data:', boardData);
                 setCategories(boardData.categories || []);
                 setNotes(boardData.notes || []);
+                setBoardTitle(boardData.title || "Workshop");
             } catch (err) {
                 setError(err.message);
                 console.error("Error fetching board data:", err);
@@ -38,7 +40,8 @@ const WorkshopPage = () => {
     return (
         <div className="workshop-page">
             <div className="workshop-header">
-                <h1 className="workshop-title">The Workshop Starts In...</h1>
+                <h1 className="workshop-title">{boardTitle}</h1>
+                <h2 className="workshop-subtitle">The Workshop Starts In...</h2>
                 <CountdownTimer boardId={boardId} />
                 <div className="workshop-info">
                     <p> Ready to enhance your team culture?</p>

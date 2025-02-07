@@ -5,9 +5,10 @@ import './WorkshopBoard.css';
 import './CreateStickyNote.css';
 import getUsers from '../../api/get-users';
 
-const WorkshopBoard = ({ boardId, notes, onAddNote, categories = [] }) => { 
+const WorkshopBoard = ({ boardId, notes, onAddNote, categories = [], title = "Workshop" }) => { 
     const [currentCategory, setCurrentCategory] = useState(null); 
-    const [users, setUsers] = useState();
+    const [users, setUsers] = useState([]);
+    const [error, setError] = useState(null);
     
     useEffect(() => {
       const fetchUsers = async () => {
@@ -17,7 +18,7 @@ const WorkshopBoard = ({ boardId, notes, onAddNote, categories = [] }) => {
               setUsers(fetchedUsers || []); 
           } catch (err) {
               setError(err.message); 
-              console.error("Error fetching board data:", err);
+              console.error("Error fetching users:", err);
           }
       };
 
@@ -31,9 +32,12 @@ const WorkshopBoard = ({ boardId, notes, onAddNote, categories = [] }) => {
     const handleAddNote = (newNote) => {
         onAddNote(newNote); 
     };
-debugger
+
     return (
         <div className="workshop-board">
+            <h2 className="workshop-board-title">{title}</h2>
+            {error && <div className="error-message">{error}</div>}
+            
             <CategorySidebar 
                 boardId={boardId} 
                 onCategorySelect={handleCategoryChange} 
@@ -48,8 +52,7 @@ debugger
             <div className="sticky-notes-container">
                 {currentCategory?.notes ? (
                     currentCategory.notes.map((note, index) => {
-                        // Find the user object by ID
-                        const author = users.find(user => user.id === note.owner); 
+                        const author = users?.find(user => user.id === note.owner); 
                         return (
                             <div key={index} className="sticky-note">
                                 <p>{note.comment}</p>
