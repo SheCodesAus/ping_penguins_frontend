@@ -4,6 +4,7 @@ import postLogin from "../../api/post-login.js";
 import getUser from "../../api/get-user.js";
 import useAuth from "../../hooks/use-auth.js";
 import fireConfetti from "../ConfettiComponent.js";
+import getBoard from "../../api/get-board.js"; // Note the hyphen in the filename
 
 function LoginExisting() {
   const navigate = useNavigate();
@@ -25,11 +26,27 @@ function LoginExisting() {
     }));
   };
 
-  const handleWorkshopSubmit = (event) => {
+  const handleWorkshopSubmit = async (event) => {
     event.preventDefault();
+  
     if (workshopCode.trim()) {
-      fireConfetti();
-      navigate(`/workshop/${workshopCode}`);
+      try {
+        // Fetch the board data using the code
+        const boardData = await getBoard(workshopCode);
+
+        // Only navigate if boardData exists and has valid data
+        if (boardData && boardData.id) {
+          fireConfetti();
+          // Store the board data in localStorage for use in the workshop page
+          window.localStorage.setItem('currentBoard', JSON.stringify(boardData));
+          navigate(`/board/${workshopCode}`); // Update the route to match your board route
+        } else {
+          setError("Invalid workshop code. Please try again.");
+        }
+      } catch (err) {
+        setError("Workshop code not found. Please check and try again.");
+        console.error("Error fetching board data:", err);
+      }
     } else {
       setError("Please enter a valid workshop code.");
     }
