@@ -7,57 +7,88 @@ import { useParams, Link } from 'react-router-dom';
 import './WorkshopPage.css';
 
 const WorkshopPage = () => {
-    const { boardId } = useParams(); // Get the boardId from URL params
+    const { boardId } = useParams();
     const [categories, setCategories] = useState([]);
     const [notes, setNotes] = useState([]);
     const [error, setError] = useState(null);
     const [boardTitle, setBoardTitle] = useState("");
+    const [startTime, setStartTime] = useState(null);
+    const [boardDescription, setBoardDescription] = useState("");
+    const [boardDisclaimer, setBoardDisclaimer] = useState("");
 
     useEffect(() => {
         const fetchBoardData = async () => {
             try {
-                // Fetch board data using the dynamic boardId
-                const boardData = await getBoard(boardId); // Use boardId here
+                const boardData = await getBoard(boardId);
                 console.log('Fetched board data:', boardData);
                 setCategories(boardData.categories || []);
                 setNotes(boardData.notes || []);
                 setBoardTitle(boardData.title || "Workshop");
+                setStartTime(boardData.start_time);
+                setBoardDescription(boardData.description || "");
+                setBoardDisclaimer(boardData.disclaimer || "");
             } catch (err) {
                 setError(err.message);
                 console.error("Error fetching board data:", err);
             }
         };
 
-        if (boardId) { // Make sure the boardId exists before fetching data
+        if (boardId) {
             fetchBoardData();
         }
-    }, [boardId]); // Trigger the effect when boardId changes
+    }, [boardId]);
 
-    if (error) {
-        return <div className="error-container">{error}</div>;
+    // Check if current time is before start time
+    const now = new Date();
+    const workshopDate = startTime ? new Date(startTime) : null;
+    const isBeforeWorkshop = workshopDate ? now < workshopDate : false;
+
+    const handleEnterBoard = () => {
+        // Add any logic needed before entering the board
+        setShowBoard(true);
+    };
+
+    const [showBoard, setShowBoard] = useState(false);
+
+    if (showBoard) {
+        return (
+            <div className="workshop-content">
+                <WorkshopBoard
+                    boardId={boardId}
+                    notes={notes}
+                    onAddNote={setNotes}
+                    categories={categories}
+                />
+            </div>
+        );
     }
 
     return (
         <div className="workshop-page">
             <div className="workshop-header">
                 <h1 className="workshop-title">{boardTitle}</h1>
-                <h2 className="workshop-subtitle">The Workshop Starts In...</h2>
-                <CountdownTimer boardId={boardId} />
-                <div className="workshop-info">
-                    <p> Ready to enhance your team culture?</p>
-                    <Link to={`/workshoplanding/`} className="workshop-link">
-                        Learn more about StickyBloom workshops
-                    </Link>
+                {isBeforeWorkshop && (
+                    <>
+                        <h2 className="workshop-subtitle">The Workshop Starts In...</h2>
+                        <CountdownTimer startTime={startTime} />
+                    </>
+                )}
+                <div className="board-info">
+                    <div className="board-description">
+                        <h3>About This Workshop</h3>
+                        <p>{boardDescription}</p>
+                    </div>
+                    <div className="board-disclaimer">
+                        <h3>Please Note</h3>
+                        <p>{boardDisclaimer}</p>
+                    </div>
+                    <button 
+                        className="enter-board-button"
+                        onClick={handleEnterBoard}
+                    >
+                        Enter Workshop Board
+                    </button>
                 </div>
-            </div>
-
-            <div className="workshop-content">
-                <WorkshopBoard
-                    boardId={boardId} // Pass the dynamic boardId here
-                    notes={notes}
-                    onAddNote={setNotes}
-                    categories={categories}
-                />
             </div>
         </div>
     );

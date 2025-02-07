@@ -66,3 +66,46 @@
     margin-bottom: 1rem;
     text-align: center;
 }
+
+.board-info {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.board-description,
+.board-disclaimer {
+    margin-bottom: 2rem;
+}
+
+.board-description h3,
+.board-disclaimer h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.board-description p,
+.board-disclaimer p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.enter-board-button {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 2rem auto 0;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
