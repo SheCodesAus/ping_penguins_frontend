@@ -14,6 +14,7 @@ const CreateWorkshopForm = ({ onSubmit }) => {
         date_end: '',
         categories: ['']
     });
+    const [error, setError] = useState("");
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -132,40 +133,47 @@ const CreateWorkshopForm = ({ onSubmit }) => {
                 </div>
             </div>
 
-            <div className="categories-section">
-                <div className="categories-header">
-                    <h3>Categories</h3>
-                    <button type="button" onClick={addCategory} className="add-button">
-                        Add Category
-                    </button>
+    <div className="create-category-section">
+    <h2>Add Categories to Workshop</h2>
+    <div className="categories-container">
+        {formData.categories.map((category, index) => (
+            <div key={index} className="category-input-row">
+                <div className="category-input-wrapper">
+                    <input
+                        type="text"
+                        placeholder="Category Name"
+                        value={category}
+                        onChange={(e) => {
+                            const newCategories = [...formData.categories];
+                            newCategories[index] = e.target.value;
+                            setFormData(prev => ({ ...prev, categories: newCategories }));
+                        }}
+                        required
+                        className="form-input workshop-category-input"
+                    />
+                    {formData.categories.length > 1 && (
+                        <button 
+                            type="button"
+                            onClick={() => removeCategory(index)}
+                            className="remove-category-button"
+                        >
+                            Remove
+                        </button>
+                    )}
                 </div>
-                {formData.categories.map((category, index) => (
-                    <div key={index} className="category-input">
-                        <input
-                            type="text"
-                            placeholder="Category Name"
-                            value={category}
-                            onChange={(e) => {
-                                const newCategories = [...formData.categories];
-                                newCategories[index] = e.target.value;
-                                setFormData(prev => ({ ...prev, categories: newCategories }));
-                            }}
-                            required
-                            className="form-input"
-                        />
-                        {formData.categories.length > 1 && (
-                            <button 
-                                type="button"
-                                onClick={() => removeCategory(index)}
-                                className="remove-button"
-                            >
-                                Remove
-                            </button>
-                        )}
-                    </div>
-                ))}
+                {index === formData.categories.length - 1 && (
+                    <button 
+                        type="button" 
+                        onClick={addCategory} 
+                        className="add-category-button"
+                    >
+                        +
+                    </button>
+                )}
             </div>
-
+        ))}
+    </div>
+</div>
             <button type="submit" className="submit-button">
                 Create Workshop
             </button>
@@ -177,9 +185,10 @@ const AdminPage = () => {
     const navigate = useNavigate();
     const { auth } = useAuth();
     console.log('Auth in AdminPage:', auth); 
+    console.log('User ID in AdminPage:', auth?.userId);
+    const { user, isLoading, error } = useCurrentUser(auth?.userId); // Ensure you're passing auth.userId here
+    console.log('User in AdminPage:', user); 
     const [showSuccessMessage, setShowSuccessMessage] = useState('');
-    const { user, isLoading, error } = useCurrentUser(auth?.userId);
-    console.log('User in AdminPage:', user);  
     const [isCreatingWorkshop, setIsCreatingWorkshop] = useState(false);
 
     
@@ -308,41 +317,25 @@ const AdminPage = () => {
     };
 
     return (
-        <div className="admin-page">
-            <h1>Admin Dashboard</h1>
-            
-            {showSuccessMessage && (
-                <div className="success-message">{showSuccessMessage}</div>
-            )}
+        <div className="admin-container">
+            <div className="workshops-section">
+                <h1 className="admin-title">Admin Dashboard</h1>
+                
+                {showSuccessMessage && (
+                    <div className="success-message">{showSuccessMessage}</div>
+                )}
 
-            <div className="admin-actions">
-                <button 
-                    onClick={() => setIsCreatingWorkshop(!isCreatingWorkshop)}
-                    className="create-workshop-button"
-                >
-                    {isCreatingWorkshop ? 'Cancel' : 'Create New Workshop'}
-                </button>
-            </div>
-
-            {isCreatingWorkshop && (
-                <div className="create-workshop-section">
-                    <h2>Create New Workshop</h2>
-                    <CreateWorkshopForm onSubmit={handleCreateWorkshop} />
-                </div>
-            )}
-
-            <div className="details-grid">
-                <div className="boards-section">
+                <div className="workshop-list">
                     <h2>Workshop Boards</h2>
                     {user.boards?.length > 0 ? (
-                        <div className="boards-list">
+                        <div className="boards-grid">
                             {user.boards.map((board) => (
-                                <div key={board.id} className="item-card">
-                                    <div className="item-content">
+                                <div key={board.id} className="board-card">
+                                    <div className="board-content">
                                         <h3>{board.title}</h3>
                                         <p>Created: {new Date(board.date_created).toLocaleString()}</p>
                                     </div>
-                                    <div className="item-actions">
+                                    <div className="board-actions">
                                         <button 
                                             onClick={() => navigate(`/workshop/${board.id}`)}
                                             className="view-button"
@@ -363,36 +356,24 @@ const AdminPage = () => {
                         <p className="empty-message">No workshop boards found.</p>
                     )}
                 </div>
+            </div>
 
-                <div className="users-section">
-                    <h2>Users</h2>
-                    {user.users?.length > 0 ? (
-                        <div className="users-list">
-                            {user.users.map((user) => (
-                                <div key={user.id} className="item-card">
-                                    <div className="item-content">
-                                        <p>Username: {user.username}</p>
-                                        <p>Display Name: {user.display_name}</p>
-                                        <p>Email: {user.email}</p>
-                                    </div>
-                                    <div className="item-actions">
-                                        <button 
-                                            onClick={() => handleUserDelete(user.id)}
-                                            className="delete-button"
-                                        >
-                                            Delete User
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="empty-message">No users found.</p>
-                    )}
-                </div>
+            <div className="create-section">
+                <button 
+                    onClick={() => setIsCreatingWorkshop(!isCreatingWorkshop)}
+                    className="create-workshop-button"
+                >
+                    {isCreatingWorkshop ? 'Cancel' : 'Create New Workshop'}
+                </button>
+
+                {isCreatingWorkshop && (
+                    <div className="create-workshop-form">
+                        <h2>Create New Workshop</h2>
+                        <CreateWorkshopForm onSubmit={handleCreateWorkshop} />
+                    </div>
+                )}
             </div>
         </div>
     );
 };
-
 export default AdminPage;

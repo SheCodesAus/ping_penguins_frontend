@@ -476,76 +476,139 @@ nav {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 /* Admin Page Styles */
-.admin-header {
-    text-align: center;
-    margin: 20px 0;
+/* Admin Page Global Styles */
+.admin-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.admin-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+.workshops-section {
+    grid-column: 1;
 }
 
-.admin-grid {
-    display: flex;
-    gap: 100px; /* Create a gap between the columns */
-    max-width: 1200px;
-    width: 100%;
-    justify-content: center; /* Center the columns */
+.create-section {
+    grid-column: 2;
+    position: sticky;
+    top: 2rem;
 }
 
-.admin-column {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border: 1px solid var(--brand);
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.admin-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
 }
 
-.admin-column h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.workshop-list, .user-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.workshop-list li, .user-list li {
-    background-color: #fff;
-    padding: 15px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.workshop-list li h3 {
-    margin: 0 0 10px;
-}
-
-.workshop-list li p, .user-list li p {
-    margin: 5px 0;
-}
-/* Category columns */
-.category-column {
-    background-color: #f8f9fa;
+.workshop-list {
+    background: #fff;
     border-radius: 8px;
     padding: 1.5rem;
-    min-height: 400px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.category-title {
-    font-size: 1.25rem;
-    color: var(--brand);
+.boards-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.board-card {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.board-card:hover {
+    transform: translateY(-2px);
+}
+
+.board-content h3 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+}
+
+.board-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.board-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.create-workshop-button {
+    width: 100%;
+    padding: 1rem;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* .create-workshop-button:hover {
+    background: #45a049;
+} */
+
+.create-workshop-form {
+    margin-top: 1rem;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.view-button, .delete-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.view-button {
+    background: #3498db;
+    color: white;
+}
+
+.view-button:hover {
+    background: #2980b9;
+}
+
+.delete-button {
+    background: #e74c3c;
+    color: white;
+}
+
+.delete-button:hover {
+    background: #c0392b;
+}
+
+.success-message {
+    background: #dff0d8;
+    color: #3c763d;
+    padding: 1rem;
+    border-radius: 4px;
     margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--brand);
 }
 
+.empty-message {
+    color: #666;
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
 /* Note styles */
 .note-card {
     background-color: white;
@@ -760,6 +823,9 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     .workspace-signup-container {
         width: 90%;
         padding: 20px;
+    }
+    .details-grid {
+        grid-template-columns: 1fr;
     }
 }
 
