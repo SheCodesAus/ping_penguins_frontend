@@ -8,56 +8,54 @@ const CountdownTimer = ({ startTime }) => {
 		minutes: 0,
 		seconds: 0
 	});
-	const [isWorkshopOver, setIsWorkshopOver] = useState(false);
+	const [status, setStatus] = useState('');
 
 	useEffect(() => {
-		const calculateTimeLeft = () => {
-			const startDate = new Date(startTime);
-			const now = new Date();
-			const difference = startDate - now;
+		if (!startTime) return;
 
-			if (difference > 0) {
-				const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-				const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-				const minutes = Math.floor((difference / 1000 / 60) % 60);
-				const seconds = Math.floor((difference / 1000) % 60);
+		const timer = setInterval(() => {
+			const now = new Date().getTime();
+			const start = new Date(startTime).getTime();
+			const distance = start - now;
+
+			if (distance > 0) {
+				const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+				const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 				setTimeLeft({ days, hours, minutes, seconds });
-				setIsWorkshopOver(false);
+				setStatus('upcoming');
 			} else {
 				setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-				setIsWorkshopOver(true);
+				setStatus('started');
 			}
-		};
+		}, 1000);
 
-		calculateTimeLeft();
-		const timer = setInterval(calculateTimeLeft, 1000);
 		return () => clearInterval(timer);
 	}, [startTime]);
 
-	if (isWorkshopOver) {
-		return null;
+	if (status === 'started') {
+		return <div className="countdown-timer">Workshop in progress</div>;
 	}
 
 	return (
 		<div className="countdown-timer">
-			{timeLeft.days > 0 && (
-				<div className="countdown-item">
-					<span className="countdown-value">{timeLeft.days}</span>
-					<span className="countdown-label">Days</span>
-				</div>
-			)}
-			<div className="countdown-item">
-				<span className="countdown-value">{String(timeLeft.hours).padStart(2, '0')}</span>
-				<span className="countdown-label">Hours</span>
+			<div className="countdown-unit">
+				<div className="time-value">{timeLeft.days}</div>
+				<div className="time-label">Days</div>
 			</div>
-			<div className="countdown-item">
-				<span className="countdown-value">{String(timeLeft.minutes).padStart(2, '0')}</span>
-				<span className="countdown-label">Minutes</span>
+			<div className="countdown-unit">
+				<div className="time-value">{timeLeft.hours}</div>
+				<div className="time-label">Hours</div>
 			</div>
-			<div className="countdown-item">
-				<span className="countdown-value">{String(timeLeft.seconds).padStart(2, '0')}</span>
-				<span className="countdown-label">Seconds</span>
+			<div className="countdown-unit">
+				<div className="time-value">{timeLeft.minutes}</div>
+				<div className="time-label">Minutes</div>
+			</div>
+			<div className="countdown-unit">
+				<div className="time-value">{timeLeft.seconds}</div>
+				<div className="time-label">Seconds</div>
 			</div>
 		</div>
 	);
