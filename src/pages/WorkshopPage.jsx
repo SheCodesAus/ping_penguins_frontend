@@ -27,28 +27,19 @@ const WorkshopPage = () => {
         const fetchBoardData = async () => {
             try {
                 const boardData = await getBoard(boardId);
-                console.log('Full board data:', boardData); // Log the entire board data
+                console.log('Board Data:', boardData); // Debug log
                 
                 if (!boardData) {
                     throw new Error('No board data received');
                 }
 
-                // Log each field we're trying to set
-                console.log('Title:', boardData.title);
-                console.log('Categories:', boardData.categories);
-                console.log('Notes:', boardData.notes);
-                console.log('Date Started:', boardData.date_start);
-                console.log('Description:', boardData.description);
-                console.log('Disclaimer:', boardData.disclaimer);
-
                 setCategories(boardData.categories || []);
+                console.log('Categories set to:', boardData.categories); // Debug log
                 setNotes(boardData.notes || []);
                 setBoardTitle(boardData.title || "Workshop");
                 setStartTime(boardData.date_start);
                 setBoardDescription(boardData.description || "");
                 setBoardDisclaimer(boardData.disclaimer || "");
-
-                console.log('Start time set to:', boardData.date_start); // Debug log
             } catch (err) {
                 console.error("Error fetching board data:", err);
                 setError(err.message);
