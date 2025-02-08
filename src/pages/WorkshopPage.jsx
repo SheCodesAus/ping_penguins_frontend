@@ -81,6 +81,35 @@ const WorkshopPage = () => {
         return () => clearInterval(timer);
     }, [startTime]);
 
+    // Fetch notes when component mounts
+    useEffect(() => {
+        const fetchNotes = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                console.log('Starting to fetch notes. Token exists:', !!token);
+                console.log('API URL:', import.meta.env.VITE_API_URL);
+                
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/note/`, {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                });
+                
+                console.log('Fetch response:', response.status);
+                const data = await response.json();
+                console.log('Fetched notes:', data);
+                setNotes(data);
+            } catch (error) {
+                console.error('Error fetching notes:', error);
+            }
+        };
+
+        console.log('useEffect triggered with boardId:', boardId);
+        if (boardId) {
+            fetchNotes();
+        }
+    }, [boardId]);
+
     // Add loading state
     if (!boardId) {
         return <div>No board ID provided</div>;
@@ -106,9 +135,51 @@ const WorkshopPage = () => {
         setShowBoard(true);
     };
 
-    const handleAddNote = (newNote) => {
-        console.log('Adding new note:', newNote);
-        setNotes(currentNotes => [...currentNotes, newNote]);
+    // Handle adding new note
+    const handleAddNote = async (newNote) => {
+        try {
+            console.log('WorkshopPage: Processing note data:', newNote);
+            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const noteData = {
+                comment: newNote.content,
+                anonymous: newNote.is_anonymous,
+                category: newNote.category_id
+            };
+
+            console.log('Sending to API:', noteData);
+
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/note/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}`
+                },
+                body: JSON.stringify(noteData)
+            });
+
+            const responseText = await response.text();
+            console.log('Server response:', responseText);
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${responseText}`);
+            }
+
+            const data = JSON.parse(responseText);
+            console.log('Success! Server returned:', data);
+
+            setNotes(prevNotes => [...prevNotes, data]);
+            return data;
+
+        } catch (error) {
+            console.error('Error in WorkshopPage handleAddNote:', error);
+            // Don't rethrow the error, just return null or false
+            return null;
+        }
     };
 
     if (showBoard) {

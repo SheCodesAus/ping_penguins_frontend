@@ -38,3 +38,81 @@
     text-align: center;
 }
 
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.sticky-note {
+    background: #feff9c;
+    padding: 1rem;
+    min-height: 150px;
+    position: relative;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.sticky-note:hover {
+    transform: scale(1.02);
+    z-index: 1;
+}
+
+.note-content {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    word-wrap: break-word;
+}
+
+.note-author {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 1rem;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.note-category {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.note-fold {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 20px 20px;
+    border-color: transparent transparent #e6e600 transparent;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.error-message button {
+    background: none;
+    border: none;
+    color: #c62828;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    margin-left: 1rem;
+}
+
+.error-message button:hover {
+    opacity: 0.8;
+}
+

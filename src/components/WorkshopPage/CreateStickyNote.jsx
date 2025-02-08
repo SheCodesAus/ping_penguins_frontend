@@ -17,69 +17,40 @@ const CreateStickyNote = ({ onAddNote, activeCategory }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    setSuccessMessage('');
     setIsSubmitting(true);
 
-    if (!noteText.trim()) {
-      setError("Note text is required");
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!activeCategory) {
-      setError("Please select a category first");
-      setIsSubmitting(false);
-      return;
-    }
-
     try {
-      console.log('Submitting note...', {
-        noteText,
-        isAnonymous,
-        boardId,
-        categoryId: activeCategory.id
-      });
+        if (!noteText.trim()) {
+            throw new Error("Note text is required");
+        }
 
-      const response = await postNote(
-        noteText,
-        isAnonymous,
-        boardId,
-        activeCategory.id
-      );
+        if (!activeCategory) {
+            throw new Error("Please select a category first");
+        }
 
-      console.log('Server response:', response);
+        const newNote = {
+            content: noteText,
+            is_anonymous: isAnonymous,
+            category_id: activeCategory.id
+        };
 
-      if (!response) {
-        throw new Error("No response from server");
-      }
-
-      const newNote = {
-        id: response.id,
-        content: response.comment,
-        category_id: activeCategory.id,
-        is_anonymous: response.anonymous,
-        display_name: response.anonymous ? "Anonymous" : auth.display_name,
-        created_at: response.created_at
-      };
-
-      console.log('Created new note:', newNote);
-      onAddNote(newNote);
-      setSuccessMessage('Note posted successfully! Refreshing board...');
-
-      // Reset form after showing success message
-      setTimeout(() => {
+        await onAddNote(newNote);
+        
+        // Only clear form and close if no error was thrown
         setNoteText('');
         setIsAnonymous(false);
-        setShowPopup(false);
-        setSuccessMessage('');
-        // Optionally, you could trigger a board refresh here
-      }, 2000);
+        setSuccessMessage('Note posted successfully!');
+        
+        setTimeout(() => {
+            setSuccessMessage('');
+            onClose && onClose();
+        }, 2000);
 
     } catch (error) {
-      console.error("Error creating sticky note:", error);
-      setError(error.message || "Failed to create sticky note");
+        console.error('Error submitting note:', error);
+        setError(error.message || 'Failed to create note');
     } finally {
-      setIsSubmitting(false);
+        setIsSubmitting(false);
     }
   };
 

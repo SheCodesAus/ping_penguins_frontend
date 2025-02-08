@@ -8,29 +8,77 @@ const WorkshopBoard = ({ boardId, notes, onAddNote, categories, title }) => {
         categoryId: null,
         isAnonymous: false
     });
+    const [activeCategory, setActiveCategory] = useState(null);
+    const [error, setError] = useState(null);
+    const [showCreateNote, setShowCreateNote] = useState(false);
 
-    const handleAddNote = (e) => {
-        e.preventDefault();
-        if (!newNote.content.trim() || !newNote.categoryId) return;
-        
-        onAddNote({
-            content: newNote.content,
-            category_id: newNote.categoryId,
-            board_id: boardId,
-            is_anonymous: newNote.isAnonymous,
-            user_id: auth.userId
-        });
+    // Debug logs
+    console.log('All notes:', notes);
 
-        setNewNote({
-            content: '',
-            categoryId: null,
-            isAnonymous: false
-        });
+    const handleCategoryClick = (category) => {
+        if (activeCategory?.id === category?.id) {
+            setActiveCategory(null);
+        } else {
+            setActiveCategory(category);
+        }
+    };
+
+    const handleAddNote = async (noteData) => {
+        try {
+            // Prevent default form submission behavior
+            console.log('Submitting note:', noteData);
+            
+            // Add board ID to the note data
+            const noteWithBoard = {
+                ...noteData,
+                board: boardId
+            };
+
+            // Call the parent's onAddNote but don't let errors propagate up
+            const result = await onAddNote(noteWithBoard).catch(error => {
+                console.error('Error adding note:', error);
+                setError('Failed to create note. Please try again.');
+                return null;
+            });
+
+            if (result) {
+                setShowCreateNote(false); // Only close on success
+                setError(null);
+            }
+        } catch (error) {
+            console.error('Error in handleAddNote:', error);
+            setError('Failed to create note. Please try again.');
+        }
     };
 
     return (
         <div className="workshop-content">
-            
+            <div className="workshop-header">
+                <h2 
+                    className="notes-board-title"
+                    onClick={() => setActiveCategory(null)}
+                >
+                    Notes Board
+                </h2>
+                {activeCategory && (
+                    <div className="active-category-indicator">
+                        Viewing: {activeCategory.title}
+                        <button 
+                            className="create-note-btn"
+                            onClick={() => setShowCreateNote(true)}
+                        >
+                            Post Note
+                        </button>
+                    </div>
+                )}
+                {error && (
+                    <div className="error-message">
+                        {error}
+                        <button onClick={() => setError(null)}>✕</button>
+                    </div>
+                )}
+            </div>
+
             <div className="categories-sidebar">
                 <div
                     className ="workshop-noteBoard">
@@ -74,23 +122,33 @@ const WorkshopBoard = ({ boardId, notes, onAddNote, categories, title }) => {
                 </form>
 
                 <div className="notes-grid">
-                    {notes.map((note) => (
-                        <div key={note.id} className="sticky-note">
-                            <div className="note-content">{note.content}</div>
-                            <div className="note-author">
-                                {note.is_anonymous ? 'Anonymous' : note.display_name}
+                    {(activeCategory ? notes.filter(note => note.category === activeCategory.id) : notes)
+                        .map((note) => (
+                            <div 
+                                key={note.id} 
+                                className={`sticky-note category-${note.category}`}
+                            >
+                                <div className="note-content">{note.comment}</div>
+                                <div className="note-author">
+                                    {note.anonymous ? 'Anonymous' : note.owner?.display_name}
+                                </div>
+                                <div className="note-category">
+                                    {categories.find(cat => cat.id === note.category)?.title}
+                                </div>
+                                <div className="note-fold"></div>
                             </div>
-                            <div className="note-fold"></div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </div>
-            {/* <div className="sticky-note-creator" style={{position: 'relative', zIndex: 1000}}>
+
+            {showCreateNote && activeCategory && (
                 <CreateStickyNote 
-                    onAddNote={onAddNote} 
+                    onAddNote={handleAddNote}
                     activeCategory={activeCategory}
+                    boardId={boardId}
+                    onClose={() => setShowCreateNote(false)}
                 />
-            </div> */}
+            )}
         </div>
     );
 };
