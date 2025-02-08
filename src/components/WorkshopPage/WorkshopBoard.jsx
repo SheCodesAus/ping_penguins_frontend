@@ -30,11 +30,14 @@ const WorkshopBoard = ({ boardId, notes, onAddNote, categories, title }) => {
 
     return (
         <div className="workshop-content">
-            <div className="workshop-header">
-                <h1>{title}</h1>
-            </div>
             
             <div className="categories-sidebar">
+                <div
+                    className ="workshop-noteBoard">
+                    <h2>Workshop Note Board</h2>
+                
+                    
+                </div>
                 {categories.map((category) => (
                     <div 
                         key={category.id} 
