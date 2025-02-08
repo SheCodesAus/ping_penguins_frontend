@@ -106,6 +106,11 @@ const WorkshopPage = () => {
         setShowBoard(true);
     };
 
+    const handleAddNote = (newNote) => {
+        console.log('Adding new note:', newNote);
+        setNotes(currentNotes => [...currentNotes, newNote]);
+    };
+
     if (showBoard) {
         console.log('Rendering WorkshopBoard...');
         return (
@@ -113,7 +118,7 @@ const WorkshopPage = () => {
                 <WorkshopBoard
                     boardId={boardId}
                     notes={notes}
-                    onAddNote={setNotes}
+                    onAddNote={handleAddNote}
                     categories={categories}
                     title={boardTitle}
                     date_started={startTime}
