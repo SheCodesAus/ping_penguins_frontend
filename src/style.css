@@ -212,6 +212,213 @@ nav {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Navbar Rotating Words */
+
+#rotate-words {
+    position: relative;
+    min-height: 100px; /* Fixed height to prevent jumping */
+    width: 100%;
+    display: flex;
+    justify-self: flex-end;
+    align-items: center;
+}
+
+#rotate-words div {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+#rotate-words div:nth-child(1) {
+    animation: rotateWord 16s ease-in-out infinite 0s;
+}
+
+#rotate-words div:nth-child(2) {
+    animation: rotateWord 16s ease-in-out infinite 4s;
+}
+
+#rotate-words div:nth-child(3) {
+    animation: rotateWord 16s ease-in-out infinite 8s;
+}
+
+#rotate-words div:nth-child(4) {
+    animation: rotateWord 16s ease-in-out infinite 12s;
+}
+
+@keyframes rotateWord {
+    0%, 100% { 
+        opacity: 0; 
+        filter: blur(10px); 
+        transform: translateY(100%); 
+    }
+    3%, 22% { 
+        opacity: 1; 
+        filter: blur(0px); 
+        transform: translateY(0); 
+    }
+    25%, 97% { 
+        opacity: 0; 
+        filter: blur(10px); 
+        transform: translateY(-100%); 
+    }
+}
+
+       /* Home Page */
+
+.about-section {
+    padding-top: calc(6rem + 82px); /* Original padding + navbar height */
+}
+
+.landing-container {
+    min-height: 100vh;
+    background-color: var(--base-light);
+}
+
+.about-section {
+    padding: 4rem 2rem;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+.about-content {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+    position: relative;
+}
+
+.about-text {
+    flex: 1;
+    shape-outside: circle(50%);
+}
+
+.section-title {
+    font-family: "Montserrat", regular;
+    color: var(--brand);
+    margin-bottom: 2rem;
+    line-height: 1.2;
+    position: relative;
+}
+
+.about-text p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--base-dark);
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+/* Add decorative line to paragraphs */
+.about-text p::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 3px;
+    background: linear-gradient(
+        to bottom,
+        var(--brand),
+        rgba(246, 19, 165, 0.1)
+    );
+    border-radius: 1.5px;
+}
+
+.about-text a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.about-text a:hover {
+    color: var(--black);
+}
+
+.about-image-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    flex-shrink: 0;
+}
+
+/* 3D Glow Effect */
+.about-image-container::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    border-radius: 50%;
+    background: linear-gradient(
+        45deg,
+        rgba(246, 19, 165, 0.4),
+        rgba(246, 19, 165, 0.1),
+        rgba(255, 255, 255, 0.2),
+        rgba(246, 19, 165, 0.3)
+    );
+    z-index: -1;
+    animation: glowRotate 8s linear infinite;
+    filter: blur(15px);
+}
+
+.about-image-container::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(
+        45deg,
+        var(--brand),
+        rgba(246, 19, 165, 0.5),
+        rgba(255, 255, 255, 0.5),
+        var(--brand)
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+.show-time-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 
+        0 10px 30px rgba(246, 19, 165, 0.15),
+        0 0 0 1px rgba(246, 19, 165, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.show-time-image:hover {
+    transform: scale(1.02);
+}
+
+@keyframes glowRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 /* Footer */
 
@@ -970,7 +1177,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 /* Workshop Board Layout */
-.workshop-content {
+/* .workshop-content {
     min-height: 100vh;
     background-color: #f8f9fa;
     background-image: radial-gradient(#000 1px, transparent 1px);
@@ -988,7 +1195,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 /* Categories Sidebar */
-.categories-sidebar {
+/* .categories-sidebar {
     position: fixed;
     left: 0;
     top: 0;
@@ -1032,12 +1239,12 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 /* Main Content Area (for sticky notes) */
-.notes-area {
+/* .notes-area {
     margin-left: 250px; /* Same as sidebar width */
-    padding: 2rem;
-}
+    /* padding: 2rem;
+} */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .categories-sidebar {
         width: 200px;
     }
@@ -1045,7 +1252,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     .notes-area {
         margin-left: 200px;
     }
-}
+} */
 
 .workshop-only {
     height: 100vh;
@@ -1220,7 +1427,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 /* Notes Area */
-.notes-area {
+/* .notes-area {
     flex: 1;
     padding: 20px;
     min-height: calc(100vh - 65px);
@@ -1234,7 +1441,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .add-note-form textarea {
     width: 100%;
@@ -1251,15 +1458,15 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 /* Notes Grid */
-.notes-grid {
+/* .notes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     padding: 20px;
-}
+} */
 
 /* Sticky Notes */
-.sticky-note {
+/* .sticky-note {
     background: #feff9c;
     padding: 15px;
     min-height: 150px;
@@ -1315,10 +1522,10 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     width: 20px;
     height: 20px;
     background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%);
-}
+} 
 
 /* Responsive Design */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .categories-sidebar {
         width: 100%;
         height: auto;
@@ -1333,4 +1540,355 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     .notes-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
+}  */
+
+        /* Workshop Board Layout */
+        .workshop-content {
+            min-height: calc(100vh - 65px);
+            background-color: #fff;
+            background-image: radial-gradient(#ffd1dc 10%, transparent 10%);
+            background-position: 0 0;
+            background-size: 25px 25px;
+            position: relative;
+            margin-top: 65px;
+        }
+        
+        /* Active Category Indicator */
+        .active-category-indicator {
+            position: fixed;
+            top: 65px;
+            left: 280px; /* Align with the notes area */
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.55rem 2rem;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .create-note-btn {
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        /* .create-note-btn:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        } */
+        
+        /* Categories Sidebar */
+        .categories-sidebar {
+            width: 280px;
+            height: calc(100vh - 65px);
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            position: fixed;
+            top: 65px;
+            left: 0;
+            z-index: 10;
+        }
+
+        .categories-sidebar h2 {
+            border-bottom: 1px solid pink;
+            cursor: pointer;
+            margin: 25px 0;
+        }
+
+        .category-card {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .category-card.active {
+            box-shadow: 0 0 0 2px #ff0000, 0 2px 4px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Notes Area */
+        .notes-area {
+            margin-left: 280px;
+            padding: 1rem 2rem;
+            margin-top: 45px; /* Space for active category indicator */
+        }
+        
+        /* Notes Grid */
+        .notes-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 0.5rem;
+            align-items: flex-start;
+        }
+        
+       
+        .sticky-note {
+            width: 250px;
+            padding: 1.5rem;
+            border-radius: 2px;
+            position: relative;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
+            transform: rotate(-1deg);
+            background: #feff9c;
+        }
+        
+        .sticky-note:nth-child(even) {
+            transform: rotate(1deg);
+            background: #7afcff;
+        }
+        
+        .sticky-note:nth-child(3n) {
+            transform: rotate(-2deg);
+            background: #ff7eb9;
+        }
+        
+        .sticky-note:nth-child(5n) {
+            transform: rotate(2deg);
+            background: #feff9c;
+        }
+        
+        .sticky-note:nth-child(7n) {
+            transform: rotate(-1deg);
+            background: #7afcff;
+        }
+        
+        .sticky-note:hover {
+            transform: scale(1.05) rotate(0deg);
+            z-index: 2;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .note-content {
+            font-size: 1em;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+        }
+        
+        .note-author {
+            text-align: right;
+            bottom: 10px;
+            left: 15px;
+            font-size: 0.8em;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .note-category {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.8em;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        /* Base fold style */
+        .note-fold {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.08) 50%);
+            border-bottom-right-radius: 2px;
+        }
+        
+        /* Specific folds for each note type */
+        .sticky-note .note-fold {
+            background: linear-gradient(135deg, transparent 50%, #e6e68c 50%); /* Darker yellow */
+        }
+        
+        .sticky-note:nth-child(even) .note-fold {
+            background: linear-gradient(135deg, transparent 50%, #6de6e6 50%); /* Darker blue */
+        }
+        
+        .sticky-note:nth-child(3n) .note-fold {
+            background: linear-gradient(135deg, transparent 50%, #e671a7 50%); /* Darker pink */
+        }
+        
+        .sticky-note:nth-child(5n) .note-fold {
+            background: linear-gradient(135deg, transparent 50%, #e6e68c 50%); /* Darker yellow */
+        }
+        
+        .sticky-note:nth-child(7n) .note-fold {
+            background: linear-gradient(135deg, transparent 50%, #6de6e6 50%); /* Darker blue */
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .categories-sidebar {
+                width: 240px;
+            }
+        
+            .notes-area {
+                margin-left: 240px;
+            }
+        
+            .active-category-indicator {
+                left: 240px;
+                padding: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .categories-sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+            }
+        
+            .notes-area {
+                margin-left: 0;
+                margin-top: 0;
+            }
+        
+            .active-category-indicator {
+                position: static;
+                left: 0;
+                margin-bottom: 1rem;
+            }
+        }
+
+    /* CreateStickyNote.css
+.create-note-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
 }
+
+.create-note-form {
+    background: #feff9c;
+    padding: 2rem;
+    border-radius: 2px;
+    position: relative;
+    box-shadow: 
+        0 1px 1px rgba(0,0,0,0.12),
+        0 2px 2px rgba(0,0,0,0.12),
+        0 4px 4px rgba(0,0,0,0.12),
+        0 8px 8px rgba(0,0,0,0.12),
+        0 16px 16px rgba(0,0,0,0.12);
+    transform: rotate(-1deg);
+    transition: transform 0.3s ease;
+}
+
+.create-note-form:hover {
+    transform: rotate(0deg) translateY(-5px);
+}
+
+.create-note-form::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 25px;
+    height: 25px;
+    background: linear-gradient(135deg, transparent 50%, #e6e68c 50%);
+}
+
+.create-note-form textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 1rem;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.create-note-form textarea:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.create-note-form textarea::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.form-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.form-controls label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+}
+
+.form-controls input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.form-controls button {
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.7);
+    transition: all 0.2s ease;
+}
+
+.form-controls button:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+.form-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.error-message,
+.success-message {
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    color: #d32f2f;
+}
+
+.success-message {
+    background: rgba(76, 175, 80, 0.1);
+    color: #388e3c;
+}
+ */

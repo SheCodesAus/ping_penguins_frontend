@@ -23,7 +23,8 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
           throw new Error('Please log in to view notes');
         }
 
-        const notesData = await getBoardNotes();
+        const notesData = await getBoardNotes(boardId);
+        console.log('Fetched notes for board:', boardId, notesData);
         setNotes(notesData);
       } catch (error) {
         console.error('Error fetching notes:', error);
@@ -31,7 +32,9 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
       }
     };
 
-    fetchNotes();
+    if (boardId) {
+      fetchNotes();
+    }
   }, [boardId]);
 
   useEffect(() => {
@@ -95,7 +98,6 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
 
   return (
     <div className="workshop-content">
-      <div className="workshop-header">
         {activeCategory && (
           <div className="active-category-indicator">
             Viewing: {activeCategory.title}
@@ -110,7 +112,7 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
             <button onClick={() => setError(null)}>✕</button>
           </div>
         )}
-      </div>
+      
 
       <div className="categories-sidebar">
         <h2 onClick={handleTitleClick} style={{ cursor: 'pointer' }}>
@@ -138,18 +140,23 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
         )}
 
         <div className="notes-grid">
-          {filteredNotes.map((note) => (
-            <div key={note.id} className={`sticky-note category-${note.category}`}>
-              <div className="note-content">{note.comment}</div>
-              <div className="note-author">
-                {note.anonymous ? 'Anonymous' : note.owner?.display_name}
+          {filteredNotes.map((note) => {
+            console.log('Note data:', note);
+            return (
+              <div key={note.id} className={`sticky-note category-${note.category}`}>
+                <div className="note-content">{note.comment}</div>
+                <div className="note-author">
+                  - {note.anonymous 
+                    ? 'Anonymous' 
+                    : note.owner?.display_name || '- User'}
+                </div>
+                <div className="note-category">
+                  {categories.find(cat => cat.id === note.category)?.title}
+                </div>
+                <div className="note-fold"></div>
               </div>
-              <div className="note-category">
-                {categories.find(cat => cat.id === note.category)?.title}
-              </div>
-              <div className="note-fold"></div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

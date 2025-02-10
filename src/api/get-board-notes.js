@@ -1,11 +1,11 @@
-async function getBoardNotes() {
+async function getBoardNotes(boardId) {
     const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('No authentication token found');
     }
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/note/`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/note/?board=${boardId}`, {
             headers: {
                 'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
