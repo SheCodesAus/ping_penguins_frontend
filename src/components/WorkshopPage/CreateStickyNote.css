@@ -93,9 +93,14 @@
 }
 
 .error-message {
-    color: #dc3545;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .create-note-button {
@@ -120,20 +125,27 @@
 }
 
 .success-message {
-    color: #28a745;
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    padding: 1rem;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 10px;
     border-radius: 4px;
-    margin: 1rem 0;
-    font-weight: bold;
-    text-align: center;
-    animation: fadeIn 0.3s ease-in;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.create-note-form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.create-note-form button:hover:not(:disabled) {
+    background-color: #0056b3;
 }
 
 .category-preview {

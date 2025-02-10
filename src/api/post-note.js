@@ -1,19 +1,17 @@
-async function postNote(comment, anonymous, board, category) {
+async function postNote(comment, anonymous, selectedCategoryId) {
   const url = `${import.meta.env.VITE_API_URL}/note/`;
   const token = localStorage.getItem('token');
-  
+
   const requestData = {
     comment: comment,
     anonymous: anonymous,
-    category: category
+    category: activeCategoryId // Attach dynamically from the active tab
   };
 
   console.log('Sending note data:', requestData);
 
   // Validate required fields before making request
   if (!comment) throw new Error("Comment is required");
-  if (!board) throw new Error("Board is required");
-  if (!category) throw new Error("Category is required");
 
   try {
     const response = await fetch(url, {
@@ -25,15 +23,14 @@ async function postNote(comment, anonymous, board, category) {
       body: JSON.stringify(requestData)
     });
 
-    const responseText = await response.text();
-    console.log('Response status:', response.status);
-    console.log('Raw response:', responseText);
-
     if (!response.ok) {
+      const responseText = await response.text();
       throw new Error(`Server error: ${responseText}`);
     }
 
-    return JSON.parse(responseText);
+    const data = await response.json();
+    console.log('Posted note:', data);
+    return data; // Should include category name and user
   } catch (error) {
     console.error('Error posting note:', error);
     throw error;
