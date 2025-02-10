@@ -5,7 +5,7 @@ async function getBoardNotes(boardId) {
     }
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/note/?board=${boardId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/board/${boardId}/notes/`, {
             headers: {
                 'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json'
