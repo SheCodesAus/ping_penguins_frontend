@@ -4,19 +4,19 @@ import postLogin from "../../api/post-login.js";
 import getUser from "../../api/get-user.js";
 import useAuth from "../../hooks/use-auth.js";
 import fireConfetti from "../ConfettiComponent.js";
-import getBoard from "../../api/get-board.js"; // Note the hyphen in the filename
+import getBoard from "../../api/get-board.js"; 
+import WorkshopAccessForm from "../WorkshopAccessCode";
 
-function LoginExisting() {
+
+const LoginExisting = () => {
   const navigate = useNavigate();
   const { setAuth } = useAuth();
-  const [error, setError] = useState("");
-  const [workshopCode, setWorkshopCode] = useState("");
   const [showWorkshopForm, setShowWorkshopForm] = useState(false);
-
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (event) => {
     const { id, value } = event.target;
@@ -31,15 +31,13 @@ function LoginExisting() {
   
     if (workshopCode.trim()) {
       try {
-        // Fetch the board data using the code
         const boardData = await getBoard(workshopCode);
 
         // Only navigate if boardData exists and has valid data
         if (boardData && boardData.id) {
           fireConfetti();
-          // Store the board data in localStorage for use in the workshop page
           window.localStorage.setItem('currentBoard', JSON.stringify(boardData));
-          navigate(`/board/${workshopCode}`); // Update the route to match your board route
+          navigate(`/board/${workshopCode}`); 
         } else {
           setError("Invalid workshop code. Please try again.");
         }
@@ -77,11 +75,10 @@ function LoginExisting() {
 
         const user = await getUser(response.user_id);
 
-        // Redirect superusers directly to the admin page
         if (user?.is_superuser) {
           navigate("/admin");
         } else {
-          setShowWorkshopForm(true); // Show workshop form for non-superusers
+          setShowWorkshopForm(true); 
         }
       }
     } catch (err) {
@@ -90,61 +87,43 @@ function LoginExisting() {
     }
   };
 
+  if (showWorkshopForm) {
+    return <WorkshopAccessForm />;  
+  }
+
   return (
-    <div>
-      {!showWorkshopForm ? (
-        <form className="form-container" onSubmit={handleSubmit}>
-          <h2 className="form-title">Welcome Back</h2>
-          {error && <div className="error-message">{error}</div>}
-          <div className="form-group">
-            <input
-              type="text"
-              id="username"
-              className="form-input"
-              placeholder="Enter your username"
-              value={credentials.username}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              id="password"
-              className="form-input"
-              placeholder="Enter your password"
-              value={credentials.password}
-              onChange={handleChange}
-            />
-          </div>
-          <button type="submit" className="form-button">
-            Log In
-          </button>
-          <Link to="/signup" className="form-link">
-            Don&apos;t have an account? Sign up here
-          </Link>
-        </form>
-      ) : (
-        <form className="workshop-form" onSubmit={handleWorkshopSubmit}>
-          <h2 className="form-title">Enter your unique workshop code to begin your journey</h2>
-          <div className="form-group">
-            <input
-              type="text"
-              id="workshop-code"
-              className="form-input"
-              value={workshopCode}
-              onChange={(e) => setWorkshopCode(e.target.value)}
-              placeholder="Enter your code"
-              required
-            />
-          </div>
-          {error && <div className="error-message">{error}</div>}
-          <button type="submit" className="submit-button">
-            Enter Workshop
-          </button>
-        </form>
-      )}
+    <div className="form-container">
+      <form className="form-title" onSubmit={handleSubmit}>
+        <h2>Welcome Back!</h2>
+        <div className="form-group">
+          <input
+            type="text"
+            className="form-input"
+            placeholder="Email"
+            value={credentials.username}
+            onChange={(e) =>
+              setCredentials({ ...credentials, username: e.target.value })
+            }
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="password"
+            className="form-input"
+            placeholder="Password"
+            value={credentials.password}
+            onChange={(e) =>
+              setCredentials({ ...credentials, password: e.target.value })
+            }
+          />
+        </div>
+        {error && <div className="error-message">{error}</div>}
+        <button type="submit" className="form-button">
+          Log In
+        </button>
+      </form>
     </div>
   );
-}
+};
 
 export default LoginExisting;

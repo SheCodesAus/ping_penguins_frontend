@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fireConfetti from "../components/ConfettiComponent.js";
-import "../style.css"; 
-import "./HomePage.css";
 import useAuth from "../hooks/use-auth.js";
+import WorkshopAccessCode from '../components/WorkshopAccessCode';
 
 function HomePage() {
     const [workshopCode, setWorkshopCode] = useState('');
@@ -85,44 +84,11 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* Show the workshop form only for authenticated users */}
-            {auth?.token ? (
-                <section className="workshop-section">
-                    <div className="workshop-container">
-                        <form className="workshop-form" onSubmit={handleWorkshopSubmit}>
-                            <h2 className="form-title">Enter your unique workshop code to begin your journey</h2>
-                            <div className="form-group">
-                                <input
-                                    type="text"
-                                    id="workshop-code"
-                                    className="form-input"
-                                    value={workshopCode}
-                                    onChange={handleInputChange}
-                                    placeholder="Enter your code"
-                                    required
-                                />
-                            </div>
-                            {error && <div className="error-message">{error}</div>}
-                            <button 
-                                type="submit" 
-                                className="submit-button"
-                                disabled={isLoading}
-                            >
-                                {isLoading ? 'Loading...' : 'Enter Workshop'}
-                            </button>
-                        </form>
-                    </div>
+            {/* Show the workshop access code component only for authenticated users */}
+            {auth?.token && (
+                <section className="workshop-access-section">
+                    <WorkshopAccessCode />
                 </section>
-            ) : (
-                <div className="login-prompt">
-                    <p>Please log in to join a workshop</p>
-                    <button 
-                        onClick={() => navigate('/login')}
-                        className="login-button"
-                    >
-                        Log In
-                    </button>
-                </div>
             )}
         </div>
     );
