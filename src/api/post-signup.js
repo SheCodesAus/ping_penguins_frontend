@@ -11,58 +11,69 @@ const postSignup = async (
     color,
     bio
 ) => {
+    console.log('Sending signup data:', {
+        workspaceTitle,
+        email,
+        firstName,
+        lastName,
+        displayName,
+        position,
+        tenure,
+        color,
+        bio
+    }); // Log everything except passwords
+
     try {
-        // Log the exact data being sent
-        const requestData = {
-            username: email,
-            email,
-            password,
-            confirm_password: confirmPassword,
-            first_name: firstName,
-            last_name: lastName,
-            display_name: displayName,
-            position,
-            tenure,
-            sticky_note_colour: color,
-            bio
-        };
-
-        console.log('Sending signup request with data:', requestData);
-
+        // Use email as both username and email
         const response = await fetch(`${import.meta.env.VITE_API_URL}/users/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(requestData)
+            body: JSON.stringify({
+                email,
+                username: email, // Use full email as username
+                password,
+                confirm_password: confirmPassword,
+                first_name: firstName,
+                last_name: lastName,
+                display_name: displayName,
+                position,
+                tenure,
+                sticky_note_colour: color,
+                bio,
+                workspace_title: workspaceTitle
+            })
         });
 
-        // Log the full response for debugging
-        console.log('Response status:', response.status);
-        const responseText = await response.text();
-        console.log('Raw response:', responseText);
-
-        let data;
-        try {
-            data = JSON.parse(responseText);
-            console.log('Parsed response data:', data);
-        } catch (e) {
-            console.error('Invalid JSON response:', responseText);
-            throw new Error('Invalid server response');
-        }
+        const data = await response.json();
+        console.log('Signup response:', data);
 
         if (!response.ok) {
-            // Log and throw detailed error message
-            const errorMessage = data.detail || 
-                               Object.entries(data).map(([key, value]) => `${key}: ${value}`).join(', ') ||
-                               'Signup failed';
             console.error('Signup error details:', data);
-            throw new Error(errorMessage);
+            
+            // Check for existing email error
+            if (data.email && data.email[0].includes('already exists')) {
+                throw new Error('This email is already registered. Please try logging in instead.');
+            }
+            
+            // Handle other errors
+            const errorMessages = [];
+            if (data.username) errorMessages.push(`Username: ${data.username[0]}`);
+            if (data.sticky_note_colour) errorMessages.push(`Color: ${data.sticky_note_colour[0]}`);
+            if (data.email) errorMessages.push(`Email: ${data.email[0]}`);
+            if (data.password) errorMessages.push(`Password: ${data.password[0]}`);
+            if (data.non_field_errors) errorMessages.push(data.non_field_errors[0]);
+            
+            throw new Error(errorMessages.join(', ') || 'Failed to create account');
         }
 
+        // Store the email as username for login
+        localStorage.setItem('lastUsername', email);
+        
         return data;
     } catch (error) {
-        console.error('Error in postSignup:', error);
+        console.error('Signup error:', error);
         throw error;
     }
 };

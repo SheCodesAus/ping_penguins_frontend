@@ -1,22 +1,22 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import postLogin from "../../api/post-login.js";
 import getUser from "../../api/get-user.js";
 import useAuth from "../../hooks/use-auth.js";
 import fireConfetti from "../ConfettiComponent.js";
 import getBoard from "../../api/get-board.js"; 
-import WorkshopAccessForm from "../WorkshopAccessCode";
+import WorkshopAccessCode from "../WorkshopAccessCode";
 
 
 const LoginExisting = () => {
-  const navigate = useNavigate();
-  const { setAuth } = useAuth();
-  const [showWorkshopForm, setShowWorkshopForm] = useState(false);
-  const [credentials, setCredentials] = useState({
+    const navigate = useNavigate();
+    const { setAuth } = useAuth();
+    const [showWorkshopForm, setShowWorkshopForm] = useState(false);
+    const [credentials, setCredentials] = useState({
     username: "",
     password: "",
-  });
-  const [error, setError] = useState("");
+});
+    const [error, setError] = useState("");
 
   const handleChange = (event) => {
     const { id, value } = event.target;
@@ -88,40 +88,53 @@ const LoginExisting = () => {
   };
 
   if (showWorkshopForm) {
-    return <WorkshopAccessForm />;  
+    return (
+      <div className="workshop-access-wrapper">
+        <WorkshopAccessCode />
+      </div>
+    );
   }
 
   return (
-    <div className="form-container">
-      <form className="form-title" onSubmit={handleSubmit}>
-        <h2>Welcome Back!</h2>
-        <div className="form-group">
-          <input
-            type="text"
-            className="form-input"
-            placeholder="Email"
-            value={credentials.username}
-            onChange={(e) =>
-              setCredentials({ ...credentials, username: e.target.value })
-            }
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            className="form-input"
-            placeholder="Password"
-            value={credentials.password}
-            onChange={(e) =>
-              setCredentials({ ...credentials, password: e.target.value })
-            }
-          />
-        </div>
-        {error && <div className="error-message">{error}</div>}
-        <button type="submit" className="form-button">
-          Log In
-        </button>
-      </form>
+    <div className="login-page">
+      <div className="login-page-container">
+        <form className="login-page-form" onSubmit={handleSubmit}>
+          <h2 className="login-page-title">Welcome Back!</h2>
+          <div className="login-form-section">
+            <label className="login-form-label">
+              <input
+                type="text"
+                className="login-form-input"
+                placeholder="Email"
+                value={credentials.username}
+                onChange={(e) =>
+                  setCredentials({ ...credentials, username: e.target.value })
+                }
+              />
+            </label>
+          </div>
+          <div className="login-form-section">
+            <label className="login-form-label">
+              <input
+                type="password"
+                className="login-form-input"
+                placeholder="Password"
+                value={credentials.password}
+                onChange={(e) =>
+                  setCredentials({ ...credentials, password: e.target.value })
+                }
+              />
+            </label>
+          </div>
+          {error && <div className="login-error-message">{error}</div>}
+          <button type="submit" className="login-submit-btn">
+            Log In
+          </button>
+          <p className="login-signup-link">
+            Don't have an account? <a href="/signup">Sign up here</a>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

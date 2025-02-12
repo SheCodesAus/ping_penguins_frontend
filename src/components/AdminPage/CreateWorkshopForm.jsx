@@ -45,12 +45,12 @@ const CreateWorkshopForm = ({ onSubmit }) => {
             </div>
 
             <div className="form-group">
-                <textarea
+                <textarea 
                     placeholder="Workshop Description"
                     value={formData.description}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     required
-                    className="form-input"
+                    className="form-textarea"
                 />
             </div>
 
@@ -59,7 +59,7 @@ const CreateWorkshopForm = ({ onSubmit }) => {
                     placeholder="Disclaimer (Optional)"
                     value={formData.disclaimer}
                     onChange={(e) => setFormData(prev => ({ ...prev, disclaimer: e.target.value }))}
-                    className="form-input"
+                    className="form-textarea"
                 />
             </div>
 
@@ -100,7 +100,7 @@ const CreateWorkshopForm = ({ onSubmit }) => {
                                         onClick={() => removeCategory(index)}
                                         className="remove-category-button"
                                     >
-                                        Remove
+                                        -
                                     </button>
                                 )}
                             </div>

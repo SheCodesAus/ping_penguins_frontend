@@ -84,12 +84,13 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* Show the workshop access code component only for authenticated users */}
-            {auth?.token && (
-                <section className="workshop-access-section">
-                    <WorkshopAccessCode />
-                </section>
-            )}
+            <div className="home-page">
+    {auth?.token && (
+        <section className="workshop-access-section">
+            <WorkshopAccessCode />
+        </section>
+    )}
+</div>
         </div>
     );
 }

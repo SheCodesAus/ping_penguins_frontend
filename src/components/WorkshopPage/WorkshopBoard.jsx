@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useAuth from '../../hooks/use-auth';
 import getBoardNotes from '../../api/get-board-notes';
 import CreateStickyNote from './CreateStickyNote';
+import { Link } from 'react-router-dom';
 
 const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
   const { auth } = useAuth();
@@ -98,20 +99,28 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
 
   return (
     <div className="workshop-content">
-        {activeCategory && (
-          <div className="active-category-indicator">
-            Viewing: {activeCategory.title}
-            <button className="create-note-btn" onClick={() => setShowCreateNote(true)}>
-              Post Note
-            </button>
-          </div>
-        )}
-        {error && (
-          <div className="error-message">
-            {error}
-            <button onClick={() => setError(null)}>✕</button>
-          </div>
-        )}
+      {/* Only show for admin users */}
+      {auth && auth.is_superuser && (
+        <div className="admin-nav">
+          <Link to="/admin" className="back-to-admin">
+            Back to Admin Dashboard
+          </Link>
+        </div>
+      )}
+      {activeCategory && (
+        <div className="active-category-indicator">
+          Viewing: {activeCategory.title}
+          <button className="create-note-btn" onClick={() => setShowCreateNote(true)}>
+            Post Note
+          </button>
+        </div>
+      )}
+      {error && (
+        <div className="error-message">
+          {error}
+          <button onClick={() => setError(null)}>✕</button>
+        </div>
+      )}
       
 
       <div className="categories-sidebar">

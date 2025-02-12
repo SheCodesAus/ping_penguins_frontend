@@ -47,21 +47,21 @@ const WorkshopAccessCode = () => {
                 <section className="workshop-access-section">
                     <div className="workshop-access-container">
                         <form className="workshop-access-form" onSubmit={handleSubmit}>
-                            <h2 className="form-title">
+                            <h2 className="workshop-access-form-title">
                                 Enter your unique workshop code to begin your journey
                             </h2>
-                            <div className="form-group">
+                            <div className="workshop-access-form-group">
                                 <input
                                     type="text"
                                     id="workshop-code"
-                                    className="form-input"
+                                    className="workshop-access-form-input"
                                     value={workshopCode}
                                     onChange={(e) => setWorkshopCode(e.target.value)}
                                     placeholder="Enter your code"
                                     required
                                 />
                             </div>
-                            {error && <div className="error-message">{error}</div>}
+                            {error && <div className="workshop-access-error-message">{error}</div>}
                             <button
                                 type="submit"
                                 className="workshop-access-button"

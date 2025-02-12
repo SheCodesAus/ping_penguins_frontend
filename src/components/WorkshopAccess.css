@@ -1,14 +1,55 @@
+/* Base styles */
 .workshop-access-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Workshop access on home page */
+.home-page .workshop-access-section {
+    padding: 2rem;
+    margin-top: -70px;
+    background: transparent;
+}
+/* Workshop access wrapper for post-auth pages */
+.workshop-access-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: var(--base-light);
-    /* min-height: calc(100vh - 65px); */
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    margin-top: 65px;
+    z-index: 100;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Override section styles when inside wrapper */
+.workshop-access-wrapper .workshop-access-section {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .workshop-access-container {
-    max-width: 1200px;
+    width: 100%;
+    max-width: 500px;
     margin: 0 auto;
 }
 
@@ -17,28 +58,33 @@
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    background-color: white;
+    background-color: var(--white);
     padding: 3rem;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: 0 auto;
 }
 
+.workshop-access-form-title {
+    text-align: center;
+    margin-bottom: 1rem;
+}
 
-.form-title h2 {
-    font-weight: 700;
+.workshop-access-form-title h2 {
+    font-family: "futura", bold;
+    font-size: 1.75rem;
     color: var(--brand);
     margin-bottom: 0.5rem;
     line-height: 1.2;
 }
 
-.form-title p {
+.workshop-access-form-subtitle p {
+    font-family: "Montserrat", regular;
     color: var(--base-dark);
     opacity: 0.8;
+    font-size: 0.95rem;
 }
 
-.form-group {
+.workshop-access-form-group {
     width: 100%;
     max-width: 400px;
     display: flex;
@@ -46,50 +92,42 @@
     gap: 1.5rem;
 }
 
-.form-input {
+.workshop-access-form-input {
     width: 100%;
-    padding: 1.5rem;
+    padding: 12px 0;
     background: transparent;
     border: none;
-    border-bottom: 3px solid rgba(246, 19, 165, 0.2);
+    border-bottom: 2px solid var(--brand);
     color: var(--base-dark);
     text-align: center;
     transition: all 0.3s ease;
+    font-family: "Montserrat", regular;
+    font-size: 1.1rem;
+    border-radius: 5px;
 }
 
-.form-input:focus {
+.workshop-access-form-input::placeholder {
+    color: var(--base-dark);
+    opacity: 0.6;
+    font-size: 0.9rem;
+}
+
+.workshop-access-form-input:focus {
     outline: none;
     border-bottom-color: var(--brand);
+    background-color: rgba(246, 19, 165, 0.02);
 }
 
-.form-input::placeholder {
-    color: rgba(0, 0, 0, 0.4);
-}
-
-.workshop-accessbutton {
-    background-color: var(--brand);
-    color: white;
-    font-size: 1.125rem;
-    font-weight: 600;
-    padding: 1rem 3rem;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.workshop-access-button {
     width: 100%;
-    box-shadow: 0 4px 15px rgba(246, 19, 165, 0.2);
 }
 
-.submit-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(246, 19, 165, 0.3);
+.workshop-access-button:hover {
+    box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
 }
 
-.submit-button:active {
-    transform: translateY(0);
-}
-
-.submit-button:disabled {
+.workshop-access-button:disabled {
     background-color: rgba(246, 19, 165, 0.5);
     cursor: not-allowed;
     transform: none;
@@ -97,19 +135,20 @@
 }
 
 .error-message {
-    color: #dc2626;
-    font-size: 0.9rem;
-    text-align: center;
-    background: rgba(220, 38, 38, 0.1);
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
     width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    background-color: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+    font-family: "Montserrat", regular;
+    text-align: center;
 }
 
 .login-prompt {
     text-align: center;
     padding: 3rem;
-    background: white;
+    background: var(--white);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
@@ -120,33 +159,28 @@
 }
 
 .login-button {
+    padding: 12px 16px;
     background-color: var(--brand);
-    color: white;
-    font-size: 1.125rem;
+    color: var(--white);
+    font-size: 1rem;
     font-weight: 600;
-    padding: 0.75rem 2rem;
     border: none;
-    border-radius: 30px;
+    border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(246, 19, 165, 0.2);
 }
 
 .login-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(246, 19, 165, 0.3);
+    box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
 }
 
 @media (max-width: 768px) {
-    .workshop-section {
-        padding: 1rem;
+    .workshop-access-form {
+        padding: 2rem;
     }
 
-    .workshop-form {
-        padding: 2rem 1.5rem;
-    }
-
-    .form-title {
-        color: var(--base-dark);
+    .form-title h2 {
+        font-size: 1.5rem;
     }
 }

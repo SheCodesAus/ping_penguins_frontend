@@ -99,8 +99,24 @@ const SignUpPage = ({ initialTitle }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('Form submitted', signUpDetails); // Debug log
+
     if (validateForm()) {
+        console.log('Form validation passed'); // Debug log
         try {
+            console.log('Attempting signup with:', {
+                workspaceTitle,
+                email: signUpDetails.email,
+                password: signUpDetails.password,
+                firstName: signUpDetails.firstName,
+                lastName: signUpDetails.lastName,
+                displayName: signUpDetails.displayName,
+                position: signUpDetails.position,
+                tenure: signUpDetails.tenure,
+                color: signUpDetails.color,
+                bio: signUpDetails.bio
+            });
+
             const signupResponse = await postSignup(
                 workspaceTitle,
                 signUpDetails.email,
@@ -115,7 +131,7 @@ const SignUpPage = ({ initialTitle }) => {
                 signUpDetails.bio
             );
 
-            console.log('Signup successful:', signupResponse);
+            console.log('Signup response:', signupResponse); // Debug log
 
             const loginResponse = await fetch(`${import.meta.env.VITE_API_URL}/api-token-auth/`, {
                 method: 'POST',
@@ -128,16 +144,16 @@ const SignUpPage = ({ initialTitle }) => {
                 }),
             });
 
+            const loginData = await loginResponse.json();
+            console.log('Login response:', loginData); // Debug log
+
             if (!loginResponse.ok) {
-                const errorText = await loginResponse.text();
-                console.error('Login response:', errorText);
-                throw new Error('Login failed after signup');
+                console.log('Login response not ok:', loginResponse.status); // Debug log
+                throw new Error(loginData.non_field_errors?.[0] || 'Login failed after signup');
             }
 
-            const loginData = await loginResponse.json();
-            console.log('Login successful:', loginData);
-
             if (loginData.token) {
+                console.log('Login successful, setting token'); // Debug log
                 window.localStorage.setItem("token", loginData.token);
                 window.localStorage.setItem("userId", signupResponse.id);
                 setAuth({
@@ -153,145 +169,147 @@ const SignUpPage = ({ initialTitle }) => {
                 general: error.message || "Signup failed. Please try again." 
             });
         }
+    } else {
+        console.log('Form validation failed', formErrors); // Debug log
     }
   };
 
   return (
-    <div className="workspace-signup">
-      <div className="workspace-signup-container">
+    <div className="signup-page">
+      <div className="signup-page-container">
         {!showWorkshopForm ? (
           <>
-            <section className="workspace-signup-header">
+            <section className="signup-page-header">
               <h1>{workspaceTitle || "Welcome to StickyBloom!"}</h1>
-              <p>
+              <p className="signup-page-subtitle">
                 We're excited to have you join our collaborative workspace. 
                 Let's set up your profile to get started.
               </p>
             </section>
 
-            <form className="workspace-signup-form" onSubmit={handleSubmit}>
+            <form className="signup-page-form" onSubmit={handleSubmit}>
               {formErrors.general && (
-                <div className="error-message general">{formErrors.general}</div>
+                <div className="signup-error-message">{formErrors.general}</div>
               )}
 
-              <div className="form-section">
-                <label className="form-label">
+              <div className="signup-form-section">
+                <label className="signup-form-label">
                   First Name <span className="required">*</span>
                   <input 
                     type="text" 
                     name="firstName" 
                     value={signUpDetails.firstName}
-                    className="workspace-signup-input" 
+                    className="signup-form-input" 
                     onChange={handleChange}
                     placeholder="Enter your first name" 
                   />
-                  {formErrors.firstName && <p className="error">{formErrors.firstName}</p>}
+                  {formErrors.firstName && <p className="signup-error">{formErrors.firstName}</p>}
                 </label>
 
-                <label className="form-label">
+                <label className="signup-form-label">
                   Last Name <span className="required">*</span>
                   <input 
                     type="text" 
                     name="lastName"
                     value={signUpDetails.lastName} 
-                    className="workspace-signup-input" 
+                    className="signup-form-input" 
                     onChange={handleChange}
                     placeholder="Enter your last name"
                   />
-                  {formErrors.lastName && <p className="error">{formErrors.lastName}</p>}
+                  {formErrors.lastName && <p className="signup-error">{formErrors.lastName}</p>}
                 </label>
               </div>
 
-              <div className="form-section">
-                <label className="form-label">
+              <div className="signup-form-section">
+                <label className="signup-form-label">
                   Display Name <span className="required">*</span>
                   <input 
                     type="text" 
                     name="displayName"
                     value={signUpDetails.displayName} 
-                    className="workspace-signup-input" 
+                    className="signup-form-input" 
                     onChange={handleChange}
                     placeholder="Choose a display name"
                   />
-                  {formErrors.displayName && <p className="error">{formErrors.displayName}</p>}
+                  {formErrors.displayName && <p className="signup-error">{formErrors.displayName}</p>}
                 </label>
 
-                <label className="form-label">
+                <label className="signup-form-label">
                   Email <span className="required">*</span>
                   <input 
                     type="email" 
                     name="email"
                     value={signUpDetails.email} 
-                    className="workspace-signup-input" 
+                    className="signup-form-input" 
                     onChange={handleChange}
                     placeholder="Enter your email"
                   />
-                  {formErrors.email && <p className="error">{formErrors.email}</p>}
+                  {formErrors.email && <p className="signup-error">{formErrors.email}</p>}
                 </label>
               </div>
 
-              <div className="form-section">
-                <label className="form-label">
+              <div className="signup-form-section">
+                <label className="signup-form-label">
                   Password <span className="required">*</span>
                   <input 
                     type="password" 
                     name="password"
                     value={signUpDetails.password} 
-                    className="workspace-signup-input" 
+                    className="signup-form-input" 
                     onChange={handleChange}
                     placeholder="Create a password"
                   />
-                  {formErrors.password && <p className="error">{formErrors.password}</p>}
+                  {formErrors.password && <p className="signup-error">{formErrors.password}</p>}
                 </label>
 
-                <label className="form-label">
+                <label className="signup-form-label">
                   Confirm Password <span className="required">*</span>
                   <input 
                     type="password" 
                     name="confirmPassword"
                     value={signUpDetails.confirmPassword} 
-                    className="workspace-signup-input" 
+                    className="signup-form-input" 
                     onChange={handleChange}
                     placeholder="Confirm your password"
                   />
-                  {formErrors.confirmPassword && <p className="error">{formErrors.confirmPassword}</p>}
-                  {formErrors.passwordMismatch && <p className="error">{formErrors.passwordMismatch}</p>}
+                  {formErrors.confirmPassword && <p className="signup-error">{formErrors.confirmPassword}</p>}
+                  {formErrors.passwordMismatch && <p className="signup-error">{formErrors.passwordMismatch}</p>}
                 </label>
               </div>
 
-              <div className="form-section">
-                <label className="form-label">
+              <div className="signup-form-section">
+                <label className="signup-form-label">
                   Position
                   <input 
                     type="text" 
                     name="position"
                     value={signUpDetails.position} 
-                    className="workspace-signup-input" 
+                    className="signup-form-input" 
                     onChange={handleChange}
                     placeholder="What's your role?"
                   />
                 </label>
 
-                <label className="form-label">
+                <label className="signup-form-label">
                   Tenure
                   <input 
                     type="text" 
                     name="tenure"
                     value={signUpDetails.tenure} 
-                    className="workspace-signup-input" 
+                    className="signup-form-input" 
                     onChange={handleChange}
                     placeholder="How long have you been with us?"
                   />
                 </label>
               </div>
 
-              <div className="form-section full-width">
-                <label className="form-label">
+              <div className="signup-form-section full-width">
+                <label className="signup-form-label">
                   Bio
                   <textarea 
                     name="bio"
                     value={signUpDetails.bio}
-                    className="workspace-signup-textarea" 
+                    className="signup-form-textarea" 
                     onChange={handleChange}
                     placeholder="Tell us a bit about yourself..."
                     rows="4"
@@ -299,34 +317,31 @@ const SignUpPage = ({ initialTitle }) => {
                 </label>
               </div>
 
-              <div className="workspace-signup-color-picker">
-                <label className="form-label">
-                  Choose Your Personal Note Colour <span className="required">*</span>
+              <div className="signup-form-section">
+                <label className="signup-form-label">
+                  Choose Your Note Colour <span className="required">*</span>
+                  <select
+                    name="color"
+                    value={signUpDetails.color}
+                    onChange={handleChange}
+                    className="signup-color-select"
+                  >
+                    <option value="">Select a color</option>
+                    {softColors.map((color) => (
+                      <option 
+                        key={color.value} 
+                        value={color.value}
+                        style={{ backgroundColor: color.value }}
+                      >
+                        {color.label}
+                      </option>
+                    ))}
+                  </select>
+                  {formErrors.color && <p className="signup-error">{formErrors.color}</p>}
                 </label>
-                <div className="color-options">
-                  {softColors.map((color) => (
-                    <div 
-                      key={color.value}
-                      className={`color-option ${signUpDetails.color === color.value ? 'selected' : ''}`}
-                      onClick={() => handleChange({
-                        target: { name: 'color', value: color.value }
-                      })}
-                    >
-                      <div 
-                        className="color-swatch" 
-                        style={{ 
-                          backgroundColor: color.value,
-                          border: '1px solid rgba(0,0,0,0.1)' // Light border to show white colors
-                        }}
-                      />
-                      <span className="color-label">{color.label}</span>
-                    </div>
-                  ))}
-                </div>
-                {formErrors.color && <p className="error">{formErrors.color}</p>}
                 {signUpDetails.color && (
                   <div 
-                    className="note-preview" 
+                    className="signup-note-preview" 
                     style={{ 
                       backgroundColor: signUpDetails.color,
                       border: '1px solid rgba(0,0,0,0.1)'
@@ -337,12 +352,12 @@ const SignUpPage = ({ initialTitle }) => {
                 )}
               </div>
 
-              <div className="workspace-signup-footer">
-                <div className="info-box">
+              <div className="signup-form-footer">
+                <div className="signup-info-box">
                   Your information is private and will only be used within the workshop space.
                 </div>
                 
-                <label className="workspace-signup-terms">
+                <label className="signup-terms">
                   <input 
                     type="checkbox" 
                     name="tandcchecked"
@@ -353,10 +368,10 @@ const SignUpPage = ({ initialTitle }) => {
                     I agree to the <a href="/terms">Terms and Conditions</a> and{" "}
                     <a href="/privacy">Privacy Policy</a>
                   </span>
-                  {formErrors.tandcchecked && <p className="error">{formErrors.tandcchecked}</p>}
+                  {formErrors.tandcchecked && <p className="signup-error">{formErrors.tandcchecked}</p>}
                 </label>
 
-                <button type="submit" className="workspace-signup-btn">
+                <button type="submit" className="signup-submit-btn">
                   Create Profile
                 </button>
 
@@ -367,7 +382,9 @@ const SignUpPage = ({ initialTitle }) => {
             </form>
           </>
         ) : (
-          <WorkshopAccessForm />
+          <div className="workshop-access-wrapper">
+            <WorkshopAccessForm />
+          </div>
         )}
       </div>
     </div>

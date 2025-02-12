@@ -3,7 +3,6 @@
     justify-content: center;
     gap: 2rem;
     margin: 2rem 0;
-    font-family: 'Montserrat', sans-serif;
 }
 
 .countdown-unit {
@@ -21,7 +20,7 @@
     border-radius: 12px;
     min-width: 100px;
     text-align: center;
-    color: #333;
+    color: var(--base-dark);;
     box-shadow: 0 0 15px rgba(246, 19, 165, 0.3),
                 0 0 30px rgba(246, 19, 165, 0.2),
                 0 0 45px rgba(246, 19, 165, 0.1);
@@ -38,7 +37,7 @@
 .time-label {
     margin-top: 0.5rem;
     font-size: 1rem;
-    color: #666;
+    color: var(--base-dark);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -46,7 +45,6 @@
 /* When workshop has started */
 .countdown-timer:not(.upcoming) {
     font-size: 2rem;
-    color: #f613a5;
     font-weight: bold;
 }
 
