@@ -18,6 +18,20 @@ const WorkshopPage = () => {
     const [showBoard, setShowBoard] = useState(false);  // Set to false to show the landing page first
     const [countdown, setCountdown] = useState('');
     const [workshopStarted, setWorkshopStarted] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+            if (window.innerWidth <= 768) {
+                setIsSidebarOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         const fetchBoardData = async () => {
@@ -108,6 +122,10 @@ const WorkshopPage = () => {
             console.error('Failed to create note:', responseText);
             return null;
         }
+    };
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
     };
 
     if (error) {

@@ -177,10 +177,10 @@
 
 @media (max-width: 768px) {
     .workshop-access-form {
-        padding: 2rem;
+       box-shadow: none;
     }
 
-    .form-title h2 {
-        font-size: 1.5rem;
+    .workshop-access-form-title {
+        font-size: 1.3rem;
     }
 }
