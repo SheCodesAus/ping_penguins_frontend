@@ -5,35 +5,32 @@ import CreateWorkshopForm from '../components/AdminPage/CreateWorkshopForm';
 import WorkshopList from '../components/AdminPage/WorkshopList';
 import deleteBoard from '../api/delete-board';
 
+
 const AdminPage = () => {
     const navigate = useNavigate();
     const { auth } = useAuth();
     const [boards, setBoards] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showSuccessMessage, setShowSuccessMessage] = useState('');
     const [isCreatingWorkshop, setIsCreatingWorkshop] = useState(false);
     const [newWorkshopId, setNewWorkshopId] = useState(null);
 
-    // Fetch boards when component mounts
     useEffect(() => {
         const fetchBoards = async () => {
-            setIsLoading(true);
             try {
-                const token = localStorage.getItem('token');
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/board/`, {
                     headers: {
-                        'Authorization': `Token ${token}`
+                        'Authorization': `Token ${localStorage.getItem('token')}`
                     }
                 });
-                
                 if (!response.ok) throw new Error('Failed to fetch boards');
-                
                 const data = await response.json();
                 setBoards(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching boards:', error);
+                setError('Failed to load workshops');
                 setIsLoading(false);
             }
         };
@@ -129,82 +126,62 @@ const AdminPage = () => {
         }
     };
 
-    const calculateTimeLeft = (startTime) => {
-        const now = new Date().getTime();
-        const startDate = new Date(startTime).getTime();
-        const timeLeft = startDate - now;
-        const hoursPassed = (now - startDate) / (1000 * 60 * 60);
-
-        if (timeLeft > 0) {
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-
-            return `${days} days ${hours} hours ${minutes} min`;
-        } else {
-            // If more than 24 hours have passed since start
-            if (hoursPassed > 24) {
-                return 'Workshop has ended';
-            }
-            return 'Workshop in progress';
-        }
-    };
-
     return (
-        <div className="admin-container">
-            <div className="workshops-section">
-                <h1 className="admin-title">Admin Dashboard</h1>
-                
-                {showSuccessMessage && (
-                    <div className="success-message">
-                        {showSuccessMessage}
-                        {newWorkshopId && (
-                            <div className="workshop-id-section">
-                                <p><strong>Workshop ID:</strong> {newWorkshopId}</p>
-                                <p><strong>Workshop URL:</strong></p>
-                                <div className="workshop-url-container">
-                                    <span>{`${window.location.origin}/workshop/${newWorkshopId}`}</span>
-                                    <button 
-                                        onClick={copyWorkshopUrl}
-                                        className="copy-button"
-                                    >
-                                        Copy URL
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                )}
-
-                {isLoading ? (
-                    <p className="loading">Loading workshops...</p>
-                ) : error ? (
-                    <p className="error">{error}</p>
-                ) : (
-                    <WorkshopList 
-                        boards={boards} 
-                        onDelete={handleBoardDelete}
-                        calculateTimeLeft={calculateTimeLeft}
-                    />
-                )}
-            </div>
-
-            <div className="create-section">
+        <div className="admin-page">
+            <div className="admin-container">
+                <div className="admin-header">
+                    <h1 className="admin-title">Admin Dashboard</h1>
                 <button 
                     onClick={() => setIsCreatingWorkshop(!isCreatingWorkshop)}
                     className="create-workshop-button"
                 >
-                    {isCreatingWorkshop ? 'Cancel' : 'Create New Workshop'}
+                    {isCreatingWorkshop ? 'Back to Workshops' : 'Create New Workshop'}
                 </button>
-
-                {isCreatingWorkshop && (
-                    <div className="create-workshop-form">
-                        <h2>Create New Workshop</h2>
-                        <CreateWorkshopForm onSubmit={handleCreateWorkshop} />
-                    </div>
-                )}
             </div>
+
+            {showSuccessMessage && (
+                <div className="success-message">
+                    {showSuccessMessage}
+                    {newWorkshopId && (
+                        <div className="workshop-id-section">
+                            <p><strong>Workshop ID:</strong> {newWorkshopId}</p>
+                            <p><strong>Workshop URL:</strong></p>
+                            <div className="workshop-url-container">
+                                <span>{`${window.location.origin}/workshop/${newWorkshopId}`}</span>
+                                <button 
+                                    onClick={copyWorkshopUrl}
+                                    className="copy-button"
+                                >
+                                    Copy URL
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {isCreatingWorkshop ? (
+                <div className="create-workshop-form">
+                    <h2>Create New Workshop</h2>
+                    <CreateWorkshopForm onSubmit={handleCreateWorkshop} />
+                </div>
+            ) : (
+                <>
+                    {isLoading ? (
+                        <p className="loading">Loading workshops...</p>
+                    ) : error ? (
+                        <p className="error">{error}</p>
+                    ) : (
+                        <WorkshopList 
+                            boards={boards} 
+                            onDelete={handleBoardDelete}
+                            categories={boards[0]?.categories || []}
+                        />
+                    )}
+                </>
+            )}
         </div>
+    </div>
     );
 };
 

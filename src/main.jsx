@@ -15,28 +15,28 @@ import HomePage from "./pages/HomePage.jsx";
 
 const router = createBrowserRouter([
   {
-      path: "/",
-      element: <NavBar />,
-      errorElement: <ErrorPage />,
-      children: [
-          { path: "/", element: <HomePage /> },
-          { path: "/login", element: <LoginPage /> },
-          { path: "/signup", element: <SignUpPage /> },
-          { path: "/workshoplanding/:id/", element: <LandingPage /> },
-          { path: "/board/:boardId", element: <WorkshopPage /> },
-          { path: "/workshop/:id/", element: <WorkshopPage /> },
-          { path: "*", element: <ErrorPage />},  // * captures all other routes not already defined
-          { path: "/admin", element: <AdminPage /> },  // Admin dashboard
-          
-      ],
+    path: "/workshop/:id",  // Workshop route at root level
+    element: <WorkshopPage />,
+  },
+  {
+    path: "/",
+    element: <NavBar />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "/login", element: <LoginPage /> },
+      { path: "/signup", element: <SignUpPage /> },
+      { path: "/board/:boardId", element: <WorkshopPage /> },
+      { path: "*", element: <ErrorPage />},
+      { path: "/admin", element: <AdminPage /> },
+    ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-     {/* Wrap app in the router provider so they render correctly */}
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

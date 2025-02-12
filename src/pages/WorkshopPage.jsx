@@ -4,7 +4,7 @@ import CountdownTimer from '../components/WorkshopPage/CountdownTimer';
 import WorkshopBoard from '../components/WorkshopPage/WorkshopBoard';
 import getBoard from '../api/get-board';
 import { useParams, Link } from 'react-router-dom';
-
+import CreateStickyNote from '../components/WorkshopPage/CreateStickyNote';
 
 const WorkshopPage = () => {
     const { boardId } = useParams();
@@ -15,31 +15,17 @@ const WorkshopPage = () => {
     const [startTime, setStartTime] = useState(null);
     const [boardDescription, setBoardDescription] = useState("");
     const [boardDisclaimer, setBoardDisclaimer] = useState("");
-    const [showBoard, setShowBoard] = useState(false);
+    const [showBoard, setShowBoard] = useState(false);  // Set to false to show the landing page first
     const [countdown, setCountdown] = useState('');
     const [workshopStarted, setWorkshopStarted] = useState(false);
-
-    // Add debug logs
-    console.log('BoardId:', boardId);
-    console.log('ShowBoard:', showBoard);
 
     useEffect(() => {
         const fetchBoardData = async () => {
             try {
                 const boardData = await getBoard(boardId);
-                console.log('Full board data:', boardData); // Log the entire board data
-                
                 if (!boardData) {
                     throw new Error('No board data received');
                 }
-
-                // Log each field we're trying to set
-                console.log('Title:', boardData.title);
-                console.log('Categories:', boardData.categories);
-                console.log('Notes:', boardData.notes);
-                console.log('Date Started:', boardData.date_start);
-                console.log('Description:', boardData.description);
-                console.log('Disclaimer:', boardData.disclaimer);
 
                 setCategories(boardData.categories || []);
                 setNotes(boardData.notes || []);
@@ -47,10 +33,7 @@ const WorkshopPage = () => {
                 setStartTime(boardData.date_start);
                 setBoardDescription(boardData.description || "");
                 setBoardDisclaimer(boardData.disclaimer || "");
-
-                console.log('Start time set to:', boardData.date_start); // Debug log
             } catch (err) {
-                console.error("Error fetching board data:", err);
                 setError(err.message);
             }
         };
@@ -77,7 +60,6 @@ const WorkshopPage = () => {
                 setCountdown(`${days} days ${hours} hours ${minutes} min`);
                 setWorkshopStarted(false);
             } else {
-                // If more than 24 hours have passed since start
                 if (hoursPassed > 24) {
                     setCountdown('Workshop has ended');
                 } else {
@@ -90,39 +72,59 @@ const WorkshopPage = () => {
         return () => clearInterval(timer);
     }, [startTime]);
 
-    // Add loading state
-    if (!boardId) {
-        return <div>No board ID provided</div>;
-    }
+    const handleEnterBoard = () => {
+        setShowBoard(true); // Set to true when entering the board
+    };
+
+    // Handle adding new note
+    const handleAddNote = async (noteData) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('Not authenticated');
+        }
+
+        const completeNoteData = {
+            comment: noteData.comment,
+            anonymous: noteData.anonymous,
+            category: noteData.category,
+            board: boardId
+        };
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/note/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`
+            },
+            body: JSON.stringify(completeNoteData)
+        });
+
+        if (response.ok) {
+            const newNote = await response.json();
+            setNotes(prevNotes => [...prevNotes, newNote]);
+            return newNote;
+        } else {
+            const responseText = await response.text();
+            console.error('Failed to create note:', responseText);
+            return null;
+        }
+    };
 
     if (error) {
         return <div>Error: {error}</div>;
     }
 
-    // Check if current time is before start time
-    const now = new Date();
-    const workshopDate = startTime ? new Date(startTime) : null;
-    const isBeforeWorkshop = workshopDate ? now < workshopDate : false;
-
-    // Add debug logs
-    console.log('Current time:', now);
-    console.log('Workshop date:', workshopDate);
-    console.log('Start time (raw):', startTime);
-    console.log('Is before workshop:', isBeforeWorkshop);
-
-    const handleEnterBoard = () => {
-        console.log('Entering board...');
-        setShowBoard(true);
-    };
+    if (!boardId) {
+        return <div>No board ID provided</div>;
+    }
 
     if (showBoard) {
-        console.log('Rendering WorkshopBoard...');
         return (
             <div className="workshop-content">
                 <WorkshopBoard
                     boardId={boardId}
                     notes={notes}
-                    onAddNote={setNotes}
+                    onAddNote={handleAddNote}
                     categories={categories}
                     title={boardTitle}
                     date_started={startTime}
@@ -131,7 +133,6 @@ const WorkshopPage = () => {
         );
     }
 
-    console.log('Rendering landing page...');
     return (
         <div className="workshop-page">
             <div className="workshop-header">

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './WorkshopList.css';
 
-const WorkshopList = ({ boards, onDelete }) => {
+const WorkshopList = ({ boards, onDelete, categories }) => {
     const navigate = useNavigate();
     const [countdowns, setCountdowns] = useState({});
+    const [selectedBoardNotes, setSelectedBoardNotes] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         // Add this line to see the date format
@@ -36,6 +39,51 @@ const WorkshopList = ({ boards, onDelete }) => {
         return () => clearInterval(timer);
     }, [boards]);
 
+    const handleViewNotes = async (boardId) => {
+        setIsLoading(true);
+        setError(null);
+        try {
+    
+            const boardResponse = await fetch(`${import.meta.env.VITE_API_URL}/board/${boardId}/`, {
+                headers: {
+                    'Authorization': `Token ${window.localStorage.getItem('token')}`,
+                },
+            });
+
+            if (!boardResponse.ok) {
+                throw new Error('Failed to fetch board data');
+            }
+
+            const boardData = await boardResponse.json();
+            console.log('Board data:', boardData);
+
+        
+            const notesResponse = await fetch(`${import.meta.env.VITE_API_URL}/board/${boardId}/notes/`, {
+                headers: {
+                    'Authorization': `Token ${window.localStorage.getItem('token')}`,
+                },
+            });
+
+            if (!notesResponse.ok) {
+                throw new Error('Failed to fetch notes');
+            }
+
+            const notesData = await notesResponse.json();
+            console.log('Notes data:', notesData);
+
+            setSelectedBoardNotes({
+                boardId: boardId,
+                notes: notesData,
+                categories: boardData.categories || [] // Get categories from board data
+            });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setError('Failed to fetch notes. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     if (!boards?.length) {
         return <p className="empty-message">No workshop boards found.</p>;
     }
@@ -56,15 +104,15 @@ const WorkshopList = ({ boards, onDelete }) => {
                                 <span className="board-id">ID: {board.id}</span>
                             </div>
                             <p>Created: {new Date(board.created_at).toLocaleString()}</p>
-                            <p>Start: {new Date(board.date_started).toLocaleString()}</p>
-                            <div className="countdown-timer">
+                            <p>Start: {new Date(board.date_start).toLocaleString()}</p>
+                            {/* <div className="countdown-timer">
                                 <span>Status: </span>
                                 <span className={`countdown ${
                                     countdowns[board.id] === 'Workshop in progress' ? 'in-progress' : 'upcoming'
                                 }`}>
                                     {countdowns[board.id]}
                                 </span>
-                            </div>
+                            </div> */}
                             <div className="board-url">
                                 <span>URL: {`${window.location.origin}/workshop/${board.id}`}</span>
                                 <button 
@@ -77,13 +125,55 @@ const WorkshopList = ({ boards, onDelete }) => {
                                     Copy
                                 </button>
                             </div>
+                            
+                            {selectedBoardNotes && selectedBoardNotes.boardId === board.id && (
+                                <div className="notes-preview">
+                                    <h4>Workshop Notes</h4>
+                                    {selectedBoardNotes.notes && selectedBoardNotes.notes.length > 0 ? (
+                                        <div className="notes-list">
+                                            {selectedBoardNotes.notes.map((note, index) => {
+                                                const categoryTitle = selectedBoardNotes.categories?.find(
+                                                    cat => Number(cat.id) === Number(note.category)
+                                                )?.title;
+                                                
+                                                return (
+                                                    <div key={index} className="note-item">
+                                                        <p><strong>Author:</strong> {note.anonymous 
+                                                            ? 'Anonymous' 
+                                                            : note.owner?.display_name || '- User'}
+                                                        </p>
+                                                        <p><strong>Category:</strong> {categoryTitle || 'Uncategorized'}</p>
+                                                        <p><strong>Created:</strong> {new Date(note.created_at).toLocaleString()}</p>
+                                                        {note.comment && <p><strong>Comment:</strong> {note.comment}</p>}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : (
+                                        <p>No notes found for this workshop.</p>
+                                    )}
+                                    <button 
+                                        onClick={() => setSelectedBoardNotes(null)}
+                                        className="close-notes-button"
+                                    >
+                                        Close Notes
+                                    </button>
+                                </div>
+                            )}
                         </div>
                         <div className="board-actions">
-                            <button 
-                                onClick={() => navigate(`/workshop/${board.id}`)}
+                            <Link 
+                                to={`/board/${board.id}`} 
                                 className="view-button"
                             >
-                                View
+                                View Workshop
+                            </Link>
+                            <button 
+                                onClick={() => handleViewNotes(board.id)}
+                                className="view-notes-button"
+                                disabled={isLoading}
+                            >
+                                {isLoading && selectedBoardNotes?.boardId === board.id ? 'Loading...' : 'View Notes'}
                             </button>
                             <button 
                                 onClick={() => onDelete(board.id)}
@@ -92,6 +182,9 @@ const WorkshopList = ({ boards, onDelete }) => {
                                 Delete
                             </button>
                         </div>
+                        {error && selectedBoardNotes?.boardId === board.id && (
+                            <div className="error-message">{error}</div>
+                        )}
                     </div>
                 ))}
             </div>
