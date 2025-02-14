@@ -8,6 +8,10 @@ const WorkshopList = ({ boards, onDelete, categories }) => {
     const [selectedBoardNotes, setSelectedBoardNotes] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [editingBoard, setEditingBoard] = useState(null);
+    const [editedValues, setEditedValues] = useState({});
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [board, setBoard] = useState(null);
 
     useEffect(() => {
         // Add this line to see the date format
@@ -84,6 +88,57 @@ const WorkshopList = ({ boards, onDelete, categories }) => {
         }
     };
 
+    const handleEdit = (board) => {
+        console.log('Board data:', board);
+        console.log('Board categories:', board.categories);
+        console.log('Available categories:', categories);
+
+        setEditingBoard(board.id);
+        setEditedValues({
+            title: board.title,
+            description: board.description,
+            date_start: board.date_start,
+            disclaimer: board.disclaimer,
+            code: board.code,
+            categories: board.categories.map(cat => cat.id)
+        });
+        setShowEditModal(true);
+        setBoard(board);
+    };
+
+    const handleSave = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/board/${editingBoard}/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${window.localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify({
+                    ...editedValues,
+                    categories: board.categories
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update board');
+            }
+
+            window.location.reload();
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error updating board:', error);
+            alert('Failed to update workshop');
+        }
+    };
+
+    const handleCloseModal = () => {
+        setShowEditModal(false);
+        setEditingBoard(null);
+        setEditedValues({});
+        setBoard(null);
+    };
+
     if (!boards?.length) {
         return <p className="empty-message">No workshop boards found.</p>;
     }
@@ -99,31 +154,29 @@ const WorkshopList = ({ boards, onDelete, categories }) => {
                 {sortedBoards.map((board) => (
                     <div key={board.id} className="board-card">
                         <div className="board-content">
-                            <div className="board-header">
-                                <h3>{board.title}</h3>
-                                <span className="board-id">ID: {board.id}</span>
-                            </div>
-                            <p>Created: {new Date(board.created_at).toLocaleString()}</p>
+                            <h3>{board.title}</h3>
+                            <p>Board ID: {board.id}</p>
                             <p>Start: {new Date(board.date_start).toLocaleString()}</p>
-                            {/* <div className="countdown-timer">
-                                <span>Status: </span>
-                                <span className={`countdown ${
-                                    countdowns[board.id] === 'Workshop in progress' ? 'in-progress' : 'upcoming'
-                                }`}>
-                                    {countdowns[board.id]}
-                                </span>
-                            </div> */}
-                            <div className="board-url">
-                                <span>URL: {`${window.location.origin}/workshop/${board.id}`}</span>
-                                <button 
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(`${window.location.origin}/workshop/${board.id}`);
-                                        alert('Workshop URL copied to clipboard!');
-                                    }}
-                                    className="copy-url-button"
-                                >
-                                    Copy
-                                </button>
+                            <button 
+                                onClick={() => handleEdit(board)}
+                                className="edit-button"
+                            >
+                                Edit
+                            </button>
+                            <div className="workshop-details">
+                                <div className="board-url">
+                                    <h4>Workshop Code</h4>
+                                    <span>{board.code}</span>
+                                    <button 
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(board.code);
+                                            alert('Workshop Code copied to clipboard!');
+                                        }}
+                                        className="copy-url-button"
+                                    >
+                                        Copy
+                                    </button>
+                                </div>
                             </div>
                             
                             {selectedBoardNotes && selectedBoardNotes.boardId === board.id && (
@@ -162,12 +215,23 @@ const WorkshopList = ({ boards, onDelete, categories }) => {
                             )}
                         </div>
                         <div className="board-actions">
-                            <Link 
-                                to={`/board/${board.id}`} 
+                            <button 
+                                onClick={() => {
+                                    // Store current superuser status in localStorage if it's not already there
+                                    if (!window.localStorage.getItem('isSuperuser')) {
+                                        window.localStorage.setItem('isSuperuser', 'true');
+                                    }
+                                    navigate(`/board/${board.id}`, { 
+                                        state: { 
+                                            isSuperuser: true,
+                                            fromAdmin: true  // Add this flag to indicate coming from admin panel
+                                        }
+                                    });
+                                }}
                                 className="view-button"
                             >
                                 View Workshop
-                            </Link>
+                            </button>
                             <button 
                                 onClick={() => handleViewNotes(board.id)}
                                 className="view-notes-button"
@@ -188,6 +252,119 @@ const WorkshopList = ({ boards, onDelete, categories }) => {
                     </div>
                 ))}
             </div>
+
+            {/* Edit Modal */}
+            {showEditModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Edit Workshop</h2>
+                        <div className="modal-form">
+                            <div className="form-group">
+                                <label>Board ID:</label>
+                                <input
+                                    type="text"
+                                    value={editingBoard}
+                                    disabled
+                                    className="disabled-input"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Title:</label>
+                                <input
+                                    type="text"
+                                    value={editedValues.title}
+                                    onChange={(e) => setEditedValues({
+                                        ...editedValues,
+                                        title: e.target.value
+                                    })}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Start Date:</label>
+                                <input
+                                    type="datetime-local"
+                                    value={editedValues.date_start?.slice(0, 16)}
+                                    onChange={(e) => setEditedValues({
+                                        ...editedValues,
+                                        date_start: e.target.value
+                                    })}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Categories:</label>
+                                <div className="categories-list">
+                                    {board?.categories?.map(category => (
+                                        <div key={category.id} className="category-item">
+                                            <input
+                                                type="text"
+                                                value={category.title}
+                                                onChange={(e) => {
+                                                    // Handle category name edit
+                                                    const updatedCategories = board.categories.map(cat =>
+                                                        cat.id === category.id ? { ...cat, title: e.target.value } : cat
+                                                    );
+                                                    setBoard({ ...board, categories: updatedCategories });
+                                                }}
+                                            />
+                                            <button 
+                                                onClick={() => {
+                                                    // Handle category removal
+                                                    const updatedCategories = board.categories.filter(cat => cat.id !== category.id);
+                                                    setBoard({ ...board, categories: updatedCategories });
+                                                }}
+                                                className="remove-category-btn"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ))}
+                                    <button 
+                                        onClick={() => {
+                                            // Handle adding new category
+                                            const newCategory = {
+                                                id: Date.now(), // Temporary ID
+                                                title: 'New Category',
+                                                board: board.id
+                                            };
+                                            setBoard({
+                                                ...board,
+                                                categories: [...board.categories, newCategory]
+                                            });
+                                        }}
+                                        className="add-category-btn"
+                                    >
+                                        Add New Category
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Description:</label>
+                                <textarea
+                                    value={editedValues.description}
+                                    onChange={(e) => setEditedValues({
+                                        ...editedValues,
+                                        description: e.target.value
+                                    })}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Disclaimer:</label>
+                                <textarea
+                                    value={editedValues.disclaimer}
+                                    onChange={(e) => setEditedValues({
+                                        ...editedValues,
+                                        disclaimer: e.target.value
+                                    })}
+                                />
+                            </div>
+                            <div className="modal-actions">
+                                <button onClick={handleSave}>Save Changes</button>
+                                <button onClick={handleCloseModal}>Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

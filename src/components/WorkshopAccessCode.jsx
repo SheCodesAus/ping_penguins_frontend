@@ -11,32 +11,63 @@ const WorkshopAccessCode = () => {
     const navigate = useNavigate();
     const { auth } = useAuth();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setError('');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null);
+        setIsLoading(true);
 
-        if (workshopCode.trim()) {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/board/${workshopCode}/`);
-                const data = await response.json();
-
-                if (response.ok) {
-                    // Fire confetti
-                    fireConfetti();
-                    
-                    // Wait before navigating
-                    setTimeout(() => {
-                        navigate(`/board/${workshopCode}`);
-                    }, 2000);
-                } else {
-                    throw new Error(data.message || 'Invalid workshop code');
-                }
-            } catch (err) {
-                setError('Invalid workshop code. Please try again.');
-                console.error('Error:', err);
+        try {
+            if (!auth?.token) {
+                throw new Error('Please log in to access the workshop');
             }
-        } else {
-            setError('Please enter a workshop code.');
+
+            // First try to interpret input as a board ID
+            if (!isNaN(workshopCode)) {
+                // If input is a number, try accessing directly by ID
+                const boardResponse = await fetch(`${import.meta.env.VITE_API_URL}/board/${workshopCode}/`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${auth.token}`
+                    }
+                });
+
+                if (boardResponse.ok) {
+                    // If board exists with this ID, trigger confetti and navigate
+                    fireConfetti();
+                    navigate(`/board/${workshopCode}`);
+                    return;
+                }
+            }
+
+            // If not a valid ID or board not found, try as a code
+            const boardsResponse = await fetch(`${import.meta.env.VITE_API_URL}/board/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${auth.token}`
+                }
+            });
+
+            if (!boardsResponse.ok) {
+                throw new Error('Failed to fetch boards');
+            }
+
+            const boards = await boardsResponse.json();
+            const board = boards.find(board => board.code === workshopCode);
+            
+            if (!board) {
+                throw new Error('Workshop not found');
+            }
+
+            // Trigger confetti and navigate to the board using its ID
+            fireConfetti();
+            navigate(`/board/${board.id}`);
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Invalid workshop code or ID. Please try again.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
