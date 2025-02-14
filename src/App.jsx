@@ -5,7 +5,7 @@ import SignupPage from './pages/SignupPage';
 import WorkshopPage from './pages/WorkshopPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import ErrorPage from './pages/ErrorPage';
-
+import AdminPage from './pages/AdminPage';
 
 function App() {
 
@@ -17,6 +17,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/workshop/:boardId" element={<WorkshopPage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route 
             path="/privacy" 
             element={

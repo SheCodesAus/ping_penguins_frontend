@@ -6,7 +6,7 @@ import Footer from "./Footer.jsx";
 function NavBar() {
     const {auth, setAuth} = useAuth();
     const location = useLocation();
-    const isWorkshopPage = location.pathname.startsWith('/workshop/');
+    const isWorkshopPage = location.pathname.startsWith('/board/');
     const isSuperuser = auth?.is_superuser;
     const isOnAdminPage = location.pathname === '/admin';
 
