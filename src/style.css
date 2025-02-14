@@ -1085,6 +1085,8 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     transition: all 0.2s ease;
     transform: rotate(-1deg);
     background: #feff9c;
+    display: flex;
+    flex-direction: column;
 }
 
 .sticky-note:nth-child(even) {

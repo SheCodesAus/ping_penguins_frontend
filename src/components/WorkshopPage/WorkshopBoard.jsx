@@ -113,20 +113,16 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
 
   return (
     <div className="workshop-content">
-      {/* Only show for admin users */}
-      {auth && auth.is_superuser && (
-        <div className="admin-nav">
-          <Link to="/admin" className="back-to-admin">
-            Back to Admin Dashboard
-          </Link>
-        </div>
-      )}
-      
       {/* Mobile dropdown */}
       <div className="board-title-wrapper">
         <div className="board-title-container">
           <div className="title-section">
-            <h2>Workshop Note Board</h2>
+            <h2 
+              onClick={() => handleCategoryClick(null)}
+              style={{ cursor: 'pointer' }}
+            >
+              Workshop Notes Board
+            </h2>
           </div>
           <div className="button-section">
             <button 
@@ -175,7 +171,12 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
       
       {/* Desktop sidebar */}
       <div className="categories-sidebar">
-        <h2>Workshop Notes Board</h2>
+        <h2 
+          onClick={() => handleCategoryClick(null)}
+          style={{ cursor: 'pointer' }}
+        >
+          Workshop Notes Board
+        </h2>
         {categories.map((category) => (
           <div
             key={category.id}
