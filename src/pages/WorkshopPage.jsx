@@ -20,6 +20,7 @@ const WorkshopPage = () => {
     const [workshopStarted, setWorkshopStarted] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [workshopStatus, setWorkshopStatus] = useState('upcoming');
 
     useEffect(() => {
         const handleResize = () => {
@@ -155,8 +156,13 @@ const WorkshopPage = () => {
         <div className="workshop-page">
             <div className="workshop-header">
                 <h1 className="workshop-title">{boardTitle || 'Loading...'}</h1>
-                <h2 className="workshop-subtitle">The Workshop Starts In...</h2>
-                <CountdownTimer startTime={startTime} />
+                {workshopStatus === 'upcoming' && (
+                    <h2 className="workshop-subtitle">The Workshop Starts In...</h2>
+                )}
+                <CountdownTimer 
+                    startTime={startTime} 
+                    onStatusChange={setWorkshopStatus}
+                />
                 <div className="board-info">
                     <div className="board-description">
                         <h3>About This Workshop</h3>

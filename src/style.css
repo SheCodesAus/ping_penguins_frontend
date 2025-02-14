@@ -766,6 +766,55 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     color: var(--brand);
 }
 
+/* PRIVACY POLICY PAGE */
+
+.privacy-policy-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.privacy-policy-content {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    color: var(--base-dark);
+}
+
+.privacy-policy-content h1 {
+    color: var(--brand);
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.policy-section {
+    margin-bottom: 2.5rem;
+}
+
+.policy-section h2 {
+    color: var(--base-dark);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.policy-section p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.policy-section ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.policy-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
 /* BOARD/ID/LANDING PAGE */
 
 .workshop-page {
@@ -1031,6 +1080,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
     min-height: 200px;
+    height: auto;
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
@@ -1065,36 +1115,25 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 .note-content {
-    font-size: 1em;
-    line-height: 1.4;
-    margin-bottom: 20px;
-    word-wrap: break-word;
+    flex: 1;
+    overflow-wrap: break-word; /* Ensure long words don't overflow */
+    word-break: break-word;
+    margin-bottom: 1rem;
 }
 
 .note-author {
-    text-align: right;
-    bottom: 10px;
-    left: 15px;
-    font-size: 0.8em;
-    color: rgba(0, 0, 0, 0.6);
+    margin-top: auto; /* Push to bottom */
 }
 
 .note-category {
-    position: absolute;
-    bottom: 10px;
-    right: 15px;
-    font-size: 0.8em;
-    color: rgba(0, 0, 0, 0.6);
+    margin-top: 0.5rem;
 }
 
 /* Base fold style */
 .note-fold {
     position: absolute;
-    right: 0;
     bottom: 0;
-    width: 20px;
-    height: 20px;
-    border-bottom-right-radius: 2px;
+    right: 0;
 }
 
 /* Specific folds for each note type */
@@ -1277,6 +1316,36 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         display: none;
     }
 
+    .footer {
+        padding: 2rem 0;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .social-links {
+        justify-content: center;
+        gap: 2rem;  
+    }
+
+    .social-icon {
+        font-size: 1.2em;  
+    }
+
+    .footer-text {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+    .penguin-emoji {
+        font-size: 1.8rem;  
+        margin: 0.5rem 0;
+    }
+
     .login-page-form {
         box-shadow: none;
     }
@@ -1381,6 +1450,18 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         font-size: 0.8rem;
     }
 
+    .privacy-policy-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .privacy-policy-content h1 {
+        font-size: 2rem;
+    }
+
+    .policy-section h2 {
+        font-size: 1.25rem;
+    }
+
     .board-title-container {
         display: flex;
         justify-content: space-between;
@@ -1413,15 +1494,15 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     }
 
     .note-content {
-        font-size: 0.8rem;
+        font-size: 1.125rem;
     }
 
     .note-author {
-        font-size: 0.7rem;
+        font-size: 1.125rem;
     }
 
     .note-category {
-        font-size: 0.6rem;
+        font-size: 1.1rem;
     }
 
     .categories-dropdown.open + .notes-grid {
@@ -1430,7 +1511,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 
     .active-category-indicator {
         position: fixed;
-        top: 170px;
+        top: 160px;
         left: 0;
         right: 0;
         width: 100%;
@@ -1442,19 +1523,19 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         color: var(--base-dark);
         z-index: 10;
-        font-size: 0.8rem;
+        font-size: 1rem;
         color: var(--brand);
     }
 
     .active-category-indicator button {
         margin-left: auto;
-        font-size: 0.7rem;
+        font-size: 1rem;
     }
 
     .board-title-wrapper {
         display: block; 
         position: fixed;
-        top: 105px;
+        top: 100px;
         left: 0;
         right: 0;
         z-index: 1000;
@@ -1469,7 +1550,12 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         margin-left: 0; 
     }
 
-    
+    .title-section h2 {
+        border-bottom: 2px solid var(--brand);
+        display: inline-block;
+        padding-bottom: 2px;
+        cursor: pointer;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -1491,7 +1577,14 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     .nav-container {
         padding: 0.5rem;
     }
-
+    .board-description, .board-disclaimer {
+        box-shadow: none;
+        padding: 0;   
+    }
+    .board-description h3, .board-disclaimer h3 {
+        color: var(--brand);
+        font-size: 1.2rem;
+    }
     .workshop-title {
         font-size: 1.5rem;
     }
@@ -1584,19 +1677,26 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     }
 
     .sticky-note {
-        width: 300px;
+        width: 350px;
         min-height: 150px;
         margin: 0.5rem auto;
     }
-  
+
+    .note-content {
+        font-size: 1.1rem;
+    }
+
+    .note-author {
+        font-size: 0.9rem;
+    }
+
+    .note-category {
+        font-size: 0.9rem;
+    }
+
+    button, .auth-link, a.enter-button {
+        font-size: 1.125rem;
+    }
 }
 
-
-
-/* Mobile styles */
-@media (max-width: 768px) {
-    
-   
-
-}
 

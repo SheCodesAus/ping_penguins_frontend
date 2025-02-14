@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import postLogin from "../../api/post-login.js";
 import getUser from "../../api/get-user.js";
 import useAuth from "../../hooks/use-auth.js";
@@ -131,7 +131,7 @@ const LoginExisting = () => {
             Log In
           </button>
           <p className="login-signup-link">
-            Don't have an account? <a href="/signup">Sign up here</a>
+            Don't have an account? <Link to="/signup">Sign up here</Link>
           </p>
         </form>
       </div>

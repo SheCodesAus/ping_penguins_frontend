@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './CountdownTimer.css';
 
-const CountdownTimer = ({ startTime }) => {
+const CountdownTimer = ({ startTime, onStatusChange }) => {
 	const [timeLeft, setTimeLeft] = useState({
 		days: 0,
 		hours: 0,
@@ -16,9 +16,12 @@ const CountdownTimer = ({ startTime }) => {
 		const timer = setInterval(() => {
 			const now = new Date().getTime();
 			const start = new Date(startTime).getTime();
+			const workshopEnd = start + (24 * 60 * 60 * 1000); // 24 hours after start
 			const distance = start - now;
+			const timeFromStart = now - start;
 
 			if (distance > 0) {
+				// Workshop hasn't started yet
 				const days = Math.floor(distance / (1000 * 60 * 60 * 24));
 				const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 				const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -26,17 +29,29 @@ const CountdownTimer = ({ startTime }) => {
 
 				setTimeLeft({ days, hours, minutes, seconds });
 				setStatus('upcoming');
-			} else {
+				onStatusChange('upcoming');
+			} else if (timeFromStart <= (24 * 60 * 60 * 1000)) {
+				// Workshop is in progress (within 24 hours from start)
 				setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-				setStatus('started');
+				setStatus('in_progress');
+				onStatusChange('in_progress');
+			} else {
+				// Workshop is closed (more than 24 hours from start)
+				setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+				setStatus('closed');
+				onStatusChange('closed');
 			}
 		}, 1000);
 
 		return () => clearInterval(timer);
-	}, [startTime]);
+	}, [startTime, onStatusChange]);
 
-	if (status === 'started') {
+	if (status === 'in_progress') {
 		return <div className="countdown-timer">Workshop in progress</div>;
+	}
+
+	if (status === 'closed') {
+		return <div className="countdown-timer">Workshop is closed</div>;
 	}
 
 	return (

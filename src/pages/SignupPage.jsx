@@ -70,7 +70,6 @@ const SignUpPage = ({ initialTitle }) => {
     if (!signUpDetails.tandcchecked) 
         errors.tandcchecked = "You must accept the Terms & Conditions";
 
-    console.log('Validation errors:', errors); // Debug log
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -99,10 +98,8 @@ const SignUpPage = ({ initialTitle }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Form submitted', signUpDetails); // Debug log
 
     if (validateForm()) {
-        console.log('Form validation passed'); // Debug log
         try {
             console.log('Attempting signup with:', {
                 workspaceTitle,
@@ -131,8 +128,6 @@ const SignUpPage = ({ initialTitle }) => {
                 signUpDetails.bio
             );
 
-            console.log('Signup response:', signupResponse); // Debug log
-
             const loginResponse = await fetch(`${import.meta.env.VITE_API_URL}/api-token-auth/`, {
                 method: 'POST',
                 headers: {
@@ -145,15 +140,12 @@ const SignUpPage = ({ initialTitle }) => {
             });
 
             const loginData = await loginResponse.json();
-            console.log('Login response:', loginData); // Debug log
 
             if (!loginResponse.ok) {
-                console.log('Login response not ok:', loginResponse.status); // Debug log
                 throw new Error(loginData.non_field_errors?.[0] || 'Login failed after signup');
             }
 
             if (loginData.token) {
-                console.log('Login successful, setting token'); // Debug log
                 window.localStorage.setItem("token", loginData.token);
                 window.localStorage.setItem("userId", signupResponse.id);
                 setAuth({
@@ -170,7 +162,7 @@ const SignUpPage = ({ initialTitle }) => {
             });
         }
     } else {
-        console.log('Form validation failed', formErrors); // Debug log
+        
     }
   };
 
@@ -365,8 +357,14 @@ const SignUpPage = ({ initialTitle }) => {
                     onChange={handleChange}
                   />
                   <span>
-                    I agree to the <a href="/terms">Terms and Conditions</a> and{" "}
-                    <a href="/privacy">Privacy Policy</a>
+                    I agree to the {' '}
+                    <a 
+                      href="/privacy" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      Privacy Policy
+                    </a>
                   </span>
                   {formErrors.tandcchecked && <p className="signup-error">{formErrors.tandcchecked}</p>}
                 </label>
