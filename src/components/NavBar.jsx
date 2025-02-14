@@ -6,9 +6,10 @@ import Footer from "./Footer.jsx";
 function NavBar() {
     const {auth, setAuth} = useAuth();
     const location = useLocation();
-    
-    // Check if we're on a workshop page
     const isWorkshopPage = location.pathname.startsWith('/workshop/');
+    const isSuperuser = auth?.is_superuser;
+    const isOnAdminPage = location.pathname === '/admin';
+
     console.log('Current path:', location.pathname);
     console.log('Is workshop page:', isWorkshopPage);
 
@@ -25,10 +26,60 @@ function NavBar() {
 
     // For workshop pages, render only the content
     if (isWorkshopPage) {
-        return <Outlet />;
+        return (
+            <>
+                <nav className="home-navbar">
+                    <div className="nav-container">
+                        <div className="nav-logo">  
+                            <Link to="/" className="logo">
+                                <img src="/images/Stickybloomlogo.png" alt="StickyBloom Logo"/>
+                            </Link>
+                        </div>
+                    </div>      
+                    <div className="nav-links">
+                        {auth.token && (
+                            <>
+                                {isSuperuser && (
+                                    <Link to="/admin">Back to Admin</Link>
+                                )}
+                                <Link to="/" onClick={handleLogout}>Log Out</Link>
+                            </>
+                        )}
+                    </div> 
+                </nav>
+                <Outlet />
+            </>
+        );
     }
 
-    // For all other pages, render the full layout
+    // Superuser navigation
+    if (auth.token && isSuperuser) {
+        return (
+            <div className="app-layout">
+                <nav className="home-navbar">
+                    <div className="nav-container">
+                        <div className="nav-logo">  
+                            <Link to="/" className="logo">
+                                <img src="/images/Stickybloomlogo.png" alt="StickyBloom Logo"/>
+                            </Link>
+                        </div>
+                    </div>      
+                    <div className="nav-links">
+                        {!isOnAdminPage && (
+                            <Link to="/admin">Back to Admin</Link>
+                        )}
+                        <Link to="/" onClick={handleLogout}>Log Out</Link>
+                    </div> 
+                </nav>
+                <main className="main-content">
+                    <Outlet />
+                </main>
+                <Footer />
+            </div>
+        );
+    }
+
+    // Regular user navigation
     return (
         <div className="app-layout">
             <nav className="home-navbar">
@@ -59,7 +110,6 @@ function NavBar() {
                     )}
                 </div> 
             </nav>
-
             <main className="main-content">
                 <Outlet />
             </main>

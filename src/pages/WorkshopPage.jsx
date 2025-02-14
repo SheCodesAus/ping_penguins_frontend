@@ -22,6 +22,8 @@ const WorkshopPage = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [workshopStatus, setWorkshopStatus] = useState('upcoming');
 
+    console.log('Current workshop status:', workshopStatus);
+
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -129,6 +131,19 @@ const WorkshopPage = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    const getStatusMessage = () => {
+        switch(workshopStatus) {
+            case 'upcoming':
+                return "The Workshop Starts In...";
+            case 'in_progress':
+                return "Workshop is in progress";
+            case 'closed':
+                return "Workshop has ended";
+            default:
+                return "";
+        }
+    };
+
     if (error) {
         return <div>Error: {error}</div>;
     }
@@ -156,13 +171,20 @@ const WorkshopPage = () => {
         <div className="workshop-page">
             <div className="workshop-header">
                 <h1 className="workshop-title">{boardTitle || 'Loading...'}</h1>
-                {workshopStatus === 'upcoming' && (
-                    <h2 className="workshop-subtitle">The Workshop Starts In...</h2>
-                )}
+                <h2 className="workshop-subtitle">{getStatusMessage()}</h2>
                 <CountdownTimer 
                     startTime={startTime} 
-                    onStatusChange={setWorkshopStatus}
+                    onStatusChange={setWorkshopStatus} 
                 />
+                {/* Workshop status condition commented out for now */}
+                {/* {workshopStatus === 'in_progress' && ( */}
+                    <button 
+                        className="enter-workshop-btn"
+                        onClick={handleEnterBoard}
+                    >
+                        Enter the Workshop
+                    </button>
+                {/* )} */}
                 <div className="board-info">
                     <div className="board-description">
                         <h3>About This Workshop</h3>
@@ -172,12 +194,15 @@ const WorkshopPage = () => {
                         <h3>Please Note</h3>
                         <p>{boardDisclaimer || 'Loading...'}</p>
                     </div>
-                    <button 
-                        className="enter-board-button"
-                        onClick={handleEnterBoard}
-                    >
-                        Enter Workshop Board
-                    </button>
+                    {/* Workshop status condition commented out for now */}
+                    {/* {workshopStatus === 'in_progress' && ( */}
+                        <button 
+                            className="enter-board-button"
+                            onClick={handleEnterBoard}
+                        >
+                            Enter Workshop Board
+                        </button>
+                    {/* )} */}
                 </div>
             </div>
         </div>

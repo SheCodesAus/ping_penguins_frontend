@@ -1073,19 +1073,20 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 .sticky-note {
-    width: 250px;
+    width: 200px;  /* Fixed width */
+    height: auto;  /* Adjustable height */
+    min-height: 200px;
+    overflow-wrap: break-word; /* Ensures text wraps */
+    word-break: break-word;  /* Breaks long words if needed */
     padding: 1.5rem;
     border-radius: 2px;
     position: relative;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
-    min-height: 200px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
     transform: rotate(-1deg);
     background: #feff9c;
+    display: flex;
+    flex-direction: column;
 }
 
 .sticky-note:nth-child(even) {
@@ -1115,25 +1116,32 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 .note-content {
-    flex: 1;
-    overflow-wrap: break-word; /* Ensure long words don't overflow */
-    word-break: break-word;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; 
+    color: var(--base-dark);
 }
 
 .note-author {
-    margin-top: auto; /* Push to bottom */
+    text-align: right;
+    bottom: 10px;
+    left: 15px;
+    font-size: 0.8em;
+    color: var(--base-dark);
 }
 
 .note-category {
-    margin-top: 0.5rem;
+    margin-top: auto;
+    font-size: 0.8rem; 
+    color: var(--base-dark);
 }
 
 /* Base fold style */
 .note-fold {
     position: absolute;
-    bottom: 0;
     right: 0;
+    bottom: 0;
+    width: 20px;
+    height: 20px;
+    border-bottom-right-radius: 2px;
 }
 
 /* Specific folds for each note type */
@@ -1224,22 +1232,6 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     z-index: 1000;
 }
 
-.back-to-admin {
-    display: inline-block;
-    background-color: var(--brand);
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.back-to-admin:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
 
 
 /* RESPONSIVE DESIGN */
@@ -1502,7 +1494,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     }
 
     .note-category {
-        font-size: 1.1rem;
+        font-size: 0.8rem;
     }
 
     .categories-dropdown.open + .notes-grid {
@@ -1555,6 +1547,16 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         display: inline-block;
         padding-bottom: 2px;
         cursor: pointer;
+    }
+
+    .admin-back-btn:hover {
+        background-color: var(--brand);
+        color: white;
+    }
+
+    .button-section {
+        display: flex;
+        align-items: center;
     }
 }
 
@@ -1691,7 +1693,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     }
 
     .note-category {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
     button, .auth-link, a.enter-button {
