@@ -1085,8 +1085,6 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     transition: all 0.2s ease;
     transform: rotate(-1deg);
     background: #feff9c;
-    display: flex;
-    flex-direction: column;
 }
 
 .sticky-note:nth-child(even) {
@@ -1117,7 +1115,6 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 
 .note-content {
     margin-bottom: 0.5rem; 
-    color: var(--base-dark);
 }
 
 .note-author {
@@ -1131,7 +1128,6 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 .note-category {
     margin-top: auto;
     font-size: 0.8rem; 
-    color: var(--base-dark);
 }
 
 /* Base fold style */
@@ -1479,6 +1475,10 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         padding-top: 60px;
     }
 
+    .workshop-title {
+        font-size: 1.5rem;
+    }
+
     .sticky-note {
         
         min-height: 150px;
@@ -1557,6 +1557,10 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     .button-section {
         display: flex;
         align-items: center;
+    }
+
+    .board-title-container {
+        position: relative;
     }
 }
 
@@ -1698,6 +1702,45 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 
     button, .auth-link, a.enter-button {
         font-size: 1.125rem;
+    }
+}
+
+.mobile-categories-dropdown {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-categories-dropdown {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        z-index: 1000;
+        padding: 1rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .mobile-categories-dropdown .category-card {
+        padding: 10px;
+        margin-bottom: 8px;
+        background: #f5f5f5;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .mobile-categories-dropdown .category-card:hover {
+        background: #eaeaea;
+    }
+
+    /* Make sure dropdown button is visible */
+    .dropdown-toggle {
+        display: block;
+        padding: 15px 15px;
+        cursor: pointer;
     }
 }
 

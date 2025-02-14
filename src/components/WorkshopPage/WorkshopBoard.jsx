@@ -50,10 +50,16 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
     : notes;
 
   const toggleDropdown = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.stopPropagation(); // Prevent event bubbling
+    console.log('Current dropdown state:', isDropdownOpen);
     setIsDropdownOpen(!isDropdownOpen);
+    console.log('Toggling dropdown to:', !isDropdownOpen);
   };
+
+  // Add useEffect to monitor state changes
+  useEffect(() => {
+    console.log('Dropdown state changed to:', isDropdownOpen);
+  }, [isDropdownOpen]);
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
@@ -107,28 +113,50 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
 
   return (
     <div className="workshop-content">
-      {/* Remove the admin navigation section */}
+      {/* Only show for admin users */}
+      {auth && auth.is_superuser && (
+        <div className="admin-nav">
+          <Link to="/admin" className="back-to-admin">
+            Back to Admin Dashboard
+          </Link>
+        </div>
+      )}
+      
+      {/* Mobile dropdown */}
       <div className="board-title-wrapper">
         <div className="board-title-container">
           <div className="title-section">
-            <h2 
-              onClick={handleTitleClick}
-              style={{ cursor: 'pointer' }}
-            >
-              Workshop Note Board
-            </h2>
+            <h2>Workshop Note Board</h2>
           </div>
           <div className="button-section">
             <button 
               className={`dropdown-toggle ${isDropdownOpen ? 'open' : ''}`}
-              onClick={toggleDropdown}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               aria-label="Toggle categories"
             >
               ▼
             </button>
           </div>
         </div>
+        {isDropdownOpen && (
+          <div className="mobile-categories-dropdown">
+            {categories.map((category) => (
+              <div
+                key={category.id}
+                className="category-card"
+                onClick={() => {
+                  handleCategoryClick(category);
+                  setIsDropdownOpen(false);
+                }}
+              >
+                <h3>{category.title}</h3>
+                <p>{category.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
+
       {activeCategory && (
         <div className="active-category-indicator">
           Viewing: {activeCategory.title}
@@ -137,6 +165,7 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
           </button>
         </div>
       )}
+
       {error && (
         <div className="error-message">
           {error}
@@ -146,12 +175,7 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
       
       {/* Desktop sidebar */}
       <div className="categories-sidebar">
-        <h2 
-          onClick={handleTitleClick}
-          style={{ cursor: 'pointer' }}
-        >
-          Workshop Notes Board
-        </h2>
+        <h2>Workshop Notes Board</h2>
         {categories.map((category) => (
           <div
             key={category.id}
