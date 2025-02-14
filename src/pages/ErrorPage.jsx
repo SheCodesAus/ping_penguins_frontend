@@ -2,7 +2,6 @@ import { useRouteError } from "react-router-dom";
 
 export default function ErrorPage() {
 const error = useRouteError();
-console.log("Ashwini here", error)
 
 return (
     <div className="error-page min-h-screen flex items-center justify-center">

@@ -201,23 +201,25 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
         )}
 
         <div className="notes-grid">
-          {filteredNotes.map((note) => {
-            console.log('Note data:', note);
-            return (
-              <div key={note.id} className={`sticky-note category-${note.category}`}>
-                <div className="note-content">{note.comment}</div>
-                <div className="note-author">
-                  - {note.anonymous 
-                    ? 'Anonymous' 
-                    : note.owner?.display_name || '- User'}
+          {[...filteredNotes]
+            .reverse()
+            .map((note) => {
+              console.log('Note data:', note);
+              return (
+                <div key={note.id} className={`sticky-note category-${note.category}`}>
+                  <div className="note-content">{note.comment}</div>
+                  <div className="note-author">
+                    - {note.anonymous 
+                      ? 'Anonymous' 
+                      : note.owner?.display_name || '- User'}
+                  </div>
+                  <div className="note-category">
+                    {categories.find(cat => cat.id === note.category)?.title}
+                  </div>
+                  <div className="note-fold"></div>
                 </div>
-                <div className="note-category">
-                  {categories.find(cat => cat.id === note.category)?.title}
-                </div>
-                <div className="note-fold"></div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </div>
