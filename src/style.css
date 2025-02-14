@@ -135,12 +135,8 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 
-/* logo */
-.logo {
-    height: 50px;
-}
-
 /* mobile-nav */
+
 .mobile-nav a {
     text-decoration: none;
     color: var(--base-dark);
@@ -159,18 +155,35 @@ button:hover, a.enter-button:hover, .auth-link:hover {
 }
 
 /* Nav bar */
-nav {
+
+.home-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
     background-color: var(--brand);
     color: var(--base-light);
+    padding: 1rem 0;
+    position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(246, 19, 165, 0.2);
 }
+
+.nav-container {
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.nav-logo img {
+    height: 80px;
+    width: auto;
+    display: block;
+}
+
 
 .logo {
     display: flex;
@@ -840,9 +853,13 @@ nav {
     z-index: 10;
     scrollbar-width: thin;
     scroll-behavior: smooth;
+    display: block; 
 }
 
-/* Webkit scrollbar styling */
+.board-title-wrapper {
+    display: none; /* Hide dropdown for mobile version */
+}
+
 .categories-sidebar::-webkit-scrollbar {
     width: 8px;
 }
@@ -1186,445 +1203,400 @@ nav {
 }
 
 
+/* RESPONSIVE DESIGN */
 
-@media (max-width: 768px) {
-    .color-options {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+@media screen and (max-width: 1024px) {
+    .notes-grid {
         gap: 1rem;
     }
 
-    .color-swatch {
-        width: 50px;
-        height: 50px;
+    .sticky-note {
+        width: 220px;
+        min-height: 180px;
+        padding: 1.25rem;
     }
-}
-  
-  .note-preview {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    min-height: 60px;
-    transition: background-color 0.3s ease;
-  }
-.workspace-signup-btn {
-    width: 100%;
-    padding: 0.875rem;
-    margin-top: 1rem;
-    border: none;
-    border-radius: 8px;
-    background-color: var(--brand);
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-}
+    .signup-page {
+        padding: 1.5rem;
+    }
 
-.workspace-signup-btn:hover {
-    opacity: 0.9;
-}
-
-.login-link {
-    text-align: center;
-    font-size: 0.95rem;
-    color: #666;
-}
-
-.login-link a {
-    color: var(--brand);
-    text-decoration: none;
-}
-
-.error {
-    color: #dc2626;
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
-}
-
-@media (max-width: 768px) {
-    .workspace-signup-container {
+    .signup-page-container {
         padding: 2rem;
     }
-    
-    .form-section {
-        grid-template-columns: 1fr;  /* Single column on mobile */
-    }
+
+    .signup-form-section {
+        gap: 1.5rem;
+
+}
 }
 
-@media (max-width: 640px) {
-    .workspace-signup-container {
-        margin: 40px auto;
-        padding: 1.5rem;
-    }
-
-    .workspace-signup-header h1 {
-        font-size: 1.5rem;
-    }
-}
-.login-link {
-    text-align: center;
-    font-size: 0.95rem;
-    color: #666;
-}
-
-.login-link a {
-    color: var(--brand);
-    text-decoration: none;
-}
-
-.login-link a:hover {
-    text-decoration: underline;
-}
-
-.error {
-    color: #dc2626;
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
-}
-
-@media (max-width: 640px) {
-    .workspace-signup-container {
-        margin: 40px auto;
-        padding: 1.5rem;
-    }
-
-    .workspace-signup-header h1 {
-        font-size: 1.5rem;
-    }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .workspace-signup-container {
-        width: 90%;
-        padding: 20px;
-    }
-    .details-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .footer-container {
+@media (max-width: 928px) {
+    .about-content {
         flex-direction: column;
-        gap: 1rem;
+        align-items: center;
         text-align: center;
     }
 
-    .form-container {
-        margin: 40px auto;
-        padding: 1.5rem;
+    .about-image-container {
+        width: 350px;
+        height: 350px;
+        margin-bottom: 2rem;
     }
 
-    .form-input {
-        padding: 0.625rem;
+    .section-title {
+        font-size: 2rem;
     }
 
-    .form-button {
+    .section-title::before,
+    .about-text p::before {
+        display: none;
+    }
+
+    .about-text p {
+        padding-left: 0;
+    }
+    .form-title {
+        font-size: 2.25rem;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .nav-links a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem;
+    }
+
+    .nav-container {
+        padding: 0.5rem;
+    }
+
+    #rotate-words {
+        display: none;
+    }
+
+    .login-page-form {
+        box-shadow: none;
+    }
+
+    .workshop-header{
+        box-shadow: none;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .categories-sidebar {
         padding: 0.75rem;
     }
-}
 
-.home-navbar {
-    background-color: var(--brand);
-    padding: 1rem 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(246, 19, 165, 0.2);
-}
-
-.nav-container {
-    max-width: 1200px;
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    align-items: center;
-    padding: 0 2rem;
-}
-
-.nav-logo {
-    justify-self: flex-start; /* Align logo to the left */
-}
-
-.nav-logo img {
-    height: 80px;
-    width: auto;
-    display: block;
-}
-
-.nav-right {
-    display: flex;
-    align-items: center;
-}
-
-/* Workshop Page Styles */
-.workshop-status {
-    text-align: center;
-    margin: 2rem 0;
-}
-
-.workshop-subtitle {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 0.5rem;
-}
-
-.countdown {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #2196F3;
-    background: #e3f2fd;
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    display: inline-block;
-}
-
-.upcoming {
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
+    .categories-sidebar h2 {
+        margin: 10px 0;
+        font-size: 1rem;
     }
-    50% {
-        transform: scale(1.02);
+
+    .category-card {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 6px;
     }
-    100% {
-        transform: scale(1);
+
+    .categories-sidebar::-webkit-scrollbar {
+        width: 4px;
     }
-}
 
+    .categories-sidebar::-webkit-scrollbar-thumb {
+        border: 1px solid #f0f0f0;
+    }
 
+    .signup-page {
+        padding: 0.5rem;
+        min-height: calc(100vh - 55px);
+    }
 
+    .signup-page-container {
+        box-shadow: none;
+    }
 
+    .signup-page-header h1 {
+        font-size: 1.5rem;
+    }
 
+    .signup-page-subtitle {
+        font-size: 0.9rem;
+    }
 
+    .signup-form-section {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
 
+    .signup-form-label {
+        gap: 0.25rem;
+    }
 
+    .signup-form-input,
+    .signup-form-textarea,
+    .signup-color-select {
+        padding: 10px 0;
+        font-size: 0.95rem;
+    }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .categories-sidebar {
+    .signup-form-input::placeholder,
+    .signup-form-textarea::placeholder {
+        font-size: 0.85rem;
+    }
+
+    .signup-form-textarea {
+        min-height: 80px;
+        padding: 10px;
+    }
+
+    .signup-note-preview {
+        min-height: 100px;
+        padding: 1rem;
+        font-size: 0.9rem;
+        margin-top: 0.75rem;
+    }
+
+    .signup-form-footer {
+        margin-top: 2rem;
+        gap: 1rem;
+    }
+
+    .signup-info-box {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .signup-terms,
+    .login-link {
+        font-size: 0.85rem;
+    }
+
+    .signup-error {
+        font-size: 0.8rem;
+    }
+
+    .board-title-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
         width: 100%;
-        height: auto;
-        position: relative;
-        top: 0;
+    }
+
+    .title-section {
+        flex: 1;
+    }
+
+    .title-section h2 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    .button-section {
+        margin-left: 1rem;
+    }
+
+    .workshop-content {
+        padding-top: 60px;
+    }
+
+    .sticky-note {
+        
+        min-height: 150px;
+        margin: 0.5rem auto;
+    }
+
+    .note-content {
+        font-size: 0.8rem;
+    }
+
+    .note-author {
+        font-size: 0.7rem;
+    }
+
+    .note-category {
+        font-size: 0.6rem;
+    }
+
+    .categories-dropdown.open + .notes-grid {
+        margin-top: 40px;
+    }
+
+    .active-category-indicator {
+        position: fixed;
+        top: 170px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0.8rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        color: var(--base-dark);
+        z-index: 10;
+        font-size: 0.8rem;
+        color: var(--brand);
+    }
+
+    .active-category-indicator button {
+        margin-left: auto;
+        font-size: 0.7rem;
+    }
+
+    .board-title-wrapper {
+        display: block; 
+        position: fixed;
+        top: 105px;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: var(--white);
+    }
+
+    .categories-sidebar {
+        display: none; 
     }
 
     .notes-area {
-        width: 100%;
+        margin-left: 0; 
     }
 
-    .notes-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
+    
 }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .categories-sidebar {
-                width: 240px;
-            }
-        
-            .notes-area {
-                margin-left: 240px;
-            }
-        
-            .active-category-indicator {
-                left: 240px;
-                padding: 1rem;
-            }
-            .signup-page-container {
-                padding: 2rem;
-            }
-        
-            .signup-form-section {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-        
-            .signup-page-header h1 {
-                font-size: 1.75rem;
-            }
 
-            .workshop-page {
-                padding: 1rem;
-                gap: 1.5rem;
-            }
-        
-            .workshop-header {
-                padding: 1.5rem 1rem;
-            }
-        
-            .workshop-title {
-                font-size: 2rem;
-            }
-        
-            .workshop-content {
-                padding: 1.5rem;
-            }
+@media screen and (max-width: 480px) {
+    .nav-links {
+        gap: 0.8rem;
+    }
 
-            .board-info {
-                padding: 0 1rem;
-            }
+    .logo img {
+        height: 50px;
+    }
 
-            .categories-sidebar {
-                width: 200px;
-            }
-            
-            .notes-area {
-                margin-left: 200px;
-            }
-        }
-        @media (max-width: 640px) {
-            .login-page-form {
-                padding: 2rem;
-            }
-        
-            .login-page-title {
-                font-size: 1.75rem;
-                margin-bottom: 2rem;
-            }
-        }
-        @media (max-width: 576px) {
-            .categories-sidebar {
-                width: 100%;
-                height: auto;
-                position: static;
-            }
-        
-            .notes-area {
-                margin-left: 0;
-                margin-top: 0;
-            }
-        
-            .active-category-indicator {
-                position: static;
-                left: 0;
-                margin-bottom: 1rem;
-            }
-        }
-        @media (max-width: 768px) {
-            .nav-container {
-                grid-template-columns: 1fr 2fr 1fr;
-                padding: 0 1rem;
-            }
-        
-            .nav-logo img {
-                height: 40px;
-            }
-        
-            #rotate-words div {
-                font-size: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            #rotate-words div {
-                font-size: 1.2rem;
-            }
-        }
-        @media (max-width: 1024px) {
-            .about-content {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-        
-            .about-image-container {
-                width: 350px;
-                height: 350px;
-                margin-bottom: 2rem;
-            }
-        
-            .section-title {
-                font-size: 2.25rem;
-            }
-        
-            /* Remove decorative lines on mobile for cleaner look */
-            .section-title::before,
-            .about-text p::before {
-                display: none;
-            }
-        
-            .about-text p {
-                padding-left: 0;
-            }
-            .form-title {
-                font-size: 2.25rem;
-            }
-        }
-        
-        .auth-links {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .auth-links p {
-            margin-bottom: 1rem;
-            color: var(--base-dark);
-            font-size: 1.1rem;
-        }
-        
-        .auth-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-        
-        .auth-link {
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .login-link {
-            background-color: white;
-            color: var(--brand);
-            border: 2px solid var(--brand);
-        }
-        
-        .signup-link {
-            background-color: var(--brand);
-            color: white;
-            border: 2px solid var(--brand);
-        }
-        
-        
-        @media (max-width: 480px) {
-            .about-section {
-                padding: 4rem 1rem;
-            }
-        
-            .about-image-container {
-                width: 280px;
-                height: 280px;
-            }
-        
-            .section-title {
-                font-size: 2rem;
-            }
-        
-            .about-text p {
-                font-size: 1rem;
-            }
-            .workshop-section {
-                padding: 4rem 1rem;
-            }
-        
-            .form-title {
-                font-size: 2rem;
-            }
-        
-            .form-label {
-                font-size: 1rem;
-            }
-        
-            .form-input {
-                font-size: 1.125rem;
-                padding: 1rem;
-            }
-        }
+    .nav-links a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem; 
+    }
+
+    .nav-container {
+        padding: 0.5rem;
+    }
+
+    .workshop-title {
+        font-size: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .categories-sidebar {
+        padding: 0.75rem;
+    }
+
+    .categories-sidebar h2 {
+        margin: 10px 0;
+        font-size: 1rem;
+    }
+
+    .category-card {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+    }
+
+    .categories-sidebar::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .categories-sidebar::-webkit-scrollbar-thumb {
+        border: 1px solid #f0f0f0;
+    }
+
+    .signup-page {
+        padding: 0.5rem;
+        min-height: calc(100vh - 55px);
+    }
+
+    .signup-page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .signup-page-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .signup-form-label {
+        gap: 0.25rem;
+    }
+
+    .signup-form-input,
+    .signup-form-textarea,
+    .signup-color-select {
+        padding: 10px 0;
+        font-size: 0.95rem;
+    }
+
+    .signup-form-input::placeholder,
+    .signup-form-textarea::placeholder {
+        font-size: 0.85rem;
+    }
+
+    .signup-form-textarea {
+        min-height: 80px;
+        padding: 10px;
+    }
+
+    .signup-note-preview {
+        min-height: 100px;
+        padding: 1rem;
+        font-size: 0.9rem;
+        margin-top: 0.75rem;
+    }
+
+    .signup-form-footer {
+        margin-top: 2rem;
+        gap: 1rem;
+    }
+
+    .signup-info-box {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .signup-terms,
+    .login-link {
+        font-size: 0.85rem;
+    }
+
+    .signup-error {
+        font-size: 0.8rem;
+    }
+
+    .sticky-note {
+        width: 300px;
+        min-height: 150px;
+        margin: 0.5rem auto;
+    }
+  
+}
+
+
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    
+   
+
+}
+
