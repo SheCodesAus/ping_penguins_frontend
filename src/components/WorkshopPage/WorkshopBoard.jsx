@@ -15,6 +15,7 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
   const [activeCategory, setActiveCategory] = useState(null);
   const [error, setError] = useState(null);
   const [showCreateNote, setShowCreateNote] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -48,9 +49,16 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
     ? notes.filter(note => note.category === activeCategory.id)
     : notes;
 
+  const toggleDropdown = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
     setError(null);
+    setIsDropdownOpen(false);
   };
 
   const handleTitleClick = () => {
@@ -122,15 +130,59 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
         </div>
       )}
       
+      {/* Mobile dropdown */}
+      <div className="board-title-wrapper">
+        <div className="board-title-container">
+          <div className="title-section">
+            <h2 
+              onClick={handleTitleClick}
+              style={{ cursor: 'pointer' }}
+            >
+              Workshop Note Board
+            </h2>
+          </div>
+          <div className="button-section">
+            <button 
+              className={`dropdown-toggle ${isDropdownOpen ? 'open' : ''}`}
+              onClick={toggleDropdown}
+              aria-label="Toggle categories"
+            >
+              ▼
+            </button>
+          </div>
+        </div>
 
+        {isDropdownOpen && (
+          <div className="categories-dropdown">
+            {categories.map((category) => (
+              <div
+                key={category.id}
+                className="category-card"
+                onClick={() => {
+                  handleCategoryClick(category);
+                  setIsDropdownOpen(false);
+                }}
+              >
+                <h3>{category.title}</h3>
+                <p>{category.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Desktop sidebar */}
       <div className="categories-sidebar">
-        <h2 onClick={handleTitleClick} style={{ cursor: 'pointer' }}>
-          Workshop Note Board
+        <h2 
+          onClick={handleTitleClick}
+          style={{ cursor: 'pointer' }}
+        >
+          Workshop Notes Board
         </h2>
         {categories.map((category) => (
           <div
             key={category.id}
-            className={`category-card ${newNote.category === category.id ? 'selected' : ''}`}
+            className="category-card"
             onClick={() => handleCategoryClick(category)}
           >
             <h3>{category.title}</h3>

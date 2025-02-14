@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import postSignup from "../api/post-signup.js";
 import useAuth from "../hooks/use-auth.js";
 import WorkshopAccessForm from "../components/WorkshopAccessCode.jsx";
@@ -376,7 +376,7 @@ const SignUpPage = ({ initialTitle }) => {
                 </button>
 
                 <p className="login-link">
-                  Already have an account? <a href="/login">Log in here</a>
+                  Already have an account? <Link to="/login">Log in here</Link>
                 </p>
               </div>
             </form>

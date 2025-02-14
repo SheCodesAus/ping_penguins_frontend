@@ -853,9 +853,13 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     z-index: 10;
     scrollbar-width: thin;
     scroll-behavior: smooth;
+    display: block; 
 }
 
-/* Webkit scrollbar styling */
+.board-title-wrapper {
+    display: none; /* Hide dropdown for mobile version */
+}
+
 .categories-sidebar::-webkit-scrollbar {
     width: 8px;
 }
@@ -1242,7 +1246,6 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         font-size: 2rem;
     }
 
-    /* Remove decorative lines on mobile for cleaner look */
     .section-title::before,
     .about-text p::before {
         display: none;
@@ -1256,207 +1259,30 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     }
 }
 
-.auth-links {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.auth-links p {
-    margin-bottom: 1rem;
-    color: var(--base-dark);
-    font-size: 1.1rem;
-}
-
-.auth-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-}
-
-.auth-link {
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.login-link {
-    background-color: white;
-    color: var(--brand);
-    border: 2px solid var(--brand);
-}
-
-.signup-link {
-    background-color: var(--brand);
-    color: white;
-    border: 2px solid var(--brand);
-}
-
-.workshop-title {
-    font-size: 2rem;
-}
 
 @media (max-width: 768px) {
-
-    .nav-container {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    #rotate-words {
-       display: none;
-    }
-
-    .nav-links {
-        width: 100%;
-        justify-content: center;
-        margin-top: 1rem;
-    }
-
-    .nav-logo {
-        margin: 0 auto;
-    }
-
-    .login-page-form {
-        box-shadow: none;
-    }
-
-    .color-options {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-        gap: 1rem;
-    }
-
-    .color-swatch {
-        width: 50px;
-        height: 50px;
-    }
-
-    .workshop-content {
-        flex-direction: column;
-    }
-
-    .workshop-title {
-        font-size: 1.5rem;
-    }
-
-    .workshop-subtitle {
-        font-size: 1rem;
-    }
-    .categories-sidebar {
-        width: 100%;
-        height: auto;
-        position: fixed;
-        top: 65px;
-        padding: 1rem;
-        border-right: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        overflow-x: hidden;
-    }
-
-    .categories-sidebar h2 {
-        margin: 15px 0;
-        font-size: 1.1rem;
-    }
-
-    .category-card {
-        padding: 12px;
-        margin-bottom: 12px;
-        max-width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .notes-area {
-        margin-left: 0;
-        margin-top: 265px; /* Space for sidebar + active category indicator */
-        padding: 1rem;
-    }
-
-    .active-category-indicator {
-        left: 0;
-        top: 200px; 
-    }
-
-    .notes-grid {
-        justify-content: center;
-    }
-
-    .category-card {
-        padding: 1rem;
-        margin-bottom: 0.75rem;
-    }
-
-    .category-card h3 {
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-    }
-    .signup-page {
-        padding: 1rem;
-    }
-
-    .signup-page-container {
-        margin-top: 1.5rem;
-        padding: 1.25rem;
-        border-radius: 8px;
-        box-shadow: none;
-    }
-
-    .signup-page-header {
-        margin-bottom: 2rem;
-    }
-
-    .signup-page-header h1 {
-        font-size: 1.75rem;
-    }
-
-    .signup-form-section {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .signup-form-input,
-    .signup-form-textarea,
-    .signup-color-select {
-        font-size: 1rem;
-    }
-
-    .signup-note-preview {
-        min-height: 120px;
-    }
-
-    
-
-    .workshop-list h2 {
-        font-size: 1.5rem;
-        color: var(--base-dark);
-    }
-
-    .workshop-list {
-        padding: 0;
-        max-width: 100%;
-    }
-}
-
-
-
-
-@media screen and (max-width: 480px) {
-    .nav-links {
-        flex-direction: column;
-        gap: 0.8rem;
-    }
 
     .nav-links a {
         display: block;
         width: 100%;
         text-align: center;
         padding: 0.5rem;
-        
     }
 
     .nav-container {
         padding: 0.5rem;
+    }
+
+    #rotate-words {
+        display: none;
+    }
+
+    .login-page-form {
+        box-shadow: none;
+    }
+
+    .workshop-header{
+        box-shadow: none;
     }
 
     .section-title {
@@ -1478,7 +1304,6 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         border-radius: 6px;
     }
 
-    /* Adjust scrollbar for touch devices */
     .categories-sidebar::-webkit-scrollbar {
         width: 4px;
     }
@@ -1492,7 +1317,9 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         min-height: calc(100vh - 55px);
     }
 
-   
+    .signup-page-container {
+        box-shadow: none;
+    }
 
     .signup-page-header h1 {
         font-size: 1.5rem;
@@ -1503,6 +1330,7 @@ button:hover, a.enter-button:hover, .auth-link:hover {
     }
 
     .signup-form-section {
+        grid-template-columns: 1fr;
         gap: 1rem;
     }
 
@@ -1553,5 +1381,222 @@ button:hover, a.enter-button:hover, .auth-link:hover {
         font-size: 0.8rem;
     }
 
+    .board-title-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .title-section {
+        flex: 1;
+    }
+
+    .title-section h2 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    .button-section {
+        margin-left: 1rem;
+    }
+
+    .workshop-content {
+        padding-top: 60px;
+    }
+
+    .sticky-note {
+        
+        min-height: 150px;
+        margin: 0.5rem auto;
+    }
+
+    .note-content {
+        font-size: 0.8rem;
+    }
+
+    .note-author {
+        font-size: 0.7rem;
+    }
+
+    .note-category {
+        font-size: 0.6rem;
+    }
+
+    .categories-dropdown.open + .notes-grid {
+        margin-top: 40px;
+    }
+
+    .active-category-indicator {
+        position: fixed;
+        top: 170px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0.8rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        color: var(--base-dark);
+        z-index: 10;
+        font-size: 0.8rem;
+        color: var(--brand);
+    }
+
+    .active-category-indicator button {
+        margin-left: auto;
+        font-size: 0.7rem;
+    }
+
+    .board-title-wrapper {
+        display: block; 
+        position: fixed;
+        top: 105px;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: var(--white);
+    }
+
+    .categories-sidebar {
+        display: none; 
+    }
+
+    .notes-area {
+        margin-left: 0; 
+    }
+
+    
+}
+
+@media screen and (max-width: 480px) {
+    .nav-links {
+        gap: 0.8rem;
+    }
+
+    .logo img {
+        height: 50px;
+    }
+
+    .nav-links a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem; 
+    }
+
+    .nav-container {
+        padding: 0.5rem;
+    }
+
+    .workshop-title {
+        font-size: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .categories-sidebar {
+        padding: 0.75rem;
+    }
+
+    .categories-sidebar h2 {
+        margin: 10px 0;
+        font-size: 1rem;
+    }
+
+    .category-card {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+    }
+
+    .categories-sidebar::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .categories-sidebar::-webkit-scrollbar-thumb {
+        border: 1px solid #f0f0f0;
+    }
+
+    .signup-page {
+        padding: 0.5rem;
+        min-height: calc(100vh - 55px);
+    }
+
+    .signup-page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .signup-page-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .signup-form-label {
+        gap: 0.25rem;
+    }
+
+    .signup-form-input,
+    .signup-form-textarea,
+    .signup-color-select {
+        padding: 10px 0;
+        font-size: 0.95rem;
+    }
+
+    .signup-form-input::placeholder,
+    .signup-form-textarea::placeholder {
+        font-size: 0.85rem;
+    }
+
+    .signup-form-textarea {
+        min-height: 80px;
+        padding: 10px;
+    }
+
+    .signup-note-preview {
+        min-height: 100px;
+        padding: 1rem;
+        font-size: 0.9rem;
+        margin-top: 0.75rem;
+    }
+
+    .signup-form-footer {
+        margin-top: 2rem;
+        gap: 1rem;
+    }
+
+    .signup-info-box {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .signup-terms,
+    .login-link {
+        font-size: 0.85rem;
+    }
+
+    .signup-error {
+        font-size: 0.8rem;
+    }
+
+    .sticky-note {
+        width: 300px;
+        min-height: 150px;
+        margin: 0.5rem auto;
+    }
   
 }
+
+
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    
+   
+
+}
+
