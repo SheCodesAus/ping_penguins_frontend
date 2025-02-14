@@ -176,15 +176,6 @@ const WorkshopPage = () => {
                     startTime={startTime} 
                     onStatusChange={setWorkshopStatus} 
                 />
-                {/* Workshop status condition commented out for now */}
-                {/* {workshopStatus === 'in_progress' && ( */}
-                    <button 
-                        className="enter-workshop-btn"
-                        onClick={handleEnterBoard}
-                    >
-                        Enter the Workshop
-                    </button>
-                {/* )} */}
                 <div className="board-info">
                     <div className="board-description">
                         <h3>About This Workshop</h3>
@@ -194,7 +185,7 @@ const WorkshopPage = () => {
                         <h3>Please Note</h3>
                         <p>{boardDisclaimer || 'Loading...'}</p>
                     </div>
-                    {/* Workshop status condition commented out for now */}
+                    {/* Workshop status condition */}
                     {/* {workshopStatus === 'in_progress' && ( */}
                         <button 
                             className="enter-board-button"
