@@ -21,24 +21,23 @@ const CountdownTimer = ({ startTime, onStatusChange }) => {
 			const timeFromStart = now - start;
 
 			if (distance > 0) {
-				// Workshop hasn't started yet
+				// Workshop hasn't started yet (upcoming)
 				const days = Math.floor(distance / (1000 * 60 * 60 * 24));
 				const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 				const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 				const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 				setTimeLeft({ days, hours, minutes, seconds });
-				setStatus('upcoming');
 				onStatusChange('upcoming');
-			} else if (timeFromStart <= (24 * 60 * 60 * 1000)) {
-				// Workshop is in progress (within 24 hours from start)
+			} 
+			else if (timeFromStart <= (24 * 60 * 60 * 1000)) {
+				// Workshop is in progress
 				setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-				setStatus('in_progress');
 				onStatusChange('in_progress');
-			} else {
-				// Workshop is closed (more than 24 hours from start)
+			} 
+			else {
+				// Workshop is closed
 				setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-				setStatus('closed');
 				onStatusChange('closed');
 			}
 		}, 1000);

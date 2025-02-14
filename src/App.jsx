@@ -6,11 +6,8 @@ import WorkshopPage from './pages/WorkshopPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import ErrorPage from './pages/ErrorPage';
 
-console.log('App rendered');
-console.log('PrivacyPolicyPage component:', PrivacyPolicyPage);
 
 function App() {
-  console.log('App rendering, PrivacyPolicyPage component:', PrivacyPolicyPage);
 
   return (
     <Router>

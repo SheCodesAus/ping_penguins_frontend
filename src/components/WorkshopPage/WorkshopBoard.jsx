@@ -107,30 +107,7 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
 
   return (
     <div className="workshop-content">
-      {/* Only show for admin users */}
-      {auth && auth.is_superuser && (
-        <div className="admin-nav">
-          <Link to="/admin" className="back-to-admin">
-            Back to Admin Dashboard
-          </Link>
-        </div>
-      )}
-      {activeCategory && (
-        <div className="active-category-indicator">
-          Viewing: {activeCategory.title}
-          <button className="create-note-btn" onClick={() => setShowCreateNote(true)}>
-            Post Note
-          </button>
-        </div>
-      )}
-      {error && (
-        <div className="error-message">
-          {error}
-          <button onClick={() => setError(null)}>✕</button>
-        </div>
-      )}
-      
-      {/* Mobile dropdown */}
+      {/* Remove the admin navigation section */}
       <div className="board-title-wrapper">
         <div className="board-title-container">
           <div className="title-section">
@@ -151,26 +128,22 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
             </button>
           </div>
         </div>
-
-        {isDropdownOpen && (
-          <div className="categories-dropdown">
-            {categories.map((category) => (
-              <div
-                key={category.id}
-                className="category-card"
-                onClick={() => {
-                  handleCategoryClick(category);
-                  setIsDropdownOpen(false);
-                }}
-              >
-                <h3>{category.title}</h3>
-                <p>{category.description}</p>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
-
+      {activeCategory && (
+        <div className="active-category-indicator">
+          Viewing: {activeCategory.title}
+          <button className="create-note-btn" onClick={() => setShowCreateNote(true)}>
+            Post Note
+          </button>
+        </div>
+      )}
+      {error && (
+        <div className="error-message">
+          {error}
+          <button onClick={() => setError(null)}>✕</button>
+        </div>
+      )}
+      
       {/* Desktop sidebar */}
       <div className="categories-sidebar">
         <h2 
@@ -210,8 +183,8 @@ const WorkshopBoard = ({ boardId, onAddNote, categories, title }) => {
                   <div className="note-content">{note.comment}</div>
                   <div className="note-author">
                     - {note.anonymous 
-                      ? 'Anonymous' 
-                      : note.owner?.display_name || '- User'}
+                        ? 'Anonymous' 
+                        : note.owner?.display_name || '- User'}
                   </div>
                   <div className="note-category">
                     {categories.find(cat => cat.id === note.category)?.title}

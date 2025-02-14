@@ -42,47 +42,49 @@ const WorkshopAccessCode = () => {
 
 
     return (
-        <div>
-            {auth?.token ? (
-                <section className="workshop-access-section">
-                    <div className="workshop-access-container">
-                        <form className="workshop-access-form" onSubmit={handleSubmit}>
-                            <h2 className="workshop-access-form-title">
-                                Enter your unique workshop code to begin your journey
-                            </h2>
-                            <div className="workshop-access-form-group">
-                                <input
-                                    type="text"
-                                    id="workshop-code"
-                                    className="workshop-access-form-input"
-                                    value={workshopCode}
-                                    onChange={(e) => setWorkshopCode(e.target.value)}
-                                    placeholder="Enter your code"
-                                    required
-                                />
-                            </div>
-                            {error && <div className="workshop-access-error-message">{error}</div>}
-                            <button
-                                type="submit"
-                                className="workshop-access-button"
-                                disabled={isLoading}
-                            >
-                                {isLoading ? 'Loading...' : 'Enter Workshop'}
-                            </button>
-                        </form>
+        <div className="page-container">
+            <div className="content-wrap">
+                {auth?.token ? (
+                    <section className="workshop-access-section">
+                        <div className="workshop-access-container">
+                            <form className="workshop-access-form" onSubmit={handleSubmit}>
+                                <h2 className="workshop-access-form-title">
+                                    Enter your unique workshop code to begin your journey
+                                </h2>
+                                <div className="workshop-access-form-group">
+                                    <input
+                                        type="text"
+                                        id="workshop-code"
+                                        className="workshop-access-form-input"
+                                        value={workshopCode}
+                                        onChange={(e) => setWorkshopCode(e.target.value)}
+                                        placeholder="Enter your code"
+                                        required
+                                    />
+                                </div>
+                                {error && <div className="workshop-access-error-message">{error}</div>}
+                                <button
+                                    type="submit"
+                                    className="workshop-access-button"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? 'Loading...' : 'Enter Workshop'}
+                                </button>
+                            </form>
+                        </div>
+                    </section>
+                ) : (
+                    <div className="login-prompt">
+                        <p>Please log in to join a workshop</p>
+                        <button
+                            onClick={() => navigate('/login')}
+                            className="login-button"
+                        >
+                            Log In
+                        </button>
                     </div>
-                </section>
-            ) : (
-                <div className="login-prompt">
-                    <p>Please log in to join a workshop</p>
-                    <button
-                        onClick={() => navigate('/login')}
-                        className="login-button"
-                    >
-                        Log In
-                    </button>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };
